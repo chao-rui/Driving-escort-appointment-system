@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="DEAsys" />
+        <module name="Driving-escort-appointment-system" />
         <module name="Driving-escort-appointment-system-master" />
       </profile>
     </annotationProcessing>
