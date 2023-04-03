@@ -9,7 +9,7 @@ public class CarSchool {
   private String carSchoolName;
   private String carSchoolAdders;
   private String carSchoolPhone;
-  private long appraiseCarShool;
+  private long appraiseCarSchool;
   private java.sql.Timestamp updateDate;
 
 }
