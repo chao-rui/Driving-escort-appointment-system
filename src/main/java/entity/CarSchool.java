@@ -2,6 +2,8 @@ package entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class CarSchool {
 
@@ -9,7 +11,7 @@ public class CarSchool {
   private String carSchoolName;
   private String carSchoolAdders;
   private String carSchoolPhone;
-  private long appraiseCarSchool;
-  private java.sql.Timestamp updateDate;
+  private int appraiseCarSchool;
+  private Date updateDate;
 
 }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -28,7 +28,7 @@ public interface CarDao {
 
     //查询车辆信息（按编号）
     @Select("SELECT * FROM car WHERE CAR_ID=#{carId};")
-    List<Car> getCarById(@Param("carId")String carId);
+    Car getCarById(@Param("carId")String carId);
 
     //修改车辆信息
     @Update("UPDATE car SET " +

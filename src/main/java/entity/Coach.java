@@ -8,5 +8,5 @@ public class Coach {
   private String userId;
   private String workId;
   private String carSchoolId;
-  private long appraiseCoach;
+  private int appraiseCoach;
 }

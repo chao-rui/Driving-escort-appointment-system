@@ -4,7 +4,7 @@ import entity.CarSchool;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 
 //Note:更改“APPRAISE_CAR_SHOOL”为“APPRAISE_CAR_SCHOOL”，包括数据库
 
