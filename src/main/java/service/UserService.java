@@ -5,7 +5,7 @@ import entity.User;
 
 public interface UserService {
     //登录
-    public User login(String userId,String password);
+    public User login(String userId, String password);
 
     //注册
     public Boolean register(String userName,String password,String phone);

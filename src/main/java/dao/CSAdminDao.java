@@ -17,6 +17,6 @@ public interface CSAdminDao {
 
     //注销
     @Delete("DELETE FROM csadmin WHERE userId=#{userId}")
-    Boolean delRole(@Param("userId")String userId);
+    Boolean delCSA(@Param("userId")String userId);
 
 }

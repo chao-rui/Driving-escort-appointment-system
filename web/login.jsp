@@ -13,28 +13,33 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/css/element-ui.css">
+    <link rel="stylesheet" href="resources/css/login.css">
+    <script src="resources/js/jquery-3.6.4.min.js"></script>
+    <script src="resources/js/vue.js"></script>
+    <script src="resources/js/element-ui.js"></script>
+    <script src="resources/js/login.js" type="module"></script>
     <title>驾驶陪练预约系统</title>
 </head>
 <body>
+<div id="app">
+    <el-card class="box-card">
+        <el-form action="login" METHOD="post">
+            <div>
+                <h1>登录</h1>
 
-<form action="login" METHOD="post">
-    <div>
-        <h1>登录</h1>
+                <el-form-item label="账号">
+                    <el-input v-model="userId" maxlength="10"></el-input>
+                </el-form-item>
 
-        <label for="userId"><b>账号</b></label>
-        <input type="text" placeholder="请输入账号" id="userId" name="userId" required>
-
-        <label for="password"><b>密码</b></label>
-        <input type="password" placeholder="请输入密码" id="password" name="password" required>
-
-        <button type="submit">登录</button>
-    </div>
-
-    <div style="background-color:#f1f1f1">
-        <button type="button">取消</button>
-        <span>忘记<a href="#">密码?</a></span>
-    </div>
-</form>
-
+                <el-form-item label="密码">
+                    <el-input v-model="password" show-password maxlength="20"></el-input>
+                </el-form-item>
+                <el-button type="primary" @click="login">登录</el-button>
+                <el-button type="primary" @click="register">注册</el-button>
+            </div>
+        </el-form>
+    </el-card>
+</div>
 </body>
 </html>

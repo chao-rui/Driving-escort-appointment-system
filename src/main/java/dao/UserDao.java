@@ -10,13 +10,13 @@ public interface UserDao {
 
     //登录
     @Select("SELECT * " +
-            "FROM userinfo WHERE USER_ID=#{userId} " +
+            "FROM user WHERE USER_ID=#{userId} " +
             "AND PASSWORD=#{password}")
     User login(@Param("userId") String userId,
-               @Param("passWord")String password);
+               @Param("password")String password);
 
     //注册
-    @Insert("INSERT INTO userinfo (USER_NAME,PHONE,PASSWORD, ROLE_FLAG) " +
+    @Insert("INSERT INTO user (USER_NAME,PHONE,PASSWORD, ROLE_FLAG) " +
             "VALUES (#{userName},#{phone},#{password})")
     Boolean register(@Param("userName")String userName,
                      @Param("phone")String phone,
@@ -27,7 +27,7 @@ public interface UserDao {
     String getNewId();
 
     //实名认证
-    @Update("UPDATE userinfo SET  " +
+    @Update("UPDATE user SET  " +
             "USER_RNAME=#{userRName}, " +
             " ID_NUMBER=#{idNumber}," +
             " ROLE_FLAG=1 " +
@@ -37,7 +37,7 @@ public interface UserDao {
                      @Param("userId")String userId);
 
     //修改基础信息
-    @Update("UPDATE userinfo SET " +
+    @Update("UPDATE user SET " +
             " USER_NAME=#{userName}," +
             "    GENDER=#{gender}," +
             "BIRTH_YEAR=#{birthYear} " +
@@ -48,14 +48,14 @@ public interface UserDao {
                         @Param("userId")String userId);
 
     //修改密码
-    @Update("UPDATE userinfo SET PASSWORD=#{newPassword} " +
+    @Update("UPDATE user SET PASSWORD=#{newPassword} " +
             "WHERE USER_ID=#{userId} AND PASSWORD=#{password}")
     Boolean updPassword(@Param("newPassword")String newPassword,
                         @Param("userId")String userId,
                         @Param("password")String password);
 
     //身份变换（教练/驾校管理员_用户表）
-    @Update("UPDATE userinfo SET ROLE_FLAG=#{roleFlag} " +
+    @Update("UPDATE user SET ROLE_FLAG=#{roleFlag} " +
             "WHERE USER_ID=#{userId}")
     Boolean updRole(@Param("userId")String userId,
                     @Param("roleFlag")String roleFlag);

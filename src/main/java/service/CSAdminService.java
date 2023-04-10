@@ -6,5 +6,5 @@ public interface CSAdminService {
     public Boolean addCSAdmin(String userId,String workId,String cSchoolId);
 
     //注销
-    public  Boolean delRole(String userId);
+    public  Boolean delCSA(String userId);
 }

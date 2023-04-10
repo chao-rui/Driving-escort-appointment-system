@@ -1,0 +1,12 @@
+#app {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-card {
+    width: 480px;
+    text-align: center;
+    margin: 20%;
+}

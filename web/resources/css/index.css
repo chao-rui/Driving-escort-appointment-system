@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+}
+
+#app{
+    height: 100vh;
+}
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+}
+
+.el-aside {
+    color: #333;
+    width:200px;
+    height: 100%;
+}
+
+.el-container{
+    height: 100vh;
+}
+
+.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow{
+    display: none;
+}
+.el-submenu>.el-submenu__title .el-submenu__icon-arrow{
+    display: none;
+}
