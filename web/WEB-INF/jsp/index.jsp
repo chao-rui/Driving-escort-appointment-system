@@ -37,6 +37,8 @@
                     <el-menu-item-group>
                         <el-menu-item index="/updUInfo">基础信息修改</el-menu-item>
                         <el-menu-item index="/updPwd">密码修改</el-menu-item>
+                        <el-menu-item index="/2-3">实名认证</el-menu-item>
+                        <el-menu-item index="/2-4">身份认证</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>

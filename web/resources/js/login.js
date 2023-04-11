@@ -7,19 +7,6 @@ new Vue({
     methods:{
         register(){
             window.location.href="/register"
-        },
-        login(){
-            $.ajax({
-                url:"/user/login",
-                type:"POST",
-                data:{
-                    "userId":this.userId,
-                    "password":this.password
-                },
-                success:function(data){
-                    $("body").html(data);
-                }
-            })
         }
     }
 })

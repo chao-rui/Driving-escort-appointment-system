@@ -15,9 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resources/css/element-ui.css">
     <link rel="stylesheet" href="resources/css/login.css">
+    <link rel="icon" type="image/x-icon" href="resources/img/1.webp" />
     <script src="resources/js/jquery-3.6.4.min.js"></script>
     <script src="resources/js/vue.js"></script>
     <script src="resources/js/element-ui.js"></script>
+    <script src="resources/js/axios.min.js"></script>
     <script src="resources/js/login.js" type="module"></script>
     <title>驾驶陪练预约系统</title>
 </head>
@@ -29,13 +31,13 @@
                 <h1>登录</h1>
 
                 <el-form-item label="账号">
-                    <el-input v-model="userId" maxlength="10"></el-input>
+                    <el-input name="userId" v-model="userId" maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label="密码">
-                    <el-input v-model="password" show-password maxlength="20"></el-input>
+                    <el-input name="password" v-model="password" show-password maxlength="20"></el-input>
                 </el-form-item>
-                <el-button type="primary" @click="login">登录</el-button>
+                <el-button type="primary" native-type="submit">登录</el-button>
                 <el-button type="primary" @click="register">注册</el-button>
             </div>
         </el-form>

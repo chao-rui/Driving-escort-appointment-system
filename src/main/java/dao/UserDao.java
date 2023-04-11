@@ -17,13 +17,13 @@ public interface UserDao {
 
     //注册
     @Insert("INSERT INTO user (USER_NAME,PHONE,PASSWORD, ROLE_FLAG) " +
-            "VALUES (#{userName},#{phone},#{password})")
+            "VALUES (#{userName},#{phone},#{password},1)")
     Boolean register(@Param("userName")String userName,
-                     @Param("phone")String phone,
-                     @Param("password")String password);
+                     @Param("password")String password,
+                     @Param("phone")String phone);
 
     //获取新用户ID
-    @Select("SELECT MAX(USER_ID) FROM userinfo")
+    @Select("SELECT MAX(USER_ID) FROM user")
     String getNewId();
 
     //实名认证
