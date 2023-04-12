@@ -29,24 +29,23 @@
                 <h1>注册</h1>
 
                 <el-form-item label="用户名" prop="userName">
-                    <el-input v-model="from.userName" maxlength="10" ></el-input>
+                    <el-input v-model="form.userName" maxlength="10" ></el-input>
                 </el-form-item>
 
                 <el-form-item label="手机号" prop="phone">
-                    <el-input v-model="from.phone" type="tel" pattern="[0-9]{11}" maxlength="11"></el-input>
+                    <el-input v-model="form.phone" type="tel" pattern="[0-9]{11}" maxlength="11"></el-input>
                 </el-form-item>
 
                 <el-form-item label="密码" prop="password">
-                    <el-input v-model="from.password" show-password maxlength="20"></el-input>
+                    <el-input v-model="form.password" show-password maxlength="20"></el-input>
                 </el-form-item>
 
                 <el-form-item label="密码确认" prop="pwdCheck">
-                    <el-input v-model="from.pwdCheck" show-password maxlength="20"></el-input>
+                    <el-input v-model="form.pwdCheck" show-password maxlength="20"></el-input>
                 </el-form-item>
 
-                <el-menu-item>
                 <el-button type="primary" @click="register">注册</el-button>
-                </el-menu-item>
+
             </div>
         </el-form>
     </el-card>

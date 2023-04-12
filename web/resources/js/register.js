@@ -1,42 +1,35 @@
 new Vue({
     el: '#app',
-    data: {
-        from:{
-            userName: '',
-            phone: '',
-            password: '',
-            pwdCheck: ''
-        },
-        userId: '',
-        loading: false,
-        rules: {
-            userName: [
-                {required: true, message: '请输入用户名', trigger: 'blur'},
-                {max: 10, message: '用户名长度不能超过10位', trigger: 'blur'}
-            ],
-            phone: [
-                {required: true, message: '请输入手机号码', trigger: 'blur'},
-                {pattern: /^1\d{10}$/, message: '手机号码必须是11位数字', trigger: 'blur'}
-            ],
-            password: [
-                {required: true, message: '请输入密码', trigger: 'blur'},
-                {max: 20, message: '密码长度不能超过20位', trigger: 'blur'},
-                {pattern: /^[a-zA-Z0-9]+$/, message: '密码只能包含字母和数字', trigger: 'blur'}
-            ],
-            pwdCheck: [
-                {required: true, message: '请再次输入密码', trigger: 'blur'},
-                {
-                    validator: (rule, value, callback) => {
-                        if (value !== this.form.password) {
-                            callback(new Error('两次输入的密码不一致'));
-                        } else {
-                            callback();
-                        }
-                    },
-                    trigger: 'blur'
-                }
-            ]
-        }
+    data() {
+        var that = this;
+        return {
+            form: {
+                userName: '',
+                phone: '',
+                password: '',
+                pwdCheck: ''
+            },
+            loading: false,
+            rules: {
+                userName: [
+                    {required: true, message: '请输入用户名', trigger: 'blur'},
+                    {max: 10, message: '用户名长度不能超过10位', trigger: 'blur'}
+                ],
+                phone: [
+                    {required: true, message: '请输入手机号码', trigger: 'blur'},
+                    {pattern: /^1\d{10}$/, message: '手机号码必须是11位数字', trigger: 'blur'}
+                ],
+                password: [
+                    {required: true, message: '请输入密码', trigger: 'blur'},
+                    {max: 20, message: '密码长度不能超过20位', trigger: 'blur'},
+                    {pattern: /^[a-zA-Z0-9]+$/, message: '密码只能包含字母和数字', trigger: 'blur'}
+                ],
+                pwdCheck: [
+                    {required: true, message: '请再次输入密码', trigger: 'blur'},
+                    {validator: that.check, trigger: 'blur'}
+                ]
+            }
+        };
     },
     methods: {
         getNewId() {
@@ -45,6 +38,7 @@ new Vue({
                 url: "/user/getNewId",
                 type: "POST",
                 success: function (data) {
+                    that.loading = false;
                     that.$alert('请牢记你的账号:</br><strong style="font-size:40px;color: red">' + data + '</strong>',
                         '您的账号', {
                             dangerouslyUseHTMLString: true,
@@ -59,20 +53,19 @@ new Vue({
             });
         },
         register() {
-            this.loading = true;
             let that = this;
             this.$refs.form.validate(valid => {
                 if (valid) {
+                    that.loading=true;
                     $.ajax({
                         url: "/user/register",
                         type: "POST",
                         data: {
-                            "userName": this.from.userName,
-                            "password": this.from.password,
-                            "phone": this.from.phone
+                            "userName": this.form.userName,
+                            "password": this.form.password,
+                            "phone": this.form.phone
                         },
                         success: function (data) {
-                            that.loading = false;
                             if (data === "true") {
                                 that.getNewId();
                             }
@@ -87,16 +80,13 @@ new Vue({
                     return false;
                 }
             });
+        },
+        check(rule, value, callback) {
+            if (value !== this.form.password) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
         }
     }
 })
-export default {
-    data() {
-        return {
-            userName: '',
-            phone: '',
-            password: '',
-            pwdCheck: ''
-        }
-    }
-}
