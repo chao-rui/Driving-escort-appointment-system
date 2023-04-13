@@ -9,12 +9,17 @@ body{
     background-color: #B3C0D1;
     color: #333;
     line-height: 60px;
+    height: 60px;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .el-aside {
     color: #333;
     width:200px;
     height: 100%;
+    background-color: rgb(238, 241, 246)
 }
 
 .el-container{
@@ -26,4 +31,8 @@ body{
 }
 .el-submenu>.el-submenu__title .el-submenu__icon-arrow{
     display: none;
+}
+.bi{
+    font-size: 1rem;
+    margin: 5px
 }
