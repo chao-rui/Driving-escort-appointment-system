@@ -12,9 +12,10 @@ import java.util.Date;
 public interface CarSchoolDao {
 
     //新增驾校信息
-    @Insert("INSERT INTO cschool (CAR_SCHOOL_NAME, CAR_SCHOOL_ADDERS, CAR_SCHOOL_PHONE, UPDATE_DATE) " +
-            "VALUES (#{cSchoolName},#{cSchoolAdders},#{cSchoolPhone},#{appraiseCS},#{updDate});")
-    Boolean addCSchool(@Param("cSchoolName")String cSchoolName,
+    @Insert("INSERT INTO cschool (CAR_SCHOOL_ADMIN,CAR_SCHOOL_NAME, CAR_SCHOOL_ADDERS, CAR_SCHOOL_PHONE, UPDATE_DATE) " +
+            "VALUES (#{cSchoolAdmin},#{cSchoolName},#{cSchoolAdders},#{cSchoolPhone},#{appraiseCS},#{updDate});")
+    Boolean addCSchool(@Param("cSchoolAdmin")String cSchoolAdmin,
+                       @Param("cSchoolName")String cSchoolName,
                        @Param("cSchoolAdders")String cSchoolAdders,
                        @Param("cSchoolPhone")String cSchoolPhone,
                        @Param("appraiseCS")String appraiseCS,

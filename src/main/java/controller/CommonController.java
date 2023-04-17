@@ -21,13 +21,6 @@ public class CommonController {
     @Resource
     UserService userService;
 
-    @RequestMapping(value = "register")
-    public ModelAndView regPageLoad(){
-        ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("register");
-        return modelAndView;
-    }
-
     @RequestMapping(value = "login")
     public ModelAndView login(@RequestParam("userId")String userId,
                               @RequestParam("password")String password){
@@ -37,7 +30,13 @@ public class CommonController {
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
         session.setAttribute("user",user);
-        ModelAndView mv=new ModelAndView("index");
+        ModelAndView mv=new ModelAndView("common/index");
         return mv;
     }
+
+    @RequestMapping(value = "show")
+    public ModelAndView showContext(@RequestParam("url")String url){
+        return new ModelAndView(url);
+    }
+
 }

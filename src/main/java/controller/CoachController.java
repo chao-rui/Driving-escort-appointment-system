@@ -4,10 +4,10 @@ import entity.Coach;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import service.CoachService;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
 @Controller
@@ -45,6 +45,7 @@ public class CoachController {
     }
 
     @RequestMapping(value = "delCoach")
+    @ResponseBody
     public Boolean delCoach(@RequestParam("userId")String userId){
         return coachService.delCoach(userId);
     }

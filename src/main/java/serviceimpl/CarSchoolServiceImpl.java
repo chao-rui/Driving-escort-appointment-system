@@ -15,8 +15,8 @@ public class CarSchoolServiceImpl implements CarSchoolService {
     CarSchoolDao carSchoolDao;
 
     @Override
-    public Boolean addCSchool(String cSchoolName, String cSchoolAdders, String cSchoolPhone, String appraiseCS, Date updDate){
-        return carSchoolDao.addCSchool(cSchoolName,cSchoolAdders,cSchoolPhone,appraiseCS,updDate);
+    public Boolean addCSchool(String cSchoolAdmin,String cSchoolName, String cSchoolAdders, String cSchoolPhone, String appraiseCS, Date updDate){
+        return carSchoolDao.addCSchool(cSchoolAdmin,cSchoolName,cSchoolAdders,cSchoolPhone,appraiseCS,updDate);
     }
 
     @Override

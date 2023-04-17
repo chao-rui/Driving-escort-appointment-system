@@ -41,6 +41,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public Boolean delCoach(String userId){
-        return delCoach(userId);
+        return coachDao.delCoach(userId);
     }
 }

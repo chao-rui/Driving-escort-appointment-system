@@ -30,7 +30,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean setRName(String userRName, String idNumber, String userId) {
-        return userDao.setRName(userRName,idNumber,userId);
+        String birthYear = idNumber.substring(6, 10);
+        String gender = Integer.parseInt(idNumber.substring(16, 17)) % 2 == 0 ? "女" : "男";
+        Boolean fSet = userDao.setRName(userRName,idNumber,userId);
+        Boolean fUpd = userDao.updUserInfo("",gender,birthYear,userId);
+        return fSet && fUpd;
+    }
+
+    @Override
+    public Boolean updRole(String userId, String roleFlag) {
+        return userDao.updRole(userId,roleFlag);
     }
 
     @Override
@@ -43,8 +52,4 @@ public class UserServiceImpl implements UserService {
         return userDao.updPassword(newPassword,userId,password);
     }
 
-    @Override
-    public Boolean updRole(String userId, String roleFlag) {
-        return userDao.updRole(userId,roleFlag);
-    }
 }

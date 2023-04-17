@@ -16,12 +16,13 @@ public class CarSchoolController {
     CarSchoolService cSchoolService;
 
     @RequestMapping(value = "addCSchool")
-    public Boolean addCSchool(@RequestParam("cSchoolName")String cSchoolName,
+    public Boolean addCSchool(@RequestParam("cSchoolAdmin")String cSchoolAdmin,
+                              @RequestParam("cSchoolName")String cSchoolName,
                               @RequestParam("cSchoolAdders")String cSchoolAdders,
                               @RequestParam("cSchoolPhone")String cSchoolPhone,
                               @RequestParam("appraiseCS")String appraiseCS,
                               @RequestParam("updDate") Date updDate){
-        return cSchoolService.addCSchool(cSchoolName,cSchoolAdders,cSchoolPhone,appraiseCS,updDate);
+        return cSchoolService.addCSchool(cSchoolAdmin,cSchoolName,cSchoolAdders,cSchoolPhone,appraiseCS,updDate);
     }
 
     @RequestMapping(value = "getCSchool")
