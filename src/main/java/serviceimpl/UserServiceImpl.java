@@ -29,6 +29,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserInfo(String userId){
+        User user=userDao.getUserInfo(userId);
+        user.setUserRname("***");
+        user.setIdNumber("***");
+        user.setPassword("***");
+        return user;
+    }
+
+    @Override
     public Boolean setRName(String userRName, String idNumber, String userId) {
         String birthYear = idNumber.substring(6, 10);
         String gender = Integer.parseInt(idNumber.substring(16, 17)) % 2 == 0 ? "女" : "男";

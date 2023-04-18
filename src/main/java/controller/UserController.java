@@ -1,13 +1,18 @@
 package controller;
 
+import entity.User;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import service.UserService;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 
 @Controller
@@ -30,6 +35,13 @@ public class UserController{
     @ResponseBody
     public String getNewId(){
         return userService.getNewId();
+    }
+
+    @RequestMapping(value = "getUserInfo")
+    public String getUserInfo(@RequestParam("userId")String userId){
+        Model model = null;
+        model.addAttribute("user",userService.getUserInfo(userId));
+       return "true";
     }
 
     @RequestMapping(value = "setRName")

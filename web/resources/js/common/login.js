@@ -62,7 +62,7 @@ new Vue({
             })
         },
         register() {
-            window.location.href = "/register"
+            window.location.href = "show?url=register"
         }
     }
 })

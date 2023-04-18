@@ -25,7 +25,7 @@ public class CommonController {
     @RequestMapping(value = "login")
     @ResponseBody
     public String login(@RequestParam("userId")String userId,
-                              @RequestParam("password")String password){
+                        @RequestParam("password")String password){
         String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
         User user=userService.login(userId,passwordMD5);
         if(user != null){

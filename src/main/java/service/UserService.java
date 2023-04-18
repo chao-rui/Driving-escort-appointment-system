@@ -13,6 +13,9 @@ public interface UserService {
     //获取新用户ID
     public String getNewId();
 
+    //获取用户信息
+    public User getUserInfo(String userId);
+
     //实名认证
     public Boolean setRName(String userRName,String idNumber,String userId);
 

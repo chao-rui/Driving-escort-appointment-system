@@ -26,6 +26,10 @@ public interface UserDao {
     @Select("SELECT MAX(USER_ID) FROM user")
     String getNewId();
 
+    //获取用户信息
+    @Select("SELECT * FROM user WHERE USER_ID=#{userId}")
+    User getUserInfo(@Param("userId")String userId);
+
     //实名认证
     @Update("UPDATE user SET  " +
             "USER_RNAME=#{userRName}, " +

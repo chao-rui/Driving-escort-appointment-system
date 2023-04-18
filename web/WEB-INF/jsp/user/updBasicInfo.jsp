@@ -17,7 +17,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/common/register.js" type="module"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user/updBasicInfo.js" type="module"></script>
     <title>基础信息修改</title>
 </head>
 <body>
