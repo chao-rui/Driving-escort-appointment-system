@@ -32,6 +32,35 @@ new Vue({
         ]
     },
     methods: {
+        login(){
+            var that=this;
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    $.ajax({
+                        url: "login",
+                        type: "POST",
+                        data: {
+                            "userId": this.form.userId,
+                            "password": this.form.password,
+                        },
+                        success: function (data) {
+                            if (data === "true") {
+                                sessionStorage.setItem("userId", that.form.userId);
+                                window.location.href="show?url=common/index"
+                            } else {
+                                alert("账号或密码错误！")
+                            }
+                        },
+                        errors: function (e) {
+                            alert("登录出错！请刷新页面重试")
+                        }
+                    });
+                } else {
+                    // 验证失败，显示错误信息
+                    return false;
+                }
+            })
+        },
         register() {
             window.location.href = "/register"
         }

@@ -25,7 +25,7 @@
 <body>
 <div id="app">
     <el-card class="box-card">
-        <el-form action="login" METHOD="post" :model="form" ref="form" :rules="rules">
+        <el-form METHOD="post" :model="form" ref="form" :rules="rules">
             <div>
                 <h1>登录</h1>
 
@@ -36,7 +36,7 @@
                 <el-form-item label="密码" prop="password">
                     <el-input name="password" v-model="form.password" show-password maxlength="20"></el-input>
                 </el-form-item>
-                <el-button type="primary" native-type="submit">登录</el-button>
+                <el-button type="primary" @click="login">登录</el-button>
                 <el-button type="primary" @click="register">注册</el-button>
             </div>
         </el-form>

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,16 +23,20 @@ public class CommonController {
     UserService userService;
 
     @RequestMapping(value = "login")
-    public ModelAndView login(@RequestParam("userId")String userId,
+    @ResponseBody
+    public String login(@RequestParam("userId")String userId,
                               @RequestParam("password")String password){
         String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
         User user=userService.login(userId,passwordMD5);
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        HttpSession session = request.getSession();
-        session.setAttribute("user",user);
-        ModelAndView mv=new ModelAndView("common/index");
-        return mv;
+        if(user != null){
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
+            HttpSession session = request.getSession();
+            session.setAttribute("user",user);
+            return "true";
+        }else{
+            return "false";
+        }
     }
 
     @RequestMapping(value = "show")

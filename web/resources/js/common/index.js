@@ -32,7 +32,7 @@ new Vue({
                     url: "/Coach/delCoach",
                     type: "POST",
                     data: {
-                        "userId": this.form.userName,
+                        "userId": sessionStorage.getItem("userId"),
                     },
                     success: function (data) {
                         if(data){
@@ -59,7 +59,7 @@ new Vue({
                 type: 'warning'
             }).then(() => {
                 $.ajax({
-                    url: "//delCoach",
+                    url: "/Coach/delCoach",
                     type: "POST",
                     success: function (data) {
                         if(data){
@@ -76,6 +76,38 @@ new Vue({
                 this.$message({
                     type: 'info',
                     message: '已取消删除'
+                });
+            });
+        },
+        checkId(){
+            this.$prompt('请输入密码以验证身份', '验证', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /^[a-zA-Z0-9]+$/,
+                inputErrorMessage: '密码格式不正确'
+            }).then(({ value }) => {
+                $.ajax({
+                    url: "login",
+                    type: "POST",
+                    data: {
+                        "userId": sessionStorage.getItem("userId"),
+                        "password":value,
+                    },
+                    success: function (data) {
+                        if(data){
+                            window.location.href="/"
+                        }else{
+                            alert("操作失败！")
+                        }
+                    },
+                    errors: function (e) {
+                        alert("操作失败！")
+                    }
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消操作'
                 });
             });
         }
