@@ -18,7 +18,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/user/updPassword.js" type="module"></script>
-    <title>基础信息修改</title>
+    <title>密码修改</title>
 </head>
 <body>
 <div id="app" v-loading="loading">

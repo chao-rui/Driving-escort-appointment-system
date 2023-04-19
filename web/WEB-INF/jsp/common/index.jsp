@@ -41,8 +41,8 @@
                     <el-menu-item-group>
                         <el-menu-item index="user/updBasicInfo">基础信息修改</el-menu-item>
                         <el-menu-item index="user/updPassword">密码修改</el-menu-item>
-                <c:if test="${user.getRoleFlag()== 1}">
                         <el-menu-item index="user/updRName">实名认证</el-menu-item>
+                <c:if test="${user.getRoleFlag()== 1}">
                         <el-menu-item index="user/updWorkInfo">身份认证</el-menu-item>
                 </c:if>
                     </el-menu-item-group>

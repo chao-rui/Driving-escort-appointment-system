@@ -11,7 +11,8 @@ public interface UserDao {
     //登录
     @Select("SELECT * " +
             "FROM user WHERE USER_ID=#{userId} " +
-            "AND PASSWORD=#{password}")
+            "AND PASSWORD=#{password} "+
+            "AND ROLE_FLAG!=0")
     User login(@Param("userId") String userId,
                @Param("password")String password);
 

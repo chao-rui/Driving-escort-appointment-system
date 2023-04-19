@@ -29,7 +29,7 @@ public class CommonController {
 
     @RequestMapping(value = "login")
     @ResponseBody
-    public Boolean login(@RequestParam("userId")String userId,
+    public User login(@RequestParam("userId")String userId,
                         @RequestParam("password")String password){
         String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
         User user=userService.login(userId,passwordMD5);
@@ -38,9 +38,9 @@ public class CommonController {
             HttpServletRequest request = attributes.getRequest();
             HttpSession session = request.getSession();
             session.setAttribute("user",user);
-            return true;
+            return user;
         }else{
-            return false;
+            return null;
         }
     }
 

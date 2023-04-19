@@ -45,7 +45,8 @@ new Vue({
                         },
                         success: function (data) {
                             if (data) {
-                                sessionStorage.setItem("userId", that.form.userId);
+                                sessionStorage.setItem("userId", data.userId);
+                                sessionStorage.setItem("roleFlag", data.roleFlag);
                                 window.location.href="index"
                             } else {
                                 alert("账号或密码错误！")

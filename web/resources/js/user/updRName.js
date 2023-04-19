@@ -1,32 +1,26 @@
 new Vue({
     el: '#app',
     mounted:function (){
-        this.getUserInfo();
         if(sessionStorage.getItem("roleFlag")!=="1"){
             this.readOnly=true;
+            this.getUserInfo();
         }
     },
     data:{
-        readOnly:false,
         form: {
-            userName: '',
-            gender: '',
-            phone: '',
-            birthYear: ''
+            userRName: '',
+            idNumber: '',
         },
+        readOnly:false,
         loading: false,
         rules: {
-            userName: [
-                {required: true, message: '请输入用户名', trigger: 'blur'},
-                {max: 10, message: '用户名长度不能超过10位', trigger: 'blur'}
+            userRName: [
+                {required: true, message: '请输入真实姓名', trigger: 'blur'},
+                {max: 10, message: '真实姓名长度不能超过10位', trigger: 'blur'}
             ],
-            gender:[{required: true, message: '请选择性别', trigger: 'blur'}],
-            phone: [
-                {required: true, message: '请输入手机号码', trigger: 'blur'},
-                {pattern: /^1\d{10}$/, message: '手机号码必须是11位数字', trigger: 'blur'}
-            ],
-            birthYear: [
-                {required: true, message: '请输入出生年', trigger: 'blur'},
+            idNumber: [
+                {required: true, message: '请输入身份证号', trigger: 'blur'},
+                {pattern: /^1\d{17}$/, message: '手机号码必须是18位数字', trigger: 'blur'}
             ]
         }
     },
@@ -41,10 +35,9 @@ new Vue({
                     "userId":sessionStorage.getItem("userId")
                 },
                 success:function (data){
-                    that.form.userName=data.userName;
-                    that.form.birthYear=data.birthYear+"";
-                    that.form.gender=data.gender;
-                    that.form.phone=data.phone;
+                    console.log(data);
+                    that.form.userRName=data.userRname;
+                    that.form.idNumber=data.idNumber;
                 }
             });
         },
@@ -54,12 +47,10 @@ new Vue({
                 if (valid) {
                     that.loading=true;
                     $.ajax({
-                        url: "user/updUserInfo",
+                        url: "user/setRName",
                         data: {
-                            userName: this.form.userName,
-                            gender: this.form.gender,
-                            phone: this.form.phone,
-                            birthYear: this.form.birthYear,
+                            userRName: this.form.userName,
+                            idNumber: this.form.idNumber,
                             userId: sessionStorage.getItem("userId")
                         },
                         success: function (data) {

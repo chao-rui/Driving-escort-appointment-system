@@ -2,7 +2,8 @@ new Vue({
     el: '#app',
     data:{
         today:'',
-        src:'show?url=common/main'
+        src:'show?url=common/main',
+        isChecked:false
     },
     methods:{
         changeContext(Index,menuItem){
@@ -22,29 +23,44 @@ new Vue({
                 });
             });
         },
-        exitCS(){
+        exitCS() {
+            let that = this;
             this.$confirm('此操作将会从您的驾校删除您的个人信息，是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                $.ajax({
-                    url: "/Coach/delCoach",
-                    type: "POST",
-                    data: {
-                        "userId": sessionStorage.getItem("userId"),
-                    },
-                    success: function (data) {
-                        if(data){
-                            window.location.href="/"
-                        }else{
-                            alert("操作失败！")
+            }).then(async () => {
+                await that.checkId();
+                if (that.isChecked) {
+                    $.ajax({
+                        url: "/Coach/delCoach",
+                        type: "POST",
+                        data: {
+                            "userId": sessionStorage.getItem("userId"),
+                        },
+                        success: function (data) {
+                            if (data) {
+                                window.location.href = "/"
+                            } else {
+                                that.$message({
+                                    type: 'error',
+                                    message: '请求失败'
+                                });
+                            }
+                        },
+                        errors: function (e) {
+                            that.$message({
+                                type: 'error',
+                                message: '请求失败'
+                            });
                         }
-                    },
-                    errors: function (e) {
-                        alert("操作失败！")
-                    }
-                });
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: '密码错误'
+                    });
+                }
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -52,26 +68,45 @@ new Vue({
                 });
             });
         },
-        logout(){
+        logout() {
+            let that=this;
             this.$confirm('此操作将永久删除您账户内的所有信息，是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                $.ajax({
-                    url: "/Coach/delCoach",
-                    type: "POST",
-                    success: function (data) {
-                        if(data){
-                            window.location.href="/"
-                        }else{
-                            alert("操作失败！")
+            }).then(async () => {
+                await this.checkId();
+                if (that.isChecked) {
+                    $.ajax({
+                        url: "/user/updRole",
+                        data: {
+                            "roleFlag": 0,
+                            "userId":sessionStorage.getItem("userId")
+                        },
+                        type: "POST",
+                        success: function (data) {
+                            if (data) {
+                                window.location.href = "/"
+                            } else {
+                                that.$message({
+                                    type: 'error',
+                                    message: '请求失败'
+                                });
+                            }
+                        },
+                        errors: function (e) {
+                            that.$message({
+                                type: 'error',
+                                message: '请求失败'
+                            });
                         }
-                    },
-                    errors: function (e) {
-                        alert("操作失败！")
-                    }
-                });
+                    });
+                }else {
+                    this.$message({
+                        type: 'error',
+                        message: '密码错误'
+                    });
+                }
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -79,29 +114,36 @@ new Vue({
                 });
             });
         },
-        checkId(){
-            this.$prompt('请输入密码以验证身份', '验证', {
+        async checkId(){
+            let that=this;
+            await this.$prompt('请输入密码以验证身份', '验证', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 inputPattern: /^[a-zA-Z0-9]+$/,
                 inputErrorMessage: '密码格式不正确'
-            }).then(({ value }) => {
+            }).then(async ({value}) => {
                 $.ajax({
                     url: "login",
                     type: "POST",
                     data: {
                         "userId": sessionStorage.getItem("userId"),
-                        "password":value,
+                        "password": value,
                     },
-                    success: function (data) {
-                        if(data){
-                            window.location.href="/"
-                        }else{
-                            alert("操作失败！")
+                    success: await function (data) {
+                        if (data != null) {
+                            that.isChecked = true
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '密码错误'
+                            });
                         }
                     },
                     errors: function (e) {
-                        alert("操作失败！")
+                        this.$message({
+                            type: 'error',
+                            message: '请求失败'
+                        });
                     }
                 });
             }).catch(() => {
