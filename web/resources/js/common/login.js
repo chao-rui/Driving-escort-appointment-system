@@ -44,9 +44,9 @@ new Vue({
                             "password": this.form.password,
                         },
                         success: function (data) {
-                            if (data === "true") {
+                            if (data) {
                                 sessionStorage.setItem("userId", that.form.userId);
-                                window.location.href="show?url=common/index"
+                                window.location.href="index"
                             } else {
                                 alert("账号或密码错误！")
                             }
@@ -62,7 +62,7 @@ new Vue({
             })
         },
         register() {
-            window.location.href = "show?url=register"
+            window.location.href = "register"
         }
     }
 })

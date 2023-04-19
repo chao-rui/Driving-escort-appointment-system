@@ -13,13 +13,13 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resources/css/plugins/element-ui.css">
-    <link rel="stylesheet" href="resources/css/common/login.css">
-    <link rel="icon" type="image/x-icon" href="resources/img/1.webp" />
-    <script src="resources/js/plugins/jquery-3.6.4.min.js"></script>
-    <script src="resources/js/plugins/vue.js"></script>
-    <script src="resources/js/plugins/element-ui.js"></script>
-    <script src="resources/js/common/login.js" type="module"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/login.css">
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/img/1.webp" />
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/common/login.js" type="module"></script>
     <title>驾驶陪练预约系统</title>
 </head>
 <body>

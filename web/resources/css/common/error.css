@@ -1,7 +1,14 @@
-body{
-    margin: 0;
+.text {
+    font-size: 14px;
 }
 
+.item {
+    padding: 18px 0;
+}
+
+.box-card {
+    width: 480px;
+}
 #app {
     height: 100vh;
     display: flex;
@@ -11,6 +18,6 @@ body{
 
 .box-card {
     width: 480px;
-    text-align: center;
+    height: 400px;
     margin: 20%;
 }

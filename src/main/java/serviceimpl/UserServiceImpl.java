@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         String birthYear = idNumber.substring(6, 10);
         String gender = Integer.parseInt(idNumber.substring(16, 17)) % 2 == 0 ? "女" : "男";
         Boolean fSet = userDao.setRName(userRName,idNumber,userId);
-        Boolean fUpd = userDao.updUserInfo("",gender,birthYear,userId);
+        Boolean fUpd = userDao.updUserInfo("",gender,"",birthYear,userId);
         return fSet && fUpd;
     }
 
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean updUserInfo(String userName, String gender, String birthYear, String userId) {
-        return userDao.updUserInfo(userName,gender,birthYear,userId);
+    public Boolean updUserInfo(String userName, String gender, String phone,String birthYear, String userId) {
+        return userDao.updUserInfo(userName,gender,phone,birthYear,userId);
     }
 
     @Override

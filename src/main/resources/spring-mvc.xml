@@ -12,7 +12,12 @@
 
     <context:component-scan base-package="controller"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <mvc:default-servlet-handler/>
 
@@ -21,5 +26,17 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/"/>
+            <mvc:exclude-mapping path="/register"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/error"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <bean class="interceptor.SessionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>

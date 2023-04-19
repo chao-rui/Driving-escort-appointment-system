@@ -12,12 +12,12 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resources/css/element-ui.css">
-    <link rel="stylesheet" href="resources/css/login.css">
-    <script src="resources/js/jquery-3.6.4.min.js"></script>
-    <script src="resources/js/vue.js"></script>
-    <script src="resources/js/element-ui.js"></script>
-    <script src="resources/js/register.js" type="module"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/login.css">
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/common/register.js" type="module"></script>
     <meta charset="UTF-8">
     <title>注册</title>
 </head>

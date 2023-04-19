@@ -4,6 +4,7 @@ import entity.Appmnts;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import service.AppmntsService;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ public class AppmntsController {
     AppmntsService appmntsService;
 
     @RequestMapping(value = "addAppmnts")
+    @ResponseBody
     public Boolean addAppmnts(@RequestParam("userId") String userId,
                               @RequestParam("objectId") String objectId,
                               @RequestParam("time") int time,
@@ -27,16 +29,19 @@ public class AppmntsController {
     }
 
     @RequestMapping(value = "getAppmntsById")
+    @ResponseBody
     public Appmnts getAppmntsById(@RequestParam("appmntsId") String appmntsId) {
         return appmntsService.getAppmntsById(appmntsId);
     }
 
     @RequestMapping(value = "getAppmntsByOId")
+    @ResponseBody
     public List<Appmnts> getAppmntsByOId(@RequestParam("objectId") String objectId) {
         return appmntsService.getAppmntsByOId(objectId);
     }
 
     @RequestMapping(value = "updAppmnts")
+    @ResponseBody
     public Boolean updAppmnts(@RequestParam("appmntsId") String appmntsId,
                               @RequestParam("time") int time,
                               @RequestParam("startDate") Date startDate,
@@ -47,6 +52,7 @@ public class AppmntsController {
     }
 
     @RequestMapping(value = "updAppraise")
+    @ResponseBody
     public Boolean updAppraise(@RequestParam("appmntsId") String appmntsId,
                                @RequestParam("appraise") int appraise,
                                @RequestParam("appContext") String appContext) {
@@ -54,6 +60,7 @@ public class AppmntsController {
     }
 
     @RequestMapping(value = "updAppCoach")
+    @ResponseBody
     public Boolean updAppCoach(@RequestParam("ObjectId") String ObjectId) {
         return appmntsService.updAppCoach(ObjectId);
     }

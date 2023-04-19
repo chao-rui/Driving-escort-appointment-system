@@ -22,9 +22,14 @@ public class CommonController {
     @Resource
     UserService userService;
 
+    @RequestMapping(value = "")
+    public ModelAndView logPageLoad(){
+        return new ModelAndView("common/login");
+    }
+
     @RequestMapping(value = "login")
     @ResponseBody
-    public String login(@RequestParam("userId")String userId,
+    public Boolean login(@RequestParam("userId")String userId,
                         @RequestParam("password")String password){
         String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
         User user=userService.login(userId,passwordMD5);
@@ -33,15 +38,30 @@ public class CommonController {
             HttpServletRequest request = attributes.getRequest();
             HttpSession session = request.getSession();
             session.setAttribute("user",user);
-            return "true";
+            return true;
         }else{
-            return "false";
+            return false;
         }
+    }
+
+    @RequestMapping(value = "register")
+    public ModelAndView regPageLoad(){
+        return new ModelAndView("common/register");
     }
 
     @RequestMapping(value = "show")
     public ModelAndView showContext(@RequestParam("url")String url){
         return new ModelAndView(url);
+    }
+
+    @RequestMapping(value = "index")
+    public ModelAndView indexPageLoad(){
+        return new ModelAndView("common/index");
+    }
+
+    @RequestMapping(value = "error")
+    public ModelAndView errPageLoad(){
+        return new ModelAndView("common/error");
     }
 
 }

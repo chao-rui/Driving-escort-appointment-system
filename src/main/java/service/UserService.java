@@ -20,7 +20,7 @@ public interface UserService {
     public Boolean setRName(String userRName,String idNumber,String userId);
 
     //修改基础信息
-    public Boolean updUserInfo(String userName,String gender,String birthYear,String userId);
+    public Boolean updUserInfo(String userName,String gender,String phone,String birthYear,String userId);
 
     //修改密码
     public Boolean updPassword(String newPassword,String userId,String password);

@@ -66,7 +66,7 @@ new Vue({
                             "phone": this.form.phone
                         },
                         success: function (data) {
-                            if (data === "true") {
+                            if (data) {
                                 that.getNewId();
                             }
                         },

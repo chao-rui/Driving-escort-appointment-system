@@ -1,18 +1,14 @@
 package controller;
 
 import entity.User;
-import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import service.UserService;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 
 @Controller
@@ -24,11 +20,11 @@ public class UserController{
 
     @RequestMapping(value = "register")
     @ResponseBody
-    public String register(@RequestParam("userName")String userName,
+    public Boolean register(@RequestParam("userName")String userName,
                             @RequestParam("password")String password,
                             @RequestParam("phone")String phone){
         String passwordMD5=DigestUtils.md5DigestAsHex(password.getBytes());
-        return String.valueOf(userService.register(userName,passwordMD5,phone));
+        return userService.register(userName,passwordMD5,phone);
     }
 
     @RequestMapping(value = "getNewId")
@@ -38,13 +34,13 @@ public class UserController{
     }
 
     @RequestMapping(value = "getUserInfo")
-    public String getUserInfo(@RequestParam("userId")String userId){
-        Model model = null;
-        model.addAttribute("user",userService.getUserInfo(userId));
-       return "true";
+    @ResponseBody
+    public User getUserInfo(@RequestParam("userId")String userId){
+        return userService.getUserInfo(userId);
     }
 
     @RequestMapping(value = "setRName")
+    @ResponseBody
     public Boolean setRName(@RequestParam("userRName")String userRName,
                             @RequestParam("idNumber")String idNumber,
                             @RequestParam("userId")String userId){
@@ -52,14 +48,17 @@ public class UserController{
     }
 
     @RequestMapping(value = "updUserInfo")
+    @ResponseBody
     public Boolean updUserInfo(@RequestParam("userName")String userName,
                                @RequestParam("gender")String gender,
+                               @RequestParam("phone")String phone,
                                @RequestParam("birthYear")String birthYear,
                                @RequestParam("userId")String userId){
-        return userService.updUserInfo(userName,gender,birthYear,userId);
+        return userService.updUserInfo(userName,gender,phone,birthYear,userId);
     }
 
     @RequestMapping(value = "updPassword")
+    @ResponseBody
     public Boolean updPassword(@RequestParam("newPassword")String newPassword,
                                @RequestParam("userId")String userId,
                                @RequestParam("password")String password){
@@ -67,6 +66,7 @@ public class UserController{
     }
 
     @RequestMapping(value = "updRole")
+    @ResponseBody
     public Boolean updRole(@RequestParam("userId")String userId,
                            @RequestParam("roleFlag")String roleFlag){
         return userService.updRole(userId,roleFlag);

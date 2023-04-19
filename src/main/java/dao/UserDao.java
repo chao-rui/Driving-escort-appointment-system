@@ -41,17 +41,23 @@ public interface UserDao {
                      @Param("userId")String userId);
 
     //修改基础信息
-    @Update("UPDATE user SET " +
-            "<if test=\"#{userName}!=''\">"+
-            " USER_NAME=#{userName}" +
-            "</if>"+
-            "<if test=\"#{userName}==''\">"+
+    @Update("<script>"+
+            "UPDATE user SET " +
+            "<if test=\"userName!=''\">"+
+            " USER_NAME=#{userName}," +
+            "     PHONE=#{phone},"+
             "    GENDER=#{gender}," +
             "BIRTH_YEAR=#{birthYear} " +
             "</if>"+
-            "WHERE USER_ID=#{userId}")
+            "<if test=\"userName==''\">"+
+            "    GENDER=#{gender}," +
+            "BIRTH_YEAR=#{birthYear} " +
+            "</if>"+
+            "WHERE USER_ID=#{userId}"+
+            "</script>")
     Boolean updUserInfo(@Param("userName")String userName,
                         @Param("gender")String gender,
+                        @Param("phone")String phone,
                         @Param("birthYear")String birthYear,
                         @Param("userId")String userId);
 

@@ -18,6 +18,7 @@ public class CoachController {
     CoachService coachService;
 
     @RequestMapping(value = "addCoach")
+    @ResponseBody
     public Boolean addCoach(@RequestParam("userId")String userId,
                             @RequestParam("workId")String workId,
                             @RequestParam("carSchoolId")String carSchoolId){
@@ -25,21 +26,25 @@ public class CoachController {
     }
 
     @RequestMapping(value = "getCoachByUserId")
+    @ResponseBody
     public Coach getCoachByUserId(@RequestParam("userId")String userId){
         return coachService.getCoachByUserId(userId);
     }
 
     @RequestMapping(value = "getCoachByCSId")
+    @ResponseBody
     public List<Coach> getCoachByCSId(@RequestParam("cSchoolId")String cSchoolId){
         return coachService.getCoachByCSId(cSchoolId);
     }
 
     @RequestMapping(value = "getCoachByModel")
+    @ResponseBody
     public List<Coach> getCoachByModel(@RequestParam("Model")String Model){
         return coachService.getCoachByModel(Model);
     }
 
     @RequestMapping(value = "updAppCoach")
+    @ResponseBody
     public Boolean updAppCoach(@RequestParam("cSchoolId")String cSchoolId){
         return coachService.updAppCoach(cSchoolId);
     }

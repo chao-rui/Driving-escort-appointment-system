@@ -4,6 +4,7 @@ import entity.CarSchool;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import service.CarSchoolService;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ public class CarSchoolController {
     CarSchoolService cSchoolService;
 
     @RequestMapping(value = "addCSchool")
+    @ResponseBody
     public Boolean addCSchool(@RequestParam("cSchoolAdmin")String cSchoolAdmin,
                               @RequestParam("cSchoolName")String cSchoolName,
                               @RequestParam("cSchoolAdders")String cSchoolAdders,
@@ -26,11 +28,13 @@ public class CarSchoolController {
     }
 
     @RequestMapping(value = "getCSchool")
+    @ResponseBody
     public CarSchool getCSchool(@RequestParam("cSchoolId")String cSchoolId){
         return cSchoolService.getCSchool(cSchoolId);
     }
 
     @RequestMapping(value = "updCSchool")
+    @ResponseBody
     public Boolean updCSchool(@RequestParam("cSchoolId")String cSchoolId,
                               @RequestParam("cSchoolName")String cSchoolName,
                               @RequestParam("cSchoolAdders")String cSchoolAdders,
@@ -40,6 +44,7 @@ public class CarSchoolController {
     }
 
     @RequestMapping(value = "delCSchool")
+    @ResponseBody
     public Boolean delCSchool(@RequestParam("cSchoolId")String cSchoolId){
         return cSchoolService.delCSchool(cSchoolId);
     }
