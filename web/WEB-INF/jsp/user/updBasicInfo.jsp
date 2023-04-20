@@ -13,7 +13,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/centerCard.css">
     <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>

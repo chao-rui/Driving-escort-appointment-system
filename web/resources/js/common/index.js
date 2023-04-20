@@ -5,6 +5,9 @@ new Vue({
         src:'show?url=common/main',
         isChecked:false
     },
+    mounted:function (){
+        sessionStorage.setItem("roleFlag",$("#roleFlag").text())
+    },
     methods:{
         changeContext(Index,menuItem){
             this.src="show?url="+Index;

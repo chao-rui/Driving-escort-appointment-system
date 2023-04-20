@@ -10,7 +10,7 @@ import java.util.List;
 public interface CoachDao {
 
     //新增教练信息
-    @Insert("INSERT INTO coachInfo (USER_ID,WORK_ID,CAR_SCHOOL_ID) " +
+    @Insert("INSERT INTO coach (USER_ID,WORK_ID,CAR_SCHOOL_ID) " +
             "VALUES (#{userId},#{workId},#{carSchoolId})")
     Boolean addCoach(@Param("userId")String userId,
                      @Param("workId")String workId,

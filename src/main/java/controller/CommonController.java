@@ -30,13 +30,14 @@ public class CommonController {
     @RequestMapping(value = "login")
     @ResponseBody
     public User login(@RequestParam("userId")String userId,
-                        @RequestParam("password")String password){
+                      @RequestParam("password")String password,
+                      HttpSession session){
         String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
         User user=userService.login(userId,passwordMD5);
         if(user != null){
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            HttpSession session = request.getSession();
+            session = request.getSession();
             session.setAttribute("user",user);
             return user;
         }else{
@@ -55,7 +56,11 @@ public class CommonController {
     }
 
     @RequestMapping(value = "index")
-    public ModelAndView indexPageLoad(){
+    public ModelAndView indexPageLoad(HttpSession session){
+        User user= (User) session.getAttribute("user");
+        user=userService.getUserInfo(String.valueOf(user.getUserId()));
+        session.removeAttribute("user");
+        session.setAttribute("user",user);
         return new ModelAndView("common/index");
     }
 

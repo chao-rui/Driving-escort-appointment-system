@@ -20,7 +20,7 @@ new Vue({
             ],
             idNumber: [
                 {required: true, message: '请输入身份证号', trigger: 'blur'},
-                {pattern: /^1\d{17}$/, message: '手机号码必须是18位数字', trigger: 'blur'}
+                {pattern: /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: '身份证号格式不正确', trigger: 'blur'}
             ]
         }
     },
@@ -35,7 +35,6 @@ new Vue({
                     "userId":sessionStorage.getItem("userId")
                 },
                 success:function (data){
-                    console.log(data);
                     that.form.userRName=data.userRname;
                     that.form.idNumber=data.idNumber;
                 }
@@ -49,7 +48,7 @@ new Vue({
                     $.ajax({
                         url: "user/setRName",
                         data: {
-                            userRName: this.form.userName,
+                            userRName: this.form.userRName,
                             idNumber: this.form.idNumber,
                             userId: sessionStorage.getItem("userId")
                         },
@@ -59,6 +58,7 @@ new Vue({
                                 message: '更新成功',
                                 type: 'success'
                             });
+                            top.location.href="index";
                         },
                         error: function (e) {
                             that.$notify({

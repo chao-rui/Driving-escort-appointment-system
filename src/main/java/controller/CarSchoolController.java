@@ -9,8 +9,10 @@ import service.CarSchoolService;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Controller
+@RequestMapping("CarSchool")
 public class CarSchoolController {
 
     @Resource
@@ -27,10 +29,22 @@ public class CarSchoolController {
         return cSchoolService.addCSchool(cSchoolAdmin,cSchoolName,cSchoolAdders,cSchoolPhone,appraiseCS,updDate);
     }
 
-    @RequestMapping(value = "getCSchool")
+    @RequestMapping(value = "getCSchoolAll")
     @ResponseBody
-    public CarSchool getCSchool(@RequestParam("cSchoolId")String cSchoolId){
-        return cSchoolService.getCSchool(cSchoolId);
+    public List<CarSchool> getCSchoolAll(){
+        return cSchoolService.getCSchoolAll();
+    }
+
+    @RequestMapping(value = "getCSchoolByUid")
+    @ResponseBody
+    public CarSchool getCSchoolByUid(@RequestParam("userId")String userId){
+        return cSchoolService.getCSchoolByUid(userId);
+    }
+
+    @RequestMapping(value = "getCSchoolById")
+    @ResponseBody
+    public CarSchool getCSchoolById(@RequestParam("cSchoolId")String cSchoolId){
+        return cSchoolService.getCSchoolById(cSchoolId);
     }
 
     @RequestMapping(value = "updCSchool")
@@ -38,9 +52,10 @@ public class CarSchoolController {
     public Boolean updCSchool(@RequestParam("cSchoolId")String cSchoolId,
                               @RequestParam("cSchoolName")String cSchoolName,
                               @RequestParam("cSchoolAdders")String cSchoolAdders,
+                              @RequestParam("cSchoolDesc")String cSchoolDesc,
                               @RequestParam("cSchoolPhone")String cSchoolPhone,
                               @RequestParam("updDate")Date updDate){
-        return cSchoolService.updCSchool(cSchoolId,cSchoolName,cSchoolAdders,cSchoolPhone,updDate);
+        return cSchoolService.updCSchool(cSchoolId,cSchoolName,cSchoolAdders,cSchoolDesc,cSchoolPhone,updDate);
     }
 
     @RequestMapping(value = "delCSchool")

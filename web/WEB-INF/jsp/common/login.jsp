@@ -14,7 +14,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/centerCard.css">
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/img/1.webp" />
     <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="app">
-    <el-card class="box-card">
+    <el-card class="box-card" v-loading="loading">
         <el-form METHOD="post" :model="form" ref="form" :rules="rules">
             <div>
                 <h1>登录</h1>

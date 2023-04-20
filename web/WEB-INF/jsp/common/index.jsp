@@ -42,7 +42,7 @@
                         <el-menu-item index="user/updBasicInfo">基础信息修改</el-menu-item>
                         <el-menu-item index="user/updPassword">密码修改</el-menu-item>
                         <el-menu-item index="user/updRName">实名认证</el-menu-item>
-                <c:if test="${user.getRoleFlag()== 1}">
+                <c:if test="${user.getRoleFlag()== 2}">
                         <el-menu-item index="user/updWorkInfo">身份认证</el-menu-item>
                 </c:if>
                     </el-menu-item-group>
@@ -74,7 +74,7 @@
                 %>
                 <span><%=Today%></span>
                 <span style="text-align: right">
-                    <span><%=user.getUserName()%></span>
+                    <span><span id="roleFlag" style="display: none"><%=user.getRoleFlag()%></span><%=user.getUserName()%></span>
                     <el-dropdown>
                         <i class="bi bi-arrow-left-square-fill"></i>
                         <el-dropdown-menu slot="dropdown">

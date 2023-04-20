@@ -3,6 +3,7 @@ new Vue({
     data() {
         var that = this;
         return {
+            loading:false,
             form: {
                 userId: '',
                 password: '',
@@ -33,7 +34,8 @@ new Vue({
     },
     methods: {
         login(){
-            var that=this;
+            let that=this;
+            this.loading=true;
             this.$refs.form.validate(valid => {
                 if (valid) {
                     $.ajax({
@@ -51,6 +53,7 @@ new Vue({
                             } else {
                                 alert("账号或密码错误！")
                             }
+                            that.loading=false;
                         },
                         errors: function (e) {
                             alert("登录出错！请刷新页面重试")
