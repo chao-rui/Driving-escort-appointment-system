@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Coach;
+import entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,14 @@ public interface CoachDao {
 
     //教练信息查询（按驾校）
     @Select("SELECT * FROM coach WHERE CAR_SCHOOL_ID=#{cSchoolId}")
+    @Results(id="CUserInfoResultMap",value = {
+            @Result(property = "userId",column = "USER_ID",id = true),
+            @Result(property = "workId",column = "WORK_ID"),
+            @Result(property = "user",
+                    column = "USER_ID",
+                    javaType = User.class,
+                    one = @One(select = "dao.UserDao.getUserInfo"))
+    })
     List<Coach> getCoachByCSId(@Param("cSchoolId")String cSchoolId);
 
     //教练信息查询（按车辆类型）

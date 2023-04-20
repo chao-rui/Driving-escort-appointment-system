@@ -1,16 +1,21 @@
 new Vue({
     el:"#app",
-    mounted:function (){
-        this.getCSchoolByUid();
+    mounted:async function () {
+        this.loading = true;
+        await this.getCSchoolByUid();
+        await this.getCoachByCSId();
+        this.loading = false;
     },
     data:{
         rate:0,
         loading:false,
         form:{
+            carSchoolId:'',
             carSchoolName:'',
             carSchoolAdders:'',
             carSchoolPhone:'',
-            carSchoolDesc:''
+            carSchoolDesc:'',
+            appraiseCarSchool:0
         },
         rules:{
             cSchoolName: [
@@ -29,22 +34,39 @@ new Vue({
                 {required: true, message: '请输入驾校简介', trigger: 'blur'},
                 {max: 10, message: '用户名长度不能超过200字', trigger: 'blur'}
             ],
-        }
+        },
+        coachList:[]
     },
     methods:{
-        getCSchoolByUid() {
+        async getCSchoolByUid() {
+            let that = this;
+            await $.ajax({
+                url: "CarSchool/getCSchoolByUid",
+                data: {
+                    userId: sessionStorage.getItem("userId")
+                },
+                success: function (data) {
+                    that.rate = data.appraiseCarSchool;
+                    that.form = data;
+                },
+                error: function (e) {
+                    console.log(e);
+                    window.location.href = "error";
+                }
+            });
+        },
+        save(){
+
+        },
+        getCoachByCSId(){
             let that=this;
-            this.loading=true;
             $.ajax({
-                url:"CarSchool/getCSchoolByUid",
+                url:"Coach/getCoachByCSId",
                 data:{
-                    userId:sessionStorage.getItem("userId")
+                    cSchoolId:that.form.carSchoolId
                 },
                 success:function (data){
-                    console.log(data);
-                    that.rate=data.appraiseCarSchool;
-                    that.form=data;
-                    that.loading=false;
+                    that.coachList=data;
                 },
                 error:function (e) {
                     console.log(e);
@@ -52,7 +74,7 @@ new Vue({
                 }
             });
         },
-        save(){
+        delCoach(){
 
         }
     }

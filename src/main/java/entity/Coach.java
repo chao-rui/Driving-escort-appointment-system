@@ -9,4 +9,5 @@ public class Coach {
   private String workId;
   private String carSchoolId;
   private int appraiseCoach;
+  private User user;
 }

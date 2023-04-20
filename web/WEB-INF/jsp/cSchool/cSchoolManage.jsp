@@ -45,10 +45,36 @@
 
         </div>
     </el-form>
-    <el-rate v-model="rate" disabled show-score text-color="#ff9900" score-template="{value}"></el-rate>
-
-<%--    el-table 该驾校教练列表 工号 姓名 联系方式 评价 操作--%>
-
+    <el-rate v-model="form.appraiseCarSchool" disabled show-score text-color="#ff9900" score-template="{value}"></el-rate>
+    <el-table
+            :data="coachList"
+            style="width: 100%">
+        <el-table-column
+                prop="workId"
+                label="工号"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="user.userRname"
+                label="姓名"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="user.phone"
+                label="联系方式">
+        </el-table-column>
+        <el-table-column
+                prop="appraiseCoach"
+                label="评价">
+        </el-table-column>
+        <el-table-column
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button @click="delCoach(scope.row)" type="text" size="small">辞退</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
 </div>
 </body>
 </html>
