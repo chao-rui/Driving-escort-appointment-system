@@ -34,7 +34,7 @@ public interface CarSchoolDao {
     CarSchool getCSchoolById(@Param("cSchoolId")String cSchoolId);
 
     //更新驾校基础信息
-    @Update("UPDATE cschool" +
+    @Update("UPDATE cschool " +
             "SET CAR_SCHOOL_NAME = #{cSchoolName}," +
             "  CAR_SCHOOL_ADDERS = #{cSchoolAdders}, " +
             "  CAR_SCHOOL_DESC = #{cSchoolDesc}, " +

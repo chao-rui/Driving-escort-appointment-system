@@ -7,15 +7,17 @@ new Vue({
         this.loading = false;
     },
     data:{
-        rate:0,
         loading:false,
+        value1:10000,
+        value2:2999,
         form:{
             carSchoolId:'',
             carSchoolName:'',
             carSchoolAdders:'',
             carSchoolPhone:'',
             carSchoolDesc:'',
-            appraiseCarSchool:0
+            appraiseCarSchool:0,
+            appraiseContext:''
         },
         rules:{
             cSchoolName: [
@@ -46,8 +48,14 @@ new Vue({
                     userId: sessionStorage.getItem("userId")
                 },
                 success: function (data) {
-                    that.rate = data.appraiseCarSchool;
                     that.form = data;
+                    if(that.form.appraiseCarSchool===0){
+                        that.form.appraiseContext="刚刚起步，请开始加油吧"
+                    }else if(that.form.appraiseCarSchool<3){
+                        that.form.appraiseContext="找到原因，为更好的服务而奋斗吧"
+                    }else{
+                        that.form.appraiseContext="已经很优秀了，请继续保持"
+                    }
                 },
                 error: function (e) {
                     console.log(e);
@@ -56,7 +64,40 @@ new Vue({
             });
         },
         save(){
-
+            let that=this;
+            $.ajax({
+                url:"CarSchool/updCSchool",
+                data:{
+                    cSchoolId:that.form.carSchoolId,
+                    cSchoolName: that.form.carSchoolName,
+                    cSchoolAdders: that.form.carSchoolAdders,
+                    cSchoolDesc: that.form.carSchoolDesc,
+                    cSchoolPhone: that.form.carSchoolPhone,
+                    updDate:new Date()
+                },
+                success:function (data){
+                    if (data) {
+                        that.$notify({
+                            title: '成功',
+                            message: '更新成功',
+                            type: 'success'
+                        });
+                    } else {
+                        that.$notify({
+                            title: '警告',
+                            message: '更新失败,请重试',
+                            type: 'warning'
+                        });
+                    }
+                },
+                error:function (e) {
+                    that.$notify({
+                        title: '失败',
+                        message: '更新失败,错误信息' + e,
+                        type: 'error'
+                    });
+                }
+            });
         },
         getCoachByCSId(){
             let that=this;
@@ -74,7 +115,7 @@ new Vue({
                 }
             });
         },
-        delCoach(){
+        delCoach(row){
 
         }
     }

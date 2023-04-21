@@ -53,12 +53,20 @@ new Vue({
                             userId: sessionStorage.getItem("userId")
                         },
                         success: function (data) {
-                            that.$notify({
-                                title: '成功',
-                                message: '更新成功',
-                                type: 'success'
-                            });
-                            top.location.href="index";
+                            if(data) {
+                                that.$notify({
+                                    title: '成功',
+                                    message: '更新成功',
+                                    type: 'success'
+                                });
+                                top.location.href = "index";
+                            }else{
+                                that.$notify({
+                                    title: '警告',
+                                    message: '更新失败,请重试',
+                                    type: 'warning'
+                                });
+                            }
                         },
                         error: function (e) {
                             that.$notify({

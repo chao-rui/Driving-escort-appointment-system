@@ -43,7 +43,7 @@ new Vue({
                         },
                         success: function (data) {
                             if (data) {
-                                window.location.href = "/"
+                                window.location.href = "index"
                             } else {
                                 that.$message({
                                     type: 'error',

@@ -41,11 +41,19 @@ new Vue({
                             password: this.form.oldPwd
                         },
                         success: function (data) {
-                            that.$notify({
-                                title: '成功',
-                                message: '更新成功',
-                                type: 'success'
-                            });
+                            if (data) {
+                                that.$notify({
+                                    title: '成功',
+                                    message: '更新成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                that.$notify({
+                                    title: '警告',
+                                    message: '更新失败,原密码错误',
+                                    type: 'warning'
+                                });
+                            }
                         },
                         error: function (e) {
                             that.$notify({
