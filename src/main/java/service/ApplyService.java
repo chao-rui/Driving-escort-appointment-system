@@ -3,6 +3,7 @@ package service;
 import entity.Apply;
 
 import java.util.Date;
+import java.util.List;
 
 public interface ApplyService {
 
@@ -16,11 +17,8 @@ public interface ApplyService {
     Apply getApplyByAId(String applyId);
 
     //查询（按驾校）
-    Apply getApplyByCSId(String cSchoolId);
+    List<Apply> getApplyByCSId(String cSchoolId);
 
     //更新
     Boolean updApply(String applyId,String applyState,Date updDate);
-
-    //删除
-    Boolean delApply(String applyId);
 }

@@ -7,6 +7,8 @@ import service.ApplyService;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Service("ApplyService")
 public class ApplyServiceImpl implements ApplyService {
@@ -30,17 +32,16 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
-    public Apply getApplyByCSId(String cSchoolId) {
+    public List<Apply> getApplyByCSId(String cSchoolId) {
         return applyDao.getApplyByCSId(cSchoolId);
     }
 
     @Override
-    public Boolean updApply(String applyId, String applyState, Date updDate) {
-        return applyDao.updApply(applyId,applyState,updDate);
-    }
-
-    @Override
-    public Boolean delApply(String applyId) {
-        return applyDao.delApply(applyId);
+    public Boolean updApply(String applyId, String operate, Date updDate) {
+        if(Objects.equals(operate, "0")) {
+            return applyDao.updApply(applyId, "1", updDate);
+        }else{
+            return applyDao.delApply(applyId);
+        }
     }
 }

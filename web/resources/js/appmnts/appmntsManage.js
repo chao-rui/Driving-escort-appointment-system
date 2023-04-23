@@ -3,10 +3,10 @@ new Vue({
     mounted:function () {
         this.loading = true;
         if(sessionStorage.getItem("roleFlag")==="2"){
-            this.isCoach=false;
+            this.isCoach=true;
             this.getAppmntsByOId();
         }else{
-            this.isUser=false;
+            this.isUser=true;
             this.getAppmntsByUId();
         }
         this.loading = false;
@@ -14,8 +14,8 @@ new Vue({
     data:{
         CSchoolId:'',
         loading:false,
-        isCoach:true,
-        isUser:true,
+        isCoach:false,
+        isUser:false,
         appmntsList:[]
     },
     methods:{

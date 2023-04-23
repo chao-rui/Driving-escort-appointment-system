@@ -1,10 +1,12 @@
 package dao;
 
 import entity.Apply;
+import entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface ApplyDao {
@@ -26,8 +28,19 @@ public interface ApplyDao {
     Apply getApplyByAId(@Param("applyId")String applyId);
 
     //查询（按驾校）
-    @Select("SELECT * FROM apply WHERE CAR_SCHOOL_ID=#{cSchoolId};")
-    Apply getApplyByCSId(@Param("cSchoolId")String cSchoolId);
+    @Select("SELECT * FROM apply WHERE CAR_SCHOOL_ID=#{cSchoolId} AND APPLY_STATE=0;")
+    @Results(id="applyResultMap",value = {
+            @Result(property = "applyId",column = "APPLY_ID",id = true),
+            @Result(property = "user",
+                    column = "USER_ID",
+                    javaType = User.class,
+                    one = @One(select = "dao.UserDao.getUserInfo")),
+            @Result(property = "workId",column = "WORK_ID"),
+            @Result(property = "carSchoolId",column = "CAR_SCHOOL_ID"),
+            @Result(property = "applyState",column = "APPLY_STATE"),
+            @Result(property = "updateDate",column = "UPDATE_DATE")
+    })
+    List<Apply> getApplyByCSId(@Param("cSchoolId")String cSchoolId);
 
     //更新
     @Update("UPDATE apply SET" +

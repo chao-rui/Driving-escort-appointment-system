@@ -77,6 +77,6 @@ public interface UserDao {
 
     //注销
     @Delete("DELETE FROM user WHERE userId=#{userId}")
-    Boolean delRole(@Param("userId")String userId);
+    Boolean delUser(@Param("userId")String userId);
 
 }

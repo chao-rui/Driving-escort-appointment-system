@@ -36,7 +36,7 @@
         <p>您可以尝试：</p>
         <ul>
             <li>稍后再试</li>
-            <li><a href="/">重新登录</a></li>
+            <li><a href="/" target="_parent">重新登录</a></li>
         </ul>
     </el-card>
 </div>

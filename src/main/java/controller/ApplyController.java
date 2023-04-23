@@ -10,6 +10,7 @@ import service.ApplyService;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("Apply")
@@ -48,7 +49,7 @@ public class ApplyController {
     //查询（按驾校）
     @RequestMapping(value = "getApplyByCSId")
     @ResponseBody
-    public Apply getApplyByCSId(@RequestParam("cSchoolId")String cSchoolId){
+    public List<Apply> getApplyByCSId(@RequestParam("cSchoolId")String cSchoolId){
         return applyService.getApplyByCSId(cSchoolId);
 
     }
@@ -57,17 +58,10 @@ public class ApplyController {
     @RequestMapping(value = "updApply")
     @ResponseBody
     public Boolean updApply(@RequestParam("applyId")String applyId,
-                            @RequestParam("woapplyStaterkId")String applyState,
+                            @RequestParam("operate")String operate,
                             @RequestParam("updDate") Date updDate){
-        return applyService.updApply(applyId,applyState,updDate);
+        return applyService.updApply(applyId,operate,updDate);
 
     }
 
-    //删除
-    @RequestMapping(value = "delApply")
-    @ResponseBody
-    public Boolean delApply(@RequestParam("userId")String userId){
-        return applyService.delApply(userId);
-
-    }
 }

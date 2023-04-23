@@ -6,7 +6,20 @@ new Vue({
         isChecked:false
     },
     mounted:function (){
-        sessionStorage.setItem("roleFlag",$("#roleFlag").text())
+        let roleFlag=$("#roleFlag").text()
+        let baseSrc='show?url=common/';
+        sessionStorage.setItem("roleFlag",roleFlag);
+        if(roleFlag==="1"){
+            this.src=baseSrc+"newUserMain"
+        }else if(roleFlag==="2"){
+            this.src=baseSrc+"userMain"
+        }else if(roleFlag==="3"){
+            this.src=baseSrc+"coachMain"
+        }else if(roleFlag==="4"){
+            this.src=baseSrc+"CSAMain"
+        }else{
+            top.location.href="error";
+        }
     },
     methods:{
         changeContext(Index,menuItem){
