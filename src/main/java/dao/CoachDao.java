@@ -19,10 +19,6 @@ public interface CoachDao {
 
     //教练信息查询（按编号）
     @Select("SELECT * FROM coach WHERE USER_ID=#{UserId}")
-    Coach getCoachByUserId(@Param("UserId")String UserId);
-
-    //教练信息查询（按驾校）
-    @Select("SELECT * FROM coach WHERE CAR_SCHOOL_ID=#{cSchoolId}")
     @Results(id="CUserInfoResultMap",value = {
             @Result(property = "userId",column = "USER_ID",id = true),
             @Result(property = "workId",column = "WORK_ID"),
@@ -31,11 +27,17 @@ public interface CoachDao {
                     javaType = User.class,
                     one = @One(select = "dao.UserDao.getUserInfo"))
     })
+    Coach getCoachByUserId(@Param("UserId")String UserId);
+
+    //教练信息查询（按驾校）
+    @Select("SELECT * FROM coach WHERE CAR_SCHOOL_ID=#{cSchoolId}")
+    @ResultMap("CUserInfoResultMap")
     List<Coach> getCoachByCSId(@Param("cSchoolId")String cSchoolId);
 
     //教练信息查询（按车辆类型）
     @Select("SELECT * FROM coach JOIN car ON coach.USER_ID = car.USER_ID " +
             "WHERE car.CAR_MODEL = #{Model};")
+    @ResultMap("CUserInfoResultMap")
     List<Coach> getCoachByModel(@Param("Model")String Model);
 
 

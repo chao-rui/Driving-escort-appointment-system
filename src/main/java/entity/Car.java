@@ -12,6 +12,8 @@ public class Car {
   private String carBrands;
   private String carModel;
   private String carSchoolId;
+  private String userId;
   private String carFlag;
   private Date updateDate;
+  private User user;
 }

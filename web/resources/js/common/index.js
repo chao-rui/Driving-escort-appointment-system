@@ -3,26 +3,31 @@ new Vue({
     data:{
         today:'',
         src:'show?url=common/main',
+        mainSrc:'',
         isChecked:false
     },
     mounted:function (){
         let roleFlag=$("#roleFlag").text()
-        let baseSrc='show?url=common/';
+        let baseSrc='show?url=';
         sessionStorage.setItem("roleFlag",roleFlag);
         if(roleFlag==="1"){
-            this.src=baseSrc+"newUserMain"
+            this.mainSrc="common/newUserMain";
         }else if(roleFlag==="2"){
-            this.src=baseSrc+"userMain"
+            this.mainSrc="common/userMain"
         }else if(roleFlag==="3"){
-            this.src=baseSrc+"coachMain"
+            this.mainSrc="common/coachMain";
         }else if(roleFlag==="4"){
-            this.src=baseSrc+"CSAMain"
+            this.mainSrc="common/CSAMain";
         }else{
             top.location.href="error";
         }
+        this.src=baseSrc+this.mainSrc;
     },
     methods:{
         changeContext(Index,menuItem){
+            if(Index === "common/main"){
+                Index=this.mainSrc;
+            }
             this.src="show?url="+Index;
         },
         close(){

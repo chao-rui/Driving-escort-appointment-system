@@ -42,21 +42,23 @@
             </el-table-column>
             <el-table-column
                     prop="carModel"
-                    label="类型">
+                    label="类型"
+                    :formatter="carModelformatter">
             </el-table-column>
             <el-table-column
-                    prop="userRName"
+                    prop="user.userRname"
                     label="所属">
             </el-table-column>
             <el-table-column
                     prop="carFlag"
-                    label="状态">
+                    label="状态"
+                    :formatter="carFlagformatter">
             </el-table-column>
             <el-table-column
                     label="操作"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="updCar(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="updCar(scope.row)">编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -99,12 +101,13 @@
                 </el-form-item>
 
                 <el-form-item label="状态" prop="carFlag" label-width="80px">
-                    <el-select v-model="form.carFlag" filterable placeholder="请选择" style="width: 100%">
+                    <el-select v-model="form.carFlag" placeholder="请选择" style="width: 100%">
                         <el-option
                                 v-for="item in carFlagList"
                                 :key="item.carFlag"
                                 :label="item.label"
-                                :value="item.carFlag">
+                                :value="item.carFlag"
+                                :disabled="item.disabled">
                         </el-option>
                     </el-select>
                 </el-form-item>

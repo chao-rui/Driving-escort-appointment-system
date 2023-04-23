@@ -23,9 +23,10 @@ public class CarController {
     public Boolean addCar(@RequestParam("carNumber") String carNumber,
                           @RequestParam("carBrands") String carBrands,
                           @RequestParam("carModel") String carModel,
+                          @RequestParam("cSchoolId")String cSchoolId,
                           @RequestParam("userId") String userId,
                           @RequestParam("updDate") Date updDate) {
-        return carService.addCar(carNumber, carBrands, carModel, userId, updDate);
+        return carService.addCar(carNumber, carBrands, carModel,cSchoolId,userId, updDate);
     }
 
     @RequestMapping(value = "getCarByCS")
@@ -46,9 +47,10 @@ public class CarController {
                           @RequestParam("carNumber") String carNumber,
                           @RequestParam("carBrands") String carBrands,
                           @RequestParam("carModel") String carModel,
+                          @RequestParam("cSchoolId")String cSchoolId,
                           @RequestParam("userId") String userId,
                           @RequestParam("carFlag") String carFlag,
                           @RequestParam("updDate") Date updDate) {
-        return carService.updCar(carId, carNumber, carBrands, carModel, userId, carFlag, updDate);
+        return carService.updCar(carId, carNumber, carBrands, carModel,cSchoolId,userId, carFlag, updDate);
     }
 }

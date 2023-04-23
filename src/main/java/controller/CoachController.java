@@ -39,8 +39,8 @@ public class CoachController {
 
     @RequestMapping(value = "getCoachByModel")
     @ResponseBody
-    public List<Coach> getCoachByModel(@RequestParam("Model")String Model){
-        return coachService.getCoachByModel(Model);
+    public List<Coach> getCoachByModel(@RequestParam("carModel")String carModel){
+        return coachService.getCoachByModel(carModel);
     }
 
     @RequestMapping(value = "delCoach")

@@ -27,6 +27,19 @@ new Vue({
                 {required: true, message: '请输入品牌', trigger: 'blur'},
                 {max: 10, message: '品牌长度不能超过10位', trigger: 'blur'}
             ],
+            userId: [
+                {
+                    required: true, message: '请选择车辆所属',
+                    trigger: 'change',
+                    validator: (rule, value, callback) => {
+                        if (this.form.carFlag==="1" && !value) {
+                            callback(new Error('请选择车辆所属'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }
+            ],
             carModel: [
                 {required: true, message: '请选择车辆类型', trigger: 'blur'},
             ],
@@ -43,19 +56,24 @@ new Vue({
         }],
         carFlagList:[{
             carFlag: "0",
-            label:"未分配"
+            label:"未分配",
+            disabled:false
         },{
             carFlag: "1",
-            label:"正常"
+            label:"正常",
+            disabled:false
         },{
             carFlag: "2",
-            label:"预约中"
+            label:"预约中",
+            disabled:true,
         },{
             carFlag: "3",
-            label:"维修中"
+            label:"维修中",
+            disabled: false
         },{
             carFlag: "4",
-            label:"报废"
+            label:"报废",
+            disabled: true
         }],
         coachList:[]
     },
@@ -114,7 +132,76 @@ new Vue({
             this.getCoachByCSId();
         },
         save(){
-
-        }
+            let that= this;
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    that.loading=true;
+                    $.ajax({
+                        url: "Car/addCar",
+                        data: {
+                            carNumber:this.form.carNumber,
+                            carBrands:this.form.carBrands,
+                            carModel:this.form.carModel,
+                            cSchoolId:this.CSchoolId,
+                            userId:this.form.userId,
+                            updDate:new Date()
+                        },
+                        success: function (data) {
+                            if(data){
+                                that.$notify({
+                                title: '成功',
+                                message: '添加成功',
+                                type: 'success'});
+                                that.dialogVisible=false;
+                            }else{
+                                that.$notify({
+                                title: '失败',
+                                message: '添加,错误信息' + e,
+                                type: 'error'
+                            });}
+                        },
+                        error: function (e) {
+                            that.$notify({
+                                title: '失败',
+                                message: '添加,错误信息' + e,
+                                type: 'error'
+                            });
+                            top.location.href="error";
+                        }
+                    });
+                    that.loading= false;
+                } else {
+                    return false;
+                }
+            });
+        },
+        updCar(row){
+            this.dialogVisible=true;
+            this.getCoachByCSId();
+            this.form.carModel=row.carModel;
+            this.form.carBrands=row.carBrands;
+            this.form.carNumber=row.carNumber;
+            this.form.userId=row.user.userId;
+            this.form.carFlag=row.carFlag;
+        },
+        carModelformatter(row, column, cellValue) {
+            if(cellValue==="1"){
+                return "手动挡";
+            }else{
+                return "自动挡";
+            }
+        },
+        carFlagformatter(row, column, cellValue) {
+            let Flag='';
+            switch (cellValue){
+                case "0": Flag="未分配";break;
+                case "1": Flag="正常";break;
+                case "2": Flag="预约中";break;
+                case "3": Flag="维修中";break;
+                case "4": Flag="报废";break;
+                default:break;
+            }
+            return Flag;
+        },
     }
 });

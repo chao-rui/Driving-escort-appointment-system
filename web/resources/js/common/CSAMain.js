@@ -60,6 +60,7 @@ new Vue({
                             message: '更新成功',
                             type: 'success'
                         });
+                        window.location.href="index"
                     } else {
                         that.$notify({
                             title: '警告',

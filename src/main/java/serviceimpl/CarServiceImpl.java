@@ -16,8 +16,8 @@ public class CarServiceImpl implements CarService {
     CarDao carDao;
 
     @Override
-    public Boolean addCar(String carNumber,String carBrands,String carModel,String userId, Date updDate){
-        return carDao.addCar(carNumber,carBrands,carModel,userId,updDate);
+    public Boolean addCar(String carNumber,String carBrands,String carModel,String cSchoolId,String userId, Date updDate){
+        return carDao.addCar(carNumber,carBrands,carModel,cSchoolId,userId,updDate);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Boolean updCar(String carId,String carNumber,String carBrands,String carModel,String userId,String carFlag,Date updDate){
-        return carDao.updCar(carId,carNumber,carBrands,carModel,userId,carFlag,updDate);
+    public Boolean updCar(String carId,String carNumber,String carBrands,String carModel,String cSchoolId,String userId,String carFlag,Date updDate){
+        return carDao.updCar(carId,carNumber,carBrands,carModel,cSchoolId,userId,carFlag,updDate);
     }
 
 }
