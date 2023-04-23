@@ -18,9 +18,6 @@ public interface CoachService {
     //查询（按车辆类型）
     public List<Coach> getCoachByModel(String Model);
 
-    //更新驾校评价
-    public Boolean updAppCoach(String cSchoolId);
-
     //注销
     public Boolean delCoach(String userId);
 }

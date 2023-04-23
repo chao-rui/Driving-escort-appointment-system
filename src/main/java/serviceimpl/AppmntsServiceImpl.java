@@ -16,8 +16,8 @@ public class AppmntsServiceImpl implements AppmntsService {
     AppmntsDao appmntsDao;
 
     @Override
-    public Boolean addAppmnts(String userId, String objectId, int time, Date startDate, Date endDate, String appmntsAdders){
-        return appmntsDao.addAppmnts(userId,objectId,time,startDate,endDate,appmntsAdders);
+    public Boolean addAppmnts(String userId, String objectId, int time, Date startDate, Date endDate){
+        return appmntsDao.addAppmnts(userId,objectId,time,startDate,endDate);
     }
 
     @Override
@@ -31,6 +31,11 @@ public class AppmntsServiceImpl implements AppmntsService {
     }
 
     @Override
+    public List<Appmnts> getAppmntsByUId(String userId) {
+        return appmntsDao.getAppmntsByUId(userId);
+    }
+
+    @Override
     public Boolean updAppmnts(String appmntsId,int time, Date startDate,Date endDate,String appmntsAdder,String appmntsState){
         return appmntsDao.updAppmnts(appmntsId,time,startDate,endDate,appmntsAdder,appmntsState);
     }
@@ -40,9 +45,5 @@ public class AppmntsServiceImpl implements AppmntsService {
         return appmntsDao.updAppraise(appmntsId,appraise,appContext);
     }
 
-    @Override
-    public Boolean updAppCoach(String ObjectId){
-        return appmntsDao.updAppCoach(ObjectId);
-    }
 
 }

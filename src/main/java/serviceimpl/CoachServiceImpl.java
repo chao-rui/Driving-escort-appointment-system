@@ -35,11 +35,6 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public Boolean updAppCoach(String cSchoolId){
-        return coachDao.updAppCoach(cSchoolId);
-    }
-
-    @Override
     public Boolean delCoach(String userId){
         return coachDao.delCoach(userId);
     }

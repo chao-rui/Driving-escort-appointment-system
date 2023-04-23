@@ -6,11 +6,61 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
 <head>
-    <title>Title</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/fullPage.css">
+        <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/appmnts/appmntsManage.js" type="module"></script>
+        <title>预约管理</title>
+    </head>
 </head>
 <body>
-<h1>预约管理页</h1>
+<div id="app" v-loading="loading">
+    <el-card>
+        <el-table
+                :data="appmntsList"
+                style="width: 100%">
+            <el-table-column
+                    v-if="isUser"
+                    prop="user.userRname"
+                    label="用户"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    v-if="isCoach"
+                    prop="object.userRname"
+                    label="教练"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="time"
+                    label="开始时间">
+            </el-table-column>
+            <el-table-column
+                    prop="appraise"
+                    label="评价">
+            </el-table-column>
+            <el-table-column
+                    prop="appointmentState"
+                    label="状态">
+            </el-table-column>
+            <el-table-column
+                    label="操作"
+                    width="100">
+                <template slot-scope="scope">
+                    <el-button @click="delCoach(scope.row)" type="text" size="small">查看</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-card>
+</div>
 </body>
 </html>
+

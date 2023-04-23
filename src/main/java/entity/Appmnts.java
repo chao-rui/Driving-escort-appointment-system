@@ -13,9 +13,9 @@ public class Appmnts {
   private int time;
   private Date startDate;
   private Date endDate;
-  private String appointmentAdders;
   private String appointmentState;
   private int appraise;
   private String appraiseContext;
+  private User user;
 
 }

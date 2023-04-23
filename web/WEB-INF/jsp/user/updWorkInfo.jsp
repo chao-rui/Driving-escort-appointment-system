@@ -24,8 +24,8 @@
 <div id="app" v-loading="loading">
     <el-card class="box-card">
         <el-tabs v-model="tabName">
-            <el-tab-pane label="教练" name="first">
-                <el-form :model="formCoach" ref="formCoach" id="formCoach" METHOD="post" :rules="rulesCoach" label-width="80px">
+            <el-tab-pane label="教练" name="first" :disabled="isApply">
+                <el-form :model="formCoach" ref="formCoach" id="formCoach"  :rules="rulesCoach" label-width="80px" :disabled="isApply">
                     <div>
                         <h1>身份认证</h1>
 
@@ -44,13 +44,13 @@
                             </el-select>
                         </el-form-item>
 
-                        <el-button type="primary" @click="saveCoach">开始认证</el-button>
+                        <el-button type="primary" @click="saveCoach">{{applyState}}</el-button>
 
                     </div>
                 </el-form>
             </el-tab-pane>
-            <el-tab-pane label="驾校管理员" name="second">
-                <el-form :model="formCSA" ref="formCSA" id="formCSA" METHOD="post" :rules="rulesCSA" label-width="80px">
+            <el-tab-pane label="驾校管理员" name="second" :disabled="isApply">
+                <el-form :model="formCSA" ref="formCSA" id="formCSA"  :rules="rulesCSA" label-width="80px" :disabled="isApply">
                     <div>
                         <h1>身份认证</h1>
 

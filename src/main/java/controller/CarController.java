@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("Car")
 public class CarController {
 
     @Resource

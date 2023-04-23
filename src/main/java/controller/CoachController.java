@@ -43,12 +43,6 @@ public class CoachController {
         return coachService.getCoachByModel(Model);
     }
 
-    @RequestMapping(value = "updAppCoach")
-    @ResponseBody
-    public Boolean updAppCoach(@RequestParam("cSchoolId")String cSchoolId){
-        return coachService.updAppCoach(cSchoolId);
-    }
-
     @RequestMapping(value = "delCoach")
     @ResponseBody
     public Boolean delCoach(@RequestParam("userId")String userId){

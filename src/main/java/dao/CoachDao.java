@@ -38,13 +38,6 @@ public interface CoachDao {
             "WHERE car.CAR_MODEL = #{Model};")
     List<Coach> getCoachByModel(@Param("Model")String Model);
 
-    //更新驾校评价
-    @Update("UPDATE cschool SET " +
-            "APPRAISE_CAR_SCHOOL =(SELECT AVG(APPRAISE_COACH) FROM coach" +
-            "                     WHERE CAR_SCHOOL_ID=#{cSchoolId}" +
-            "                     GROUP BY CAR_SCHOOL_ID)" +
-            "WHERE CAR_SCHOOL_ID=#{cSchoolId};")
-    Boolean updAppCoach(@Param("cSchoolId")String cSchoolId);
 
     //注销
     @Delete("DELETE FROM coach WHERE USER_ID=#{userId};")

@@ -23,9 +23,8 @@ public class AppmntsController {
                               @RequestParam("objectId") String objectId,
                               @RequestParam("time") int time,
                               @RequestParam("startDate") Date startDate,
-                              @RequestParam("endDate") Date endDate,
-                              @RequestParam("appmntsAdders") String appmntsAdders) {
-        return appmntsService.addAppmnts(userId, objectId, time, startDate, endDate, appmntsAdders);
+                              @RequestParam("endDate") Date endDate) {
+        return appmntsService.addAppmnts(userId, objectId, time, startDate, endDate);
     }
 
     @RequestMapping(value = "getAppmntsById")
@@ -38,6 +37,12 @@ public class AppmntsController {
     @ResponseBody
     public List<Appmnts> getAppmntsByOId(@RequestParam("objectId") String objectId) {
         return appmntsService.getAppmntsByOId(objectId);
+    }
+
+    @RequestMapping(value = "getAppmntsByUId")
+    @ResponseBody
+    public List<Appmnts> getAppmntsByUId(@RequestParam("userId") String userId) {
+        return appmntsService.getAppmntsByUId(userId);
     }
 
     @RequestMapping(value = "updAppmnts")
@@ -59,9 +64,4 @@ public class AppmntsController {
         return appmntsService.updAppraise(appmntsId, appraise, appContext);
     }
 
-    @RequestMapping(value = "updAppCoach")
-    @ResponseBody
-    public Boolean updAppCoach(@RequestParam("ObjectId") String ObjectId) {
-        return appmntsService.updAppCoach(ObjectId);
-    }
 }

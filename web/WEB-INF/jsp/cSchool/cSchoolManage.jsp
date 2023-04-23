@@ -52,8 +52,7 @@
         <el-col :span="8">
             <el-card>
                 <el-row style="text-align: center">
-                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900" score-template="{value}"
-                             style="font-size: xx-large"></el-rate>
+                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900" score-template="{value}"></el-rate>
                 </el-row>
                 <el-row style="text-align: center">
                     <strong style="font-size: xxx-large;color: gold">{{form.appraiseCarSchool}}</strong>

@@ -2,10 +2,12 @@ new Vue({
     el: '#app',
     mounted:function (){
         this.getCSchoolAll();
+        this.getApplyByUId();
     },
     data:{
-        CSchoolInfo:[{carSchoolId: '0', carSchoolName: '测试'}],
+        CSchoolInfo:[],
         tabName:"first",
+        isApply:false,
         formCoach: {
             workId: '',
             CSchoolId: '',
@@ -21,6 +23,7 @@ new Vue({
         },
         loading: false,
         dialogVisible:false,
+        applyState:'开始认证',
         rulesCoach: {
             workId: [
                 {required: true, message: '请输入工号', trigger: 'blur'},
@@ -64,22 +67,45 @@ new Vue({
                 }
             });
         },
+        getApplyByUId(){
+            let that=this;
+            $.ajax({
+                url:"Apply/getApplyByUId",
+                data:{
+                    userId:sessionStorage.getItem("userId")
+                },
+                success:function (data){
+                    if(data) {
+                        that.formCoach.workId = data.workId;
+                        that.formCoach.CSchoolId = data.carSchoolId.toString();
+                        that.tabName = "first";
+                        that.isApply = true;
+                        that.applyState='审核中'
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    window.location.href="error"
+                }
+            });
+        },
         saveCoach(){
             let that= this;
             this.$refs.formCoach.validate(valid => {
                 if (valid) {
                     that.loading=true;
                     $.ajax({
-                        url: "Coach/addCoach",
+                        url: "Apply/addApply",
                         data: {
+                            userId: sessionStorage.getItem("userId"),
                             workId: this.formCoach.workId,
-                            carSchoolId: this.formCoach.CSchoolId,
-                            userId: sessionStorage.getItem("userId")
+                            cSchoolId: this.formCoach.CSchoolId,
+                            updDate:new Date()
                         },
                         success: function (data) {
                             that.$notify({
                                 title: '成功',
-                                message: '更新成功',
+                                message: '申请成功',
                                 type: 'success'
                             });
                             top.location.href="index";
@@ -87,7 +113,7 @@ new Vue({
                         error: function (e) {
                             that.$notify({
                                 title: '失败',
-                                message: '更新失败,错误信息' + e,
+                                message: '申请失败,错误信息' + e,
                                 type: 'error'
                             });
                         }
