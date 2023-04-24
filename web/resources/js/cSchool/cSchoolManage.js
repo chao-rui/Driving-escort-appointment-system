@@ -4,12 +4,18 @@ new Vue({
         this.loading = true;
         await this.getCSchoolByUid();
         await this.getCoachByCSId();
+        this.countCoach= +this.getCountSome('countCoach');
+        this.countCar= +this.getCountSome('countCar');
+        this.countApp= +this.getCountSome('countApp');
+        this.sumApp= +this.getCountSome('sumApp');
         this.loading = false;
     },
     data:{
         loading:false,
-        value1:10000,
-        value2:2999,
+        countCoach:'',
+        countCar:'',
+        countApp:'',
+        sumApp:'',
         form:{
             carSchoolId:'',
             carSchoolName:'',
@@ -117,6 +123,24 @@ new Vue({
         },
         delCoach(row){
 
+        },
+        getCountSome(object){
+            let result='';
+            $.ajax({
+                url:'Stats/'+object+'InCS',
+                async:false,
+                data:{
+                    cSchoolId:this.form.carSchoolId,
+                },
+                success:function (data){
+                    result=data;
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
+            return result;
         }
     }
 });

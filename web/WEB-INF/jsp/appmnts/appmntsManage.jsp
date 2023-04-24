@@ -69,11 +69,54 @@
                     label="操作"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="delCoach(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button @click="getAppmnts(scope.row)" type="text" size="small" v-if="isCoach">查看</el-button>
+                    <el-button @click="updAppmnts(scope.row)" type="text" size="small" v-if="isUser">修改</el-button>
+                    <el-button @click="updAppraise(scope.row)" type="text" size="small">评价</el-button>
                 </template>
             </el-table-column>
         </el-table>
     </el-card>
+    <el-dialog
+            title="预约"
+            :visible.sync="appmntsDig"
+            width="30%">
+        <el-form :model="form" METHOD="post" label-width="80px">
+
+            <el-form-item label="开始时间">
+                <el-time-select
+                        placeholder="开始时间"
+                        v-model="form.startDate"
+                        @change="updTime"
+                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',maxTime:form.endDate}">
+                </el-time-select>
+            </el-form-item>
+
+            <el-form-item label="结束时间">
+                <el-time-select
+                        placeholder="结束时间"
+                        v-model="form.endDate"
+                        @change="updTime"
+                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: form.startDate}">
+                </el-time-select>
+            </el-form-item>
+
+            <el-form-item label="状态">
+            <el-select v-model="form.appmntsState" placeholder="请选择">
+                <el-option
+                        v-for="item in appmntsStateList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+            </el-form-item>
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="appmntsDig = false">取 消</el-button>
+        <el-button type="primary" @click="appmntsDig = false">提交</el-button>
+        </span>
+    </el-dialog>
 </div>
 </body>
 </html>

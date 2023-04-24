@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 public interface StatsDao {
 
     //统计驾校中学员的人数
-    @Select("SELECT COUNT(*) FORM coach WHERE CAR_SCHOOL_ID=#{cSchoolId}")
+    @Select("SELECT COUNT(*) FROM coach WHERE CAR_SCHOOL_ID=#{cSchoolId};")
     String countCoachInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计驾校的车辆数
-    @Select("SELECT COUNT(*) FORM car WHERE CAR_SCHOOL_ID=#{cSchoolId}")
+    @Select("SELECT COUNT(*) FROM car WHERE CAR_SCHOOL_ID=#{cSchoolId};")
     String countCarInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计驾校中所有教练的预约次数

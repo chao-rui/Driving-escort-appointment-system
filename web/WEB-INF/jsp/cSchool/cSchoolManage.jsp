@@ -63,24 +63,24 @@
                 <el-row>
                     <el-col :span="12">
                         <div>
-                            <el-statistic :value="value1" title="员工数量" suffix="人"></el-statistic>
+                            <el-statistic :value="countCoach" title="员工数量" suffix="人"></el-statistic>
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div>
-                            <el-statistic :value="value2" title="车辆数量" suffix="辆"></el-statistic>
+                            <el-statistic :value="countCar" title="车辆数量" suffix="辆"></el-statistic>
                         </div>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <div>
-                            <el-statistic :value="value1" title="预约次数" suffix="次"></el-statistic>
+                            <el-statistic :value="countApp" title="预约次数" suffix="次"></el-statistic>
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div>
-                            <el-statistic :value="value2" title="预约时长" suffix="小时"></el-statistic>
+                            <el-statistic :value="sumApp" title="预约时长" suffix="小时"></el-statistic>
                         </div>
                     </el-col>
                 </el-row>
