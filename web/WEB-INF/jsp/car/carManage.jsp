@@ -43,7 +43,7 @@
             <el-table-column
                     prop="carModel"
                     label="类型"
-                    :formatter="carModelformatter">
+                    :formatter="carModelFormatter">
             </el-table-column>
             <el-table-column
                     prop="user.userRname"
@@ -52,7 +52,7 @@
             <el-table-column
                     prop="carFlag"
                     label="状态"
-                    :formatter="carFlagformatter">
+                    :formatter="carFlagFormatter">
             </el-table-column>
             <el-table-column
                     label="操作"
@@ -100,7 +100,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="状态" prop="carFlag" label-width="80px">
+                <el-form-item label="状态" prop="carFlag" label-width="80px" v-if="isUpd">
                     <el-select v-model="form.carFlag" placeholder="请选择" style="width: 100%">
                         <el-option
                                 v-for="item in carFlagList"

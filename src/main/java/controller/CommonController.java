@@ -32,8 +32,7 @@ public class CommonController {
     public User login(@RequestParam("userId")String userId,
                       @RequestParam("password")String password,
                       HttpSession session){
-        String passwordMD5= DigestUtils.md5DigestAsHex(password.getBytes());
-        User user=userService.login(userId,passwordMD5);
+        User user=userService.login(userId,password);
         if(user != null){
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();

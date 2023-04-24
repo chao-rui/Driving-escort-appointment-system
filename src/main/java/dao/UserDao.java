@@ -34,8 +34,7 @@ public interface UserDao {
     //实名认证
     @Update("UPDATE user SET  " +
             "USER_RNAME=#{userRName}, " +
-            " ID_NUMBER=#{idNumber}," +
-            " ROLE_FLAG=2 " +
+            " ID_NUMBER=#{idNumber}" +
             "WHERE USER_ID=#{userId}")
     Boolean setRName(@Param("userRName")String UserRName,
                      @Param("idNumber")String idNumber,

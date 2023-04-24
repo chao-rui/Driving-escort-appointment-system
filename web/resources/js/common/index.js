@@ -2,7 +2,7 @@ new Vue({
     el: '#app',
     data:{
         today:'',
-        src:'show?url=common/main',
+        src:'',
         mainSrc:'',
         isChecked:false
     },
@@ -10,14 +10,12 @@ new Vue({
         let roleFlag=$("#roleFlag").text()
         let baseSrc='show?url=';
         sessionStorage.setItem("roleFlag",roleFlag);
-        if(roleFlag==="1"){
-            this.mainSrc="common/newUserMain";
-        }else if(roleFlag==="2"){
-            this.mainSrc="common/userMain"
+        if(roleFlag==="1" || roleFlag==="2"){
+            this.mainSrc="main/userMain"
         }else if(roleFlag==="3"){
-            this.mainSrc="common/coachMain";
+            this.mainSrc="main/coachMain";
         }else if(roleFlag==="4"){
-            this.mainSrc="common/CSAMain";
+            this.mainSrc="main/CSAMain";
         }else{
             top.location.href="error";
         }
@@ -25,7 +23,7 @@ new Vue({
     },
     methods:{
         changeContext(Index,menuItem){
-            if(Index === "common/main"){
+            if(Index === "main"){
                 Index=this.mainSrc;
             }
             this.src="show?url="+Index;

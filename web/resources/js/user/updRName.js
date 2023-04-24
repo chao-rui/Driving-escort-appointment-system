@@ -1,10 +1,7 @@
 new Vue({
     el: '#app',
     mounted:function (){
-        if(sessionStorage.getItem("roleFlag")!=="1"){
-            this.readOnly=true;
             this.getUserInfo();
-        }
     },
     data:{
         form: {
@@ -37,6 +34,7 @@ new Vue({
                 success:function (data){
                     that.form.userRName=data.userRname;
                     that.form.idNumber=data.idNumber;
+                    that.readOnly=true;
                 }
             });
         },
@@ -57,13 +55,16 @@ new Vue({
                                 that.$notify({
                                     title: '成功',
                                     message: '更新成功',
-                                    type: 'success'
+                                    type: 'success',
+                                    duration:1500,
+                                    onClose(){
+                                        top.location.href = "index";
+                                    }
                                 });
-                                top.location.href = "index";
                             }else{
                                 that.$notify({
                                     title: '警告',
-                                    message: '更新失败,请重试',
+                                    message: '更新失败',
                                     type: 'warning'
                                 });
                             }

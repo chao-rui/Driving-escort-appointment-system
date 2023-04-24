@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("Appmnts")
 public class AppmntsController {
 
     @Resource
@@ -21,10 +22,10 @@ public class AppmntsController {
     @ResponseBody
     public Boolean addAppmnts(@RequestParam("userId") String userId,
                               @RequestParam("objectId") String objectId,
-                              @RequestParam("time") int time,
+                              @RequestParam("time") String time,
                               @RequestParam("startDate") Date startDate,
                               @RequestParam("endDate") Date endDate) {
-        return appmntsService.addAppmnts(userId, objectId, time, startDate, endDate);
+        return appmntsService.addAppmnts(userId, objectId, Double.parseDouble(time), startDate, endDate);
     }
 
     @RequestMapping(value = "getAppmntsById")
@@ -48,20 +49,20 @@ public class AppmntsController {
     @RequestMapping(value = "updAppmnts")
     @ResponseBody
     public Boolean updAppmnts(@RequestParam("appmntsId") String appmntsId,
-                              @RequestParam("time") int time,
+                              @RequestParam("time") String time,
                               @RequestParam("startDate") Date startDate,
                               @RequestParam("endDate") Date endDate,
                               @RequestParam("appmntsAdder") String appmntsAdder,
                               @RequestParam("appmntsState") String appmntsState) {
-        return appmntsService.updAppmnts(appmntsId, time, startDate, endDate, appmntsAdder, appmntsState);
+        return appmntsService.updAppmnts(appmntsId, Double.parseDouble(time), startDate, endDate, appmntsAdder, appmntsState);
     }
 
     @RequestMapping(value = "updAppraise")
     @ResponseBody
     public Boolean updAppraise(@RequestParam("appmntsId") String appmntsId,
-                               @RequestParam("appraise") int appraise,
+                               @RequestParam("appraise") String appraise,
                                @RequestParam("appContext") String appContext) {
-        return appmntsService.updAppraise(appmntsId, appraise, appContext);
+        return appmntsService.updAppraise(appmntsId, Double.parseDouble(appraise), appContext);
     }
 
 }

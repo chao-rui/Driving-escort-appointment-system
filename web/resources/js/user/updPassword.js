@@ -45,7 +45,11 @@ new Vue({
                                 that.$notify({
                                     title: '成功',
                                     message: '更新成功',
-                                    type: 'success'
+                                    type: 'success',
+                                    duration:1500,
+                                    onClose(){
+                                        location.reload();
+                                    }
                                 });
                             } else {
                                 that.$notify({
@@ -70,7 +74,7 @@ new Vue({
             });
         },
         check(rule, value, callback) {
-            if (value !== this.form.password) {
+            if (value !== this.form.newPwd) {
                 callback(new Error('两次输入密码不一致!'));
             } else {
                 callback();

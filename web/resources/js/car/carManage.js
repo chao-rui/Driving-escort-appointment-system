@@ -6,76 +6,49 @@ new Vue({
         await this.getCarByCSId();
         this.loading = false;
     },
-    data:{
-        CSchoolId:'',
-        dialogVisible: false,
-        loading:false,
-        carList:[],
-        form:{
-            carNumber:'',
-            carBrands:'',
-            carModel:'',
-            userId:'',
-            carFlag:'',
-        },
-        rules:{
-            carNumber: [
-                {required: true, message: '请输入车牌号', trigger: 'blur'},
-                {max: 7, message: '车牌号名称长度不能超过10位', trigger: 'blur'}
-            ],
-            carBrands: [
-                {required: true, message: '请输入品牌', trigger: 'blur'},
-                {max: 10, message: '品牌长度不能超过10位', trigger: 'blur'}
-            ],
-            userId: [
-                {
-                    required: true, message: '请选择车辆所属',
-                    trigger: 'change',
-                    validator: (rule, value, callback) => {
-                        if (this.form.carFlag==="1" && !value) {
-                            callback(new Error('请选择车辆所属'));
-                        } else {
-                            callback();
-                        }
-                    }
-                }
-            ],
-            carModel: [
-                {required: true, message: '请选择车辆类型', trigger: 'blur'},
-            ],
-            carFlag: [
-                {required: true, message: '请选择车辆状态', trigger: 'blur'},
-            ],
-        },
-        carModelList:[{
-            carModel:"1",
-            label:"手动挡"
-        },{
-            carModel:"2",
-            label:"自动挡"
-        }],
-        carFlagList:[{
-            carFlag: "0",
-            label:"未分配",
-            disabled:false
-        },{
-            carFlag: "1",
-            label:"正常",
-            disabled:false
-        },{
-            carFlag: "2",
-            label:"预约中",
-            disabled:true,
-        },{
-            carFlag: "3",
-            label:"维修中",
-            disabled: false
-        },{
-            carFlag: "4",
-            label:"报废",
-            disabled: true
-        }],
-        coachList:[]
+    data() {
+        let that = this;
+        return {
+            CSchoolId: '',
+            dialogVisible: false,
+            loading: false,
+            isUpd:false,
+            carList: [],
+            form: {
+                carNumber: '',
+                carBrands: '',
+                carModel: '',
+                userId: '',
+                carFlag: '',
+            },
+            rules: {
+                carNumber: [
+                    {required: true, message: '请输入车牌号', trigger: 'blur'},
+                    {max: 7, message: '车牌号名称长度不能超过10位', trigger: 'blur'}
+                ],
+                carBrands: [
+                    {required: true, message: '请输入品牌', trigger: 'blur'},
+                    {max: 10, message: '品牌长度不能超过10位', trigger: 'blur'}
+                ],
+                userId: [
+                    {required: true, message: '请选择车辆所属', trigger: 'change', validator: that.check}
+                ],
+                carModel: [
+                    {required: true, message: '请选择车辆类型', trigger: 'blur'},
+                ],
+                carFlag: [
+                    {required: true, message: '请选择车辆状态', trigger: 'blur'},
+                ],
+            },
+            carModelList: [{carModel: "1", label: "手动挡"},
+                           {carModel: "2", label: "自动挡"}],
+            carFlagList: [{carFlag: "0", label: "未分配", disabled: false},
+                          {carFlag: "1", label: "正常", disabled: false},
+                          {carFlag: "2", label: "预约中", disabled: true},
+                          {carFlag: "3", label: "维修中", disabled: false},
+                          {carFlag: "4", label: "报废", disabled: true}],
+            coachList: []
+        }
     },
     methods:{
         async getCSchoolByUid() {
@@ -119,7 +92,6 @@ new Vue({
                 },
                 success:function (data){
                     that.coachList=data;
-                    console.log(data);
                 },
                 error:function (e) {
                     console.log(e);
@@ -151,12 +123,16 @@ new Vue({
                                 that.$notify({
                                 title: '成功',
                                 message: '添加成功',
-                                type: 'success'});
+                                type: 'success',
+                                duration:1500,
+                                onClose(){
+                                    location.reload();
+                                }});
                                 that.dialogVisible=false;
                             }else{
                                 that.$notify({
                                 title: '失败',
-                                message: '添加,错误信息' + e,
+                                message: '添加失败',
                                 type: 'error'
                             });}
                         },
@@ -164,9 +140,12 @@ new Vue({
                             that.$notify({
                                 title: '失败',
                                 message: '添加,错误信息' + e,
-                                type: 'error'
+                                type: 'error',
+                                duration:1500,
+                                onClose(){
+                                    top.location.href="error";
+                                }
                             });
-                            top.location.href="error";
                         }
                     });
                     that.loading= false;
@@ -183,15 +162,16 @@ new Vue({
             this.form.carNumber=row.carNumber;
             this.form.userId=row.user.userId;
             this.form.carFlag=row.carFlag;
+            this.isUpd=true;
         },
-        carModelformatter(row, column, cellValue) {
+        carModelFormatter(row, column, cellValue) {
             if(cellValue==="1"){
                 return "手动挡";
             }else{
                 return "自动挡";
             }
         },
-        carFlagformatter(row, column, cellValue) {
+        carFlagFormatter(row, column, cellValue) {
             let Flag='';
             switch (cellValue){
                 case "0": Flag="未分配";break;
@@ -203,5 +183,12 @@ new Vue({
             }
             return Flag;
         },
+        check(rule, value, callback) {
+            if (this.form.carFlag === "1" && !value) {
+                callback(new Error('请选择车辆所属'));
+            } else {
+                callback();
+            }
+        }
     }
 });

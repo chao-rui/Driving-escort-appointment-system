@@ -32,7 +32,7 @@
     <el-container>
         <el-aside>
             <el-menu :default-openeds="['2']" @select="changeContext">
-                <el-menu-item index="common/main">
+                <el-menu-item index="main">
                     <i class="el-icon-s-home"></i>
                     <span slot="title">首页</span>
                 </el-menu-item>

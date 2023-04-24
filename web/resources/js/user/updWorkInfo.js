@@ -106,9 +106,12 @@ new Vue({
                             that.$notify({
                                 title: '成功',
                                 message: '申请成功',
-                                type: 'success'
+                                type: 'success',
+                                duration:1500,
+                                onClose(){
+                                    top.location.href = "index";
+                                }
                             });
-                            top.location.href="index";
                         },
                         error: function (e) {
                             that.$notify({
@@ -153,9 +156,12 @@ new Vue({
                             that.$notify({
                                 title: '成功',
                                 message: '更新成功',
-                                type: 'success'
+                                type: 'success',
+                                duration:1500,
+                                onClose(){
+                                    top.location.href = "index";
+                                }
                             });
-                            top.location.href="index";
                         },
                         error: function (e) {
                             that.$notify({

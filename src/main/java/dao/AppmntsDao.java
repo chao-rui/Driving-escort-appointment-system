@@ -13,17 +13,17 @@ public interface AppmntsDao {
 
     //新增预约信息
     @Insert("INSERT INTO appmnts (USER_ID, OBJECT_ID, TIME, START_DATE, END_DATE, APPOINTMENT_STATE)" +
-            "VALUES (#{userId},#{objectId},#{time}),#{startDate},#{endDate},1);")
+            "VALUES (#{userId},#{objectId},#{time},#{startDate},#{endDate},1);")
     Boolean addAppmnts(@Param("userId")String userId,
                        @Param("objectId")String objectId,
-                       @Param("time")int time,
+                       @Param("time")double time,
                        @Param("startDate")Date startDate,
                        @Param("endDate")Date endDate);
 
     //查询预约信息（按编号）
     @Select("SELECT * FROM appmnts WHERE APPOINTMENT_ID=#{appmntsId};")
     @Results(id = "CUserInfoResultMap",value = {
-            @Result(property = "appmntsId",column = "APPOINTMENT_ID",id = true),
+            @Result(property = "appointmentId",column = "APPOINTMENT_ID",id = true),
             @Result(property = "user",
                     column = "USER_ID",
                     javaType = User.class,
@@ -35,7 +35,7 @@ public interface AppmntsDao {
             @Result(property = "time",column = "APPOINTMENT_ID"),
             @Result(property = "startDate",column = "START_DATE"),
             @Result(property = "endDate",column = "END_DATE"),
-            @Result(property = "appmntState",column = "APPOINTMENT_STATE"),
+            @Result(property = "appointmentState",column = "APPOINTMENT_STATE"),
             @Result(property = "appraise",column = "APPRAISE"),
             @Result(property = "appraiseContext",column = "APPRAISE_CONTEXT"),
     })
@@ -60,7 +60,7 @@ public interface AppmntsDao {
             " APPOINTMENT_STATE=#{appmntsState}" +
             "WHERE APPOINTMENT_ID=#{appmntsId};")
     Boolean updAppmnts(@Param("appmntsId")String appmntsId,
-                       @Param("time")int time,
+                       @Param("time")double time,
                        @Param("startDate")Date startDate,
                        @Param("endDate")Date endDate,
                        @Param("appmntsAdders")String appmntsAdders,
@@ -72,7 +72,7 @@ public interface AppmntsDao {
             "APPRAISE_CONTEXT=#{appContext}" +
             "WHERE APPOINTMENT_ID=#{appmntsId};")
     Boolean updAppraise(@Param("appmntsId")String appmntsId,
-                        @Param("appraise")int appraise,
+                        @Param("appraise")double appraise,
                         @Param("appContext")String appContext);
 
 }

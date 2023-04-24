@@ -28,20 +28,33 @@
                 :data="appmntsList"
                 style="width: 100%">
             <el-table-column
-                    v-if="isUser"
+                    v-if="isCoach"
                     prop="user.userRname"
                     label="用户"
-                    width="180">
+                    :formatter="userRNameFormatter">
             </el-table-column>
             <el-table-column
                     v-if="isCoach"
-                    prop="object.userRname"
-                    label="教练"
-                    width="180">
+                    prop="user.phone"
+                    label="联系方式">
             </el-table-column>
             <el-table-column
-                    prop="time"
+                    v-if="isUser"
+                    prop="object.userRname"
+                    label="教练">
+            </el-table-column>
+            <el-table-column
+                    v-if="isUser"
+                    prop="object.phone"
+                    label="教练">
+            </el-table-column>
+            <el-table-column
+                    prop="startDate"
                     label="开始时间">
+            </el-table-column>
+            <el-table-column
+                    prop="endDate"
+                    label="结束时间">
             </el-table-column>
             <el-table-column
                     prop="appraise"
@@ -49,7 +62,8 @@
             </el-table-column>
             <el-table-column
                     prop="appointmentState"
-                    label="状态">
+                    label="状态"
+                    :formatter="appmntsStateFormatter">
             </el-table-column>
             <el-table-column
                     label="操作"
