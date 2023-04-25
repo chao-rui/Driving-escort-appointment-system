@@ -20,7 +20,7 @@ public interface AppmntsService {
     public List<Appmnts> getAppmntsByUId(String userId);
 
     //更新预约信息
-    public Boolean updAppmnts(String appmntsId,double time, Date startDate,Date endDate,String appmntsAdder,String appmntsState);
+    public Boolean updAppmnts(String appmntsId,Date startDate,Date endDate,String appmntsState);
 
     //更新评价
     public Boolean updAppraise(String appmntsId,double appraise,String appContext);

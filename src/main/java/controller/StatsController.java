@@ -79,7 +79,7 @@ public class StatsController {
         return statsService.RecAppInCo(objectId);
     }
 
-    //教练的最近一条预约记录
+    //用户的最近一条预约记录
     @RequestMapping(value = "RecAppInU")
     @ResponseBody
     public Appmnts RecAppInU(@RequestParam("userId")String userId) {

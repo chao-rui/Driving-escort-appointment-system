@@ -4,11 +4,21 @@ new Vue({
         this.loading = true;
         await this.getCSchoolByUid();
         await this.getApplyByCSId();
+        this.countCoach= +this.getCountSome('countCoach');
+        this.countCar= +this.getCountSome('countCar');
+        this.countApp= +this.getCountSome('countApp');
+        this.sumApp= +this.getCountSome('sumApp');
         this.loading = false;
     },
     data:{
         CSchoolId:'',
         applyList:[],
+        countCoach:'',
+        countCar:'',
+        countApp:'',
+        sumApp:'',
+        appraiseCarSchool:0,
+        appraiseContext:''
     },
     methods: {
         async getCSchoolByUid() {
@@ -20,6 +30,14 @@ new Vue({
                 },
                 success: function (data) {
                     that.CSchoolId=data.carSchoolId;
+                    that.appraiseCarSchool=data.appraiseCarSchool;
+                    if(that.appraiseCarSchool===0){
+                        that.appraiseContext="刚刚起步，请开始加油吧"
+                    }else if(that.appraiseCarSchool<3){
+                        that.appraiseContext="找到原因，为更好的服务而奋斗吧"
+                    }else{
+                        that.appraiseContext="已经很优秀了，请继续保持"
+                    }
                 },
                 error: function (e) {
                     console.log(e);
@@ -80,6 +98,24 @@ new Vue({
                     });
                 }
             });
+        },
+        getCountSome(object){
+            let result='';
+            $.ajax({
+                url:'Stats/'+object+'InCS',
+                async:false,
+                data:{
+                    cSchoolId:this.CSchoolId,
+                },
+                success:function (data){
+                    result=data;
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
+            return result;
         }
     }
 })

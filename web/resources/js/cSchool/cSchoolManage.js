@@ -121,9 +121,6 @@ new Vue({
                 }
             });
         },
-        delCoach(row){
-
-        },
         getCountSome(object){
             let result='';
             $.ajax({

@@ -22,6 +22,62 @@
 </head>
 <body>
 <div id="app" v-loading="loading">
+    <el-row style="margin-bottom: 10px;height: 360px">
+        <el-col :span="16">
+            <el-card>
+                <el-table
+                        :data="applyList">
+                    <el-table-column
+                            prop="workId"
+                            label="工号">
+                    </el-table-column>
+                    <el-table-column
+                            prop="user.userRname"
+                            label="姓名">
+                    </el-table-column>
+                    <el-table-column
+                            prop="updateDate"
+                            label="申请时间"
+                            width="100px">
+                    </el-table-column>
+
+                    <el-table-column
+                            prop="applyState"
+                            label="状态"
+                            width="180px">
+                    </el-table-column>
+                </el-table>
+            </el-card>
+        </el-col>
+        <el-col :span="8">
+            <el-card style="height: 360px">
+                <el-row style="text-align: center">
+                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900" score-template="{value}"></el-rate>
+                </el-row>
+                <el-row style="text-align: center">
+                    <strong style="font-size: xxx-large;color: gold">{{form.appraiseCarSchool}}</strong>
+                </el-row>
+                <el-row style="text-align: center;margin-bottom: 5px">
+                    <strong style="font-size: small;color: red">{{form.appraiseContext}}</strong>
+                </el-row>
+                <el-row>
+
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="countApp" title="预约次数" suffix="次"></el-statistic>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="sumApp" title="预约时长" suffix="小时"></el-statistic>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </el-col>
+    </el-row>
     <el-card>
         <el-table
                 :data="coachList"
@@ -72,6 +128,15 @@
             width="30%"
             @closed="getCoachByModel">
         <el-form :model="form" METHOD="post" label-width="80px">
+
+            <el-form-item label="日期">
+                <el-date-picker
+                        v-model="form.date"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions">
+                </el-date-picker>
+            </el-form-item>
 
             <el-form-item label="开始时间">
                 <el-time-select

@@ -17,8 +17,21 @@ new Vue({
             objectId:'',
             startDate:'',
             endDate:'',
-            time:''
-        }
+            time:'',
+            date:''
+        },
+        pickerOptions:{
+            disabledDate(time){
+                const now = new Date()
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                const dayOfWeek = today.getDay()
+                const thisMonday = new Date(today)
+                thisMonday.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1))
+                const thisSunday = new Date(thisMonday)
+                thisSunday.setDate(thisMonday.getDate() + 6)
+                return time.getTime() < now.getTime() || time.getTime() > thisSunday.getTime()
+            }
+        },
     },
     methods: {
         getcarModel(){
@@ -52,7 +65,7 @@ new Vue({
         },
         dateStrToDate(str){
             let [hours, minutes] = str.split(':');
-            let date = new Date();
+            let date = new Date(this.form.date);
             date.setHours(hours);
             date.setMinutes(minutes);
             date.setSeconds(0);

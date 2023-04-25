@@ -95,7 +95,7 @@
                                 v-for="item in coachList"
                                 :key="item.user.userId"
                                 :label="item.user.userRname"
-                                :value="item.userId">
+                                :value="item.user.userId">
                         </el-option>
                     </el-select>
                 </el-form-item>

@@ -49,12 +49,10 @@ public class AppmntsController {
     @RequestMapping(value = "updAppmnts")
     @ResponseBody
     public Boolean updAppmnts(@RequestParam("appmntsId") String appmntsId,
-                              @RequestParam("time") String time,
                               @RequestParam("startDate") Date startDate,
                               @RequestParam("endDate") Date endDate,
-                              @RequestParam("appmntsAdder") String appmntsAdder,
                               @RequestParam("appmntsState") String appmntsState) {
-        return appmntsService.updAppmnts(appmntsId, Double.parseDouble(time), startDate, endDate, appmntsAdder, appmntsState);
+        return appmntsService.updAppmnts(appmntsId, startDate, endDate,appmntsState);
     }
 
     @RequestMapping(value = "updAppraise")

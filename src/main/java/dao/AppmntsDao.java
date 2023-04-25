@@ -13,7 +13,7 @@ public interface AppmntsDao {
 
     //新增预约信息
     @Insert("INSERT INTO appmnts (USER_ID, OBJECT_ID, TIME, START_DATE, END_DATE, APPOINTMENT_STATE)" +
-            "VALUES (#{userId},#{objectId},#{time},#{startDate},#{endDate},1);")
+            "VALUES (#{userId},#{objectId},#{time},#{startDate},#{endDate},0);")
     Boolean addAppmnts(@Param("userId")String userId,
                        @Param("objectId")String objectId,
                        @Param("time")double time,
@@ -32,7 +32,7 @@ public interface AppmntsDao {
                     column = "OBJECT_ID",
                     javaType = User.class,
                     one = @One(select = "dao.UserDao.getUserInfo")),
-            @Result(property = "time",column = "APPOINTMENT_ID"),
+            @Result(property = "time",column = "TIME"),
             @Result(property = "startDate",column = "START_DATE"),
             @Result(property = "endDate",column = "END_DATE"),
             @Result(property = "appointmentState",column = "APPOINTMENT_STATE"),
@@ -53,23 +53,20 @@ public interface AppmntsDao {
 
     //更新预约信息
     @Update("UPDATE appmnts SET " +
-            "              TIME=#{time}," +
             "        START_DATE=#{startDate}," +
             "          END_DATE=#{endDate}," +
-            "APPOINTMENT_ADDERS=#{appmntsAdders}," +
             " APPOINTMENT_STATE=#{appmntsState}" +
             "WHERE APPOINTMENT_ID=#{appmntsId};")
     Boolean updAppmnts(@Param("appmntsId")String appmntsId,
-                       @Param("time")double time,
                        @Param("startDate")Date startDate,
                        @Param("endDate")Date endDate,
-                       @Param("appmntsAdders")String appmntsAdders,
                        @Param("appmntsState")String appmntsState);
 
     //更新评价信息
     @Update("UPDATE appmnts SET  " +
             "        APPRAISE=#{appraise}," +
-            "APPRAISE_CONTEXT=#{appContext}" +
+            "APPRAISE_CONTEXT=#{appContext}," +
+            "APPOINTMENT_STATE=3 " +
             "WHERE APPOINTMENT_ID=#{appmntsId};")
     Boolean updAppraise(@Param("appmntsId")String appmntsId,
                         @Param("appraise")double appraise,

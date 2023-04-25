@@ -15,6 +15,7 @@ new Vue({
             isUpd:false,
             carList: [],
             form: {
+                carId:'',
                 carNumber: '',
                 carBrands: '',
                 carModel: '',
@@ -105,58 +106,112 @@ new Vue({
         },
         save(){
             let that= this;
-            this.$refs.form.validate(valid => {
-                if (valid) {
-                    that.loading=true;
-                    $.ajax({
-                        url: "Car/addCar",
-                        data: {
-                            carNumber:this.form.carNumber,
-                            carBrands:this.form.carBrands,
-                            carModel:this.form.carModel,
-                            cSchoolId:this.CSchoolId,
-                            userId:this.form.userId,
-                            updDate:new Date()
-                        },
-                        success: function (data) {
-                            if(data){
+            if(!this.isUpd){
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        that.loading=true;
+                        $.ajax({
+                            url: "Car/addCar",
+                            data: {
+                                carNumber:this.form.carNumber,
+                                carBrands:this.form.carBrands,
+                                carModel:this.form.carModel,
+                                cSchoolId:this.CSchoolId,
+                                userId:this.form.userId,
+                                updDate:new Date()
+                            },
+                            success: function (data) {
+                                if(data){
+                                    that.$notify({
+                                        title: '成功',
+                                        message: '添加成功',
+                                        type: 'success',
+                                        duration:1500,
+                                        onClose(){
+                                            location.reload();
+                                        }});
+                                    that.dialogVisible=false;
+                                }else{
+                                    that.$notify({
+                                        title: '失败',
+                                        message: '添加失败',
+                                        type: 'error'
+                                    });}
+                            },
+                            error: function (e) {
                                 that.$notify({
-                                title: '成功',
-                                message: '添加成功',
-                                type: 'success',
-                                duration:1500,
-                                onClose(){
-                                    location.reload();
-                                }});
-                                that.dialogVisible=false;
-                            }else{
+                                    title: '失败',
+                                    message: '添加失败,错误信息' + e,
+                                    type: 'error',
+                                    duration:1500,
+                                    onClose(){
+                                        top.location.href="error";
+                                    }
+                                });
+                            }
+                        });
+                        that.loading= false;
+                    } else {
+                        return false;
+                    }
+                });
+            }else{
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        that.loading=true;
+                        $.ajax({
+                            url: "Car/updCar",
+                            data: {
+                                carId:this.form.carId,
+                                carNumber:this.form.carNumber,
+                                carBrands:this.form.carBrands,
+                                carModel:this.form.carModel,
+                                cSchoolId:this.CSchoolId,
+                                userId:this.form.userId,
+                                carFlag:this.form.carFlag,
+                                updDate:new Date()
+                            },
+                            success: function (data) {
+                                if(data){
+                                    that.$notify({
+                                        title: '成功',
+                                        message: '更新成功',
+                                        type: 'success',
+                                        duration:1500,
+                                        onClose(){
+                                            location.reload();
+                                        }});
+                                    that.dialogVisible=false;
+                                }else{
+                                    that.$notify({
+                                        title: '失败',
+                                        message: '更新失败',
+                                        type: 'error'
+                                    });}
+                            },
+                            error: function (e) {
                                 that.$notify({
-                                title: '失败',
-                                message: '添加失败',
-                                type: 'error'
-                            });}
-                        },
-                        error: function (e) {
-                            that.$notify({
-                                title: '失败',
-                                message: '添加,错误信息' + e,
-                                type: 'error',
-                                duration:1500,
-                                onClose(){
-                                    top.location.href="error";
-                                }
-                            });
-                        }
-                    });
-                    that.loading= false;
-                } else {
-                    return false;
-                }
-            });
+                                    title: '失败',
+                                    message: '更新失败,错误信息' + e,
+                                    type: 'error',
+                                    duration:1500,
+                                    onClose(){
+                                        top.location.href="error";
+                                    }
+                                });
+                            }
+                        });
+                        that.loading= false;
+                    } else {
+                        return false;
+                    }
+                });
+            }
         },
         updCar(row){
             this.dialogVisible=true;
             this.getCoachByCSId();
+            this.form.carId=row.carId;
             this.form.carModel=row.carModel;
             this.form.carBrands=row.carBrands;
             this.form.carNumber=row.carNumber;

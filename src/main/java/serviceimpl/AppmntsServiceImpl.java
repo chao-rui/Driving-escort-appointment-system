@@ -36,8 +36,8 @@ public class AppmntsServiceImpl implements AppmntsService {
     }
 
     @Override
-    public Boolean updAppmnts(String appmntsId,double time, Date startDate,Date endDate,String appmntsAdder,String appmntsState){
-        return appmntsDao.updAppmnts(appmntsId,time,startDate,endDate,appmntsAdder,appmntsState);
+    public Boolean updAppmnts(String appmntsId,Date startDate,Date endDate,String appmntsState){
+        return appmntsDao.updAppmnts(appmntsId,startDate,endDate,appmntsState);
     }
 
     @Override
