@@ -171,6 +171,13 @@ new Vue({
                     message: '取消操作'
                 });
             });
+        },
+        clearCarModel(){
+            localStorage.clear();
+            this.$message({
+                message: '清除成功',
+                type: 'success'
+            });
         }
     }
 })

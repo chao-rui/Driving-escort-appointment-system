@@ -2,6 +2,9 @@ new Vue({
     el: '#app',
     mounted:async function () {
         this.loading = true;
+        this.countApp= +this.getCountSome('countApp');
+        this.sumApp= +this.getCountSome('sumApp');
+        this.RecAppInU();
         await this.getcarModel();
         this.loading = false;
     },
@@ -9,8 +12,12 @@ new Vue({
         carModel: '1',
         carModelDig:false,
         appmntsDig:false,
+        checked:true,
         rNameDig:false,
         loading:false,
+        countApp:'0',
+        sumApp:'0',
+        applyList:[],
         coachList:[],
         form:{
             userId:'',
@@ -19,6 +26,14 @@ new Vue({
             endDate:'',
             time:'',
             date:''
+        },
+        recApp:{
+            object:{
+                userRname:'-',
+                phone:'-'
+            },
+            startDate:'-',
+            appointmentState:'-',
         },
         pickerOptions:{
             disabledDate(time){
@@ -35,10 +50,17 @@ new Vue({
     },
     methods: {
         getcarModel(){
-          this.carModelDig=true;
+            if(localStorage.getItem("carModel")){
+                this.carModel=localStorage.getItem("carModel");
+            }else{
+                this.carModelDig=true;
+            }
         },
         getCoachByModel(){
             this.carModelDig=false;
+            if(this.checked){
+                localStorage.setItem("carModel",this.carModel);
+            }
             let that=this;
             $.ajax({
                 url:"Coach/getCoachByModel",
@@ -125,6 +147,65 @@ new Vue({
                 }
             });
             that.loading= false;
-        }
+        },
+        getCountSome(object){
+            let result='';
+            $.ajax({
+                url:'Stats/'+object+'InU',
+                async:false,
+                data:{
+                    userId:sessionStorage.getItem("userId")
+                },
+                success:function (data){
+                    result=data;
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
+            return result;
+        },
+        RecAppInU(){
+            let that=this;
+            $.ajax({
+                url:'Stats/RecAppInU',
+                async:false,
+                data:{
+                    userId:sessionStorage.getItem("userId")
+                },
+                success:function (data){
+                    if(data){
+                        that.recApp=data;
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
+            switch (this.recApp.appointmentState){
+                case '0':this.recApp.appointmentState="未开始";break;
+                case '1':this.recApp.appointmentState="预约中";break;
+                case '2':this.recApp.appointmentState="已结束";break;
+                case '3':this.recApp.appointmentState="已评价";break;
+            }
+        },
+        getApplyByUId(){
+            let that=this;
+            $.ajax({
+                url:"Apply/getApplyByUId",
+                data:{
+                    userId:sessionStorage.getItem("userId")
+                },
+                success:function (data){
+                    that.applyList=data;
+                },
+                error:function (e){
+                    console.log(e);
+                    window.location.href="error";
+                }
+            });
+        },
     }
 })

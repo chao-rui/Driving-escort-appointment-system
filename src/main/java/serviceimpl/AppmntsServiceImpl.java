@@ -31,6 +31,11 @@ public class AppmntsServiceImpl implements AppmntsService {
     }
 
     @Override
+    public List<Appmnts> getAppmntsByCS(String cSchoolId) {
+        return appmntsDao.getAppmntsByCS(cSchoolId);
+    }
+
+    @Override
     public List<Appmnts> getAppmntsByUId(String userId) {
         return appmntsDao.getAppmntsByUId(userId);
     }

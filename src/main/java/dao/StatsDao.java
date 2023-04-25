@@ -64,7 +64,7 @@ public interface StatsDao {
     })
     Appmnts RecAppInCo(@Param("objectId")String objectId);
 
-    //教练的最近一条预约记录
+    //用户的最近一条预约记录
     @Select("SELECT * FROM appmnts WHERE USER_ID=#{userId} " +
             "AND END_DATE=(SELECT MAX(END_DATE) FROM appmnts WHERE USER_ID=#{userId});")
     @ResultMap("CUserInfoResultMap")

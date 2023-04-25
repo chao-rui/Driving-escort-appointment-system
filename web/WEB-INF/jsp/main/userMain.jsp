@@ -22,9 +22,9 @@
 </head>
 <body>
 <div id="app" v-loading="loading">
-    <el-row style="margin-bottom: 10px;height: 360px">
-        <el-col :span="16">
-            <el-card>
+    <el-row style="margin-bottom: 20px">
+        <el-col :span="12">
+            <el-card style=" height: 360px;margin-right: 20px">
                 <el-table
                         :data="applyList">
                     <el-table-column
@@ -49,20 +49,9 @@
                 </el-table>
             </el-card>
         </el-col>
-        <el-col :span="8">
-            <el-card style="height: 360px">
-                <el-row style="text-align: center">
-                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900" score-template="{value}"></el-rate>
-                </el-row>
-                <el-row style="text-align: center">
-                    <strong style="font-size: xxx-large;color: gold">{{form.appraiseCarSchool}}</strong>
-                </el-row>
-                <el-row style="text-align: center;margin-bottom: 5px">
-                    <strong style="font-size: small;color: red">{{form.appraiseContext}}</strong>
-                </el-row>
-                <el-row>
-
-                </el-row>
+        <el-col :span="12">
+            <el-card style="height: 360px;width: 100%">
+                <strong>总计</strong>
                 <el-row>
                     <el-col :span="12">
                         <div>
@@ -75,9 +64,17 @@
                         </div>
                     </el-col>
                 </el-row>
+                <el-divider></el-divider>
+                <el-descriptions title="最近一次预约" :column="2" border>
+                    <el-descriptions-item label="教练">{{recApp.object.userRname}}</el-descriptions-item>
+                    <el-descriptions-item label="联系电话">{{recApp.object.phone}}</el-descriptions-item>
+                    <el-descriptions-item label="开始时间">{{recApp.startDate}}</el-descriptions-item>
+                    <el-descriptions-item label="状态"><el-tag size="small">{{recApp.appointmentState}}</el-tag></el-descriptions-item>
+                </el-descriptions>
             </el-card>
         </el-col>
     </el-row>
+
     <el-card>
         <el-table
                 :data="coachList"
@@ -112,14 +109,16 @@
     <el-dialog
             title="提示"
             :visible.sync="carModelDig"
-             width="30%">
+            width="30%"
+            center>
         <span>请选择车辆类型</span>
-        <el-radio-group v-model="carModel">
-            <el-radio label="1" border>手动挡</el-radio>
-            <el-radio label="2" border>自动挡</el-radio>
+        <el-radio-group v-model="carModel" style="margin-top: 10px;text-align: center;width: 100%">
+            <el-radio label="1" border style="width: 100px;height: 100px">手动挡</el-radio>
+            <el-radio label="2" border style="width: 100px;height: 100px">自动挡</el-radio>
         </el-radio-group>
         <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="getCoachByModel">确 定</el-button>
+            <el-checkbox v-model="checked" style="margin-right: 40px">设为默认</el-checkbox>
+            <el-button type="primary" @click="getCoachByModel">确 定</el-button>
         </span>
     </el-dialog>
     <el-dialog

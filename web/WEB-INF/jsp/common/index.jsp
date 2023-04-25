@@ -78,6 +78,9 @@
                     <el-dropdown>
                         <i class="bi bi-arrow-left-square-fill"></i>
                         <el-dropdown-menu slot="dropdown">
+                            <c:if test="${user.getRoleFlag() == 1|| user.getRoleFlag() == 2}" >
+                                <el-dropdown-item @click.native="clearCarModel">清除默认</el-dropdown-item>
+                            </c:if>
                             <el-dropdown-item @click.native="close">退出系统</el-dropdown-item>
                             <c:if test="${user.getRoleFlag() == 3 || user.getRoleFlag() == 4}">
                                 <el-dropdown-item @click.native="exitCS">退出驾校</el-dropdown-item>

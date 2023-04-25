@@ -8,6 +8,7 @@ new Vue({
         this.countCar= +this.getCountSome('countCar');
         this.countApp= +this.getCountSome('countApp');
         this.sumApp= +this.getCountSome('sumApp');
+        this.getAppmntsByCS();
         this.loading = false;
     },
     data:{
@@ -18,7 +19,8 @@ new Vue({
         countApp:'',
         sumApp:'',
         appraiseCarSchool:0,
-        appraiseContext:''
+        appraiseContext:'',
+        appmntsList:[]
     },
     methods: {
         async getCSchoolByUid() {
@@ -116,6 +118,21 @@ new Vue({
                 }
             });
             return result;
+        },
+        getAppmntsByCS(){
+            let that=this;
+            $.ajax({
+                url:'Appmnts/getAppmntsByCS',
+                data:{
+                    cSchoolId:that.CSchoolId
+                },
+                success:function (data) {
+                    that.appmntsList=data;
+                },
+                error:function (e) {
+                    top.location.href="error";
+                }
+            })
         }
     }
 })

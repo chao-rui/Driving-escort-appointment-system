@@ -16,6 +16,9 @@ public interface AppmntsService {
     //查询（按教练）
     public List<Appmnts> getAppmntsByOId(String objectId);
 
+    //查询（按教练）
+    public List<Appmnts> getAppmntsByCS(String cSchoolId);
+
     //查询（按用户）
     public List<Appmnts> getAppmntsByUId(String userId);
 

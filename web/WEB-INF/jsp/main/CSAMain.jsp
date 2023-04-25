@@ -13,7 +13,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/plugins/element-ui.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/fullPage.css">
     <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
@@ -22,11 +22,12 @@
 </head>
 <body>
 <div id="app">
-    <el-row>
-        <el-col :span="16">
-            <el-card>
+    <el-row style="margin-bottom: 20px">
+        <el-col :span="12">
+            <el-card style="margin-right: 20px;height: 350px">
                 <el-table
-                        :data="applyList">
+                        :data="applyList"
+                        style="height: 210px">
                     <el-table-column
                             prop="workId"
                             label="工号">
@@ -37,13 +38,10 @@
                     </el-table-column>
                     <el-table-column
                             prop="updateDate"
-                            label="申请时间"
-                            width="100px">
+                            label="申请时间">
                     </el-table-column>
-
                     <el-table-column
-                            label="操作"
-                            width="180px">
+                            label="操作">
                         <template slot-scope="scope">
                             <el-button @click="updApply(scope.row,1)" type="success">通过</el-button>
                             <el-button @click="updApply(scope.row,0)" type="danger">拒绝</el-button>
@@ -52,45 +50,65 @@
                 </el-table>
             </el-card>
         </el-col>
-        <el-col :span="8">
-            <el-card style="height: 360px">
-                <el-row style="text-align: center">
-                    <el-rate v-model="appraiseCarSchool" disabled text-color="#ff9900"
-                             score-template="{value}"></el-rate>
-                </el-row>
-                <el-row style="text-align: center">
-                    <strong style="font-size: xxx-large;color: gold">{{appraiseCarSchool}}</strong>
-                </el-row>
-                <el-row style="text-align: center;margin-bottom: 5px">
-                    <strong style="font-size: small;color: red">{{appraiseContext}}</strong>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <div>
-                            <el-statistic :value="countCoach" title="员工数量" suffix="人"></el-statistic>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div>
-                            <el-statistic :value="countCar" title="车辆数量" suffix="辆"></el-statistic>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <div>
-                            <el-statistic :value="countApp" title="预约次数" suffix="次"></el-statistic>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div>
-                            <el-statistic :value="sumApp" title="预约时长" suffix="小时"></el-statistic>
-                        </div>
-                    </el-col>
-                </el-row>
+        <el-col :span="12">
+            <el-card>
+            <el-row style="text-align: center">
+                <el-rate v-model="appraiseCarSchool"
+                             disabled
+                             text-color="#ff9900"
+                             score-template="{value}">
+                </el-rate>
+            </el-row>
+            <el-row style="text-align: center">
+                <strong style="font-size: xxx-large;color: gold">
+                    {{appraiseCarSchool}}
+                </strong>
+            </el-row>
+            <el-row style="text-align: center">
+                <strong style="font-size: small;color: red">
+                    {{appraiseContext}}
+                </strong>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-statistic :value="countCoach" title="员工数量" suffix="人"></el-statistic>
+                </el-col>
+                <el-col :span="12">
+                    <el-statistic :value="countCar" title="车辆数量" suffix="辆"></el-statistic>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-statistic :value="countApp" title="预约次数" suffix="次"></el-statistic>
+                </el-col>
+                <el-col :span="12">
+                    <el-statistic :value="sumApp" title="预约时长" suffix="小时"></el-statistic>
+                </el-col>
+            </el-row>
             </el-card>
         </el-col>
     </el-row>
+    <el-card style="width: 100%">
+        <el-table
+                :data="appmntsList">
+            <el-table-column
+                    prop="user.userName"
+                    label="用户名">
+            </el-table-column>
+            <el-table-column
+                    prop="endDate"
+                    label="结束时间">
+            </el-table-column>
+            <el-table-column
+                    prop="appraise"
+                    label="评价">
+            </el-table-column>
+            <el-table-column
+                    prop="appraiseContext"
+                    label="评价内容">
+            </el-table-column>
+        </el-table>
+    </el-card>
 </div>
 </body>
 </html>

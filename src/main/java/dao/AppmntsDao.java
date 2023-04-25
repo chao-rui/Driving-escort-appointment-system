@@ -41,6 +41,12 @@ public interface AppmntsDao {
     })
     Appmnts getAppmntsById(@Param("appmntsId")String appmntsId);
 
+    //查询预约信息（按驾校）
+    @Select("SELECT appmnts.* FROM appmnts LEFT JOIN coach ON OBJECT_ID=coach.USER_ID " +
+            "WHERE CAR_SCHOOL_ID=#{cSchoolId};")
+    @ResultMap("CUserInfoResultMap")
+    List<Appmnts> getAppmntsByCS(@Param("cSchoolId")String cSchoolId);
+
     //查询预约信息（按预约对象）
     @Select("SELECT * FROM appmnts WHERE OBJECT_ID=#{objectId};")
     @ResultMap("CUserInfoResultMap")

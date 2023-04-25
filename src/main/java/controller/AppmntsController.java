@@ -46,6 +46,12 @@ public class AppmntsController {
         return appmntsService.getAppmntsByUId(userId);
     }
 
+    @RequestMapping(value = "getAppmntsByCS")
+    @ResponseBody
+    public List<Appmnts> getAppmntsByCS(@RequestParam("cSchoolId")String cSchoolId) {
+        return appmntsService.getAppmntsByCS(cSchoolId);
+    }
+
     @RequestMapping(value = "updAppmnts")
     @ResponseBody
     public Boolean updAppmnts(@RequestParam("appmntsId") String appmntsId,
