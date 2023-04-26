@@ -1,6 +1,7 @@
 package service;
 
 import entity.Appmnts;
+import entity.freeTime;
 
 import java.util.Date;
 import java.util.List;
@@ -28,4 +29,6 @@ public interface AppmntsService {
     //更新评价
     public Boolean updAppraise(String appmntsId,double appraise,String appContext);
 
+    //获取当日教练空闲时间
+    List<freeTime> getFreeRange(Date selectDate);
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import entity.Appmnts;
+import entity.freeTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,6 +68,12 @@ public class AppmntsController {
                                @RequestParam("appraise") String appraise,
                                @RequestParam("appContext") String appContext) {
         return appmntsService.updAppraise(appmntsId, Double.parseDouble(appraise), appContext);
+    }
+
+    @RequestMapping(value = "getFreeRange")
+    @ResponseBody
+    List<freeTime> getFreeRange(@RequestParam("selectDate")Date selectDate){
+        return appmntsService.getFreeRange(selectDate);
     }
 
 }

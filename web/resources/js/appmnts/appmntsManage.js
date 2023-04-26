@@ -249,6 +249,24 @@ new Vue({
                 }
             });
             that.loading= false;
+        },
+        getFreeRange(date){
+            let that=this;
+            this.loading=true;
+            $.ajax({
+                url:"Appmnts/getFreeRange",
+                data:{
+                    selectDate:date
+                },
+                success:function (data){
+                    console.log(data)
+                },
+                error:function (e){
+                    console.log(e);
+                    window.location.href="error";
+                }
+            });
+            this.loading=false;
         }
     }
 });

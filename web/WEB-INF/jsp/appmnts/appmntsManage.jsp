@@ -93,6 +93,7 @@
                         v-model="form.date"
                         type="date"
                         placeholder="选择日期"
+                        @change="getFreeRange"
                         :picker-options="pickerOptions">
                 </el-date-picker>
             </el-form-item>
@@ -103,7 +104,7 @@
                         placeholder="开始时间"
                         v-model="form.startDate"
                         @change="updTime"
-                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',maxTime:form.maxTime}">
+                        :picker-options="{start: '08:00',end: '18:00',maxTime:form.maxTime}">
                 </el-time-select>
             </el-form-item>
 
@@ -113,7 +114,7 @@
                         placeholder="结束时间"
                         v-model="form.endDate"
                         @change="updTime"
-                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: form.startDate}">
+                        :picker-options="{start: '08:00',end: '18:00',minTime: form.startDate}">
                 </el-time-select>
             </el-form-item>
 

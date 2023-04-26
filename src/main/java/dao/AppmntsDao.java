@@ -78,4 +78,7 @@ public interface AppmntsDao {
                         @Param("appraise")double appraise,
                         @Param("appContext")String appContext);
 
+    //获取教练空闲时间
+    @Select("SELECT * FROM appmnts WHERE DATE(START_DATE)=#{selectDate}")
+    List<Appmnts> getFreeRange(@Param("selectDate")Date selectDate);
 }

@@ -6,6 +6,7 @@ new Vue({
         this.sumApp= +this.getCountSome('sumApp');
         this.RecAppInU();
         await this.getcarModel();
+        this.getCoachByModel();
         this.loading = false;
     },
     data: {
@@ -19,6 +20,7 @@ new Vue({
         sumApp:'0',
         applyList:[],
         coachList:[],
+        freeRange:[],
         form:{
             userId:'',
             objectId:'',
@@ -207,5 +209,25 @@ new Vue({
                 }
             });
         },
+        getFreeRange(date){
+            let that=this;
+            this.loading=true;
+            if(date){
+                $.ajax({
+                    url:"Appmnts/getFreeRange",
+                    data:{
+                        selectDate:date
+                    },
+                    success:function (data){
+                        that.freeRange=data;
+                    },
+                    error:function (e){
+                        console.log(e);
+                        window.location.href="error";
+                    }
+                });
+            }
+            this.loading=false;
+        }
     }
 })

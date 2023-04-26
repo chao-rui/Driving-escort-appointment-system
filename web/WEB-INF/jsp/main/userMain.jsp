@@ -133,26 +133,54 @@
                         v-model="form.date"
                         type="date"
                         placeholder="选择日期"
+                        @change="getFreeRange"
                         :picker-options="pickerOptions">
                 </el-date-picker>
             </el-form-item>
 
             <el-form-item label="开始时间">
-                <el-time-select
-                        placeholder="开始时间"
-                        v-model="form.startDate"
-                        @change="updTime"
-                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',maxTime:form.endDate}">
-                </el-time-select>
+<%--                <el-time-select--%>
+<%--                        placeholder="开始时间"--%>
+<%--                        v-model="form.startDate"--%>
+<%--                        format="HH:mm"--%>
+<%--                        @change="updTime"--%>
+<%--                        :picker-options="{start: '08:00',end: '18:00',maxTime:form.endDate}">--%>
+<%--                </el-time-select>--%>
+                <el-select v-model="form.startDate" clearable
+                           style="width: 220px" placeholder="开始时间"
+                           @change="updTime">
+                    <template #prefix>
+                        <i class="el-input__icon el-icon-time"></i>
+                    </template>
+                    <el-option
+                            v-for="item in freeRange"
+                            :key="item.index"
+                            :label="item.time"
+                            :value="item.time">
+                    </el-option>
+                </el-select>
             </el-form-item>
 
             <el-form-item label="结束时间">
-                <el-time-select
-                        placeholder="结束时间"
-                        v-model="form.endDate"
-                        @change="updTime"
-                        :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: form.startDate}">
-                </el-time-select>
+<%--                <el-time-select--%>
+<%--                        placeholder="结束时间"--%>
+<%--                        v-model="form.endDate"--%>
+<%--                        @change="updTime"--%>
+<%--                        :picker-options="{start: '08:00',end: '18:00',minTime: form.startDate}">--%>
+<%--                </el-time-select>--%>
+                <el-select v-model="form.endDate" clearable
+                           style="width: 220px" placeholder="结束时间"
+                           @change="updTime">
+                    <template #prefix>
+                        <i class="el-input__icon el-icon-time"></i>
+                    </template>
+                    <el-option
+                            v-for="item in freeRange"
+                            :key="item.index"
+                            :label="item.time"
+                            :value="item.time">
+                    </el-option>
+                </el-select>
             </el-form-item>
 
             <el-form-item label="时长">
