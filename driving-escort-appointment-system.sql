@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80032
 File Encoding         : 65001
 
-Date: 2023-04-23 18:32:00
+Date: 2023-04-27 18:50:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,12 @@ CREATE TABLE `apply` (
   `APPLY_STATE` varchar(2) NOT NULL,
   `UPDATE_DATE` date NOT NULL,
   PRIMARY KEY (`APPLY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of apply
+-- ----------------------------
+INSERT INTO `apply` VALUES ('4', '42', '2023042700', '3', '0', '2023-04-27');
 
 -- ----------------------------
 -- Table structure for appmnts
@@ -37,14 +42,20 @@ CREATE TABLE `appmnts` (
   `APPOINTMENT_ID` smallint NOT NULL AUTO_INCREMENT,
   `USER_ID` smallint NOT NULL,
   `OBJECT_ID` smallint NOT NULL,
-  `TIME` smallint NOT NULL,
+  `TIME` double NOT NULL,
   `START_DATE` datetime NOT NULL,
   `END_DATE` datetime NOT NULL,
   `APPOINTMENT_STATE` varchar(2) NOT NULL,
-  `APPRAISE` smallint DEFAULT NULL,
+  `APPRAISE` double DEFAULT NULL,
   `APPRAISE_CONTEXT` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`APPOINTMENT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of appmnts
+-- ----------------------------
+INSERT INTO `appmnts` VALUES ('15', '42', '40', '2.5', '2023-04-28 08:30:00', '2023-04-28 11:00:00', '4', null, null);
+INSERT INTO `appmnts` VALUES ('17', '42', '40', '1', '2023-04-28 13:00:00', '2023-04-28 14:00:00', '0', null, null);
 
 -- ----------------------------
 -- Table structure for car
@@ -64,7 +75,14 @@ CREATE TABLE `car` (
   KEY `fk_cs_car` (`CAR_SCHOOL_ID`),
   CONSTRAINT `fk_cs_car` FOREIGN KEY (`CAR_SCHOOL_ID`) REFERENCES `cschool` (`CAR_SCHOOL_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_user_car` FOREIGN KEY (`USER_ID`) REFERENCES `coach` (`USER_ID`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of car
+-- ----------------------------
+INSERT INTO `car` VALUES ('1', '陕A38347', '本田S35', '1', '3', '40', '1', '2023-04-27 16:34:34');
+INSERT INTO `car` VALUES ('2', '陕U23H25', '比亚迪唐', '1', '3', null, '1', '2023-04-24 02:13:02');
+INSERT INTO `car` VALUES ('6', '陕A2234G', '比亚迪宋', '1', '3', null, '1', '2023-04-25 08:18:21');
 
 -- ----------------------------
 -- Table structure for coach
@@ -74,11 +92,16 @@ CREATE TABLE `coach` (
   `USER_ID` smallint NOT NULL,
   `WORK_ID` varchar(10) NOT NULL,
   `CAR_SCHOOL_ID` smallint NOT NULL,
-  `APPRAISE_COACH` smallint DEFAULT NULL,
+  `APPRAISE_COACH` double DEFAULT NULL,
   PRIMARY KEY (`USER_ID`),
   KEY `fk_cschool_coach` (`CAR_SCHOOL_ID`),
   CONSTRAINT `fk_cschool_coach` FOREIGN KEY (`CAR_SCHOOL_ID`) REFERENCES `cschool` (`CAR_SCHOOL_ID`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of coach
+-- ----------------------------
+INSERT INTO `coach` VALUES ('40', '2023040001', '3', null);
 
 -- ----------------------------
 -- Table structure for cschool
@@ -90,11 +113,16 @@ CREATE TABLE `cschool` (
   `CAR_SCHOOL_NAME` varchar(20) NOT NULL,
   `CAR_SCHOOL_ADDERS` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `CAR_SCHOOL_PHONE` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `APPRAISE_CAR_SCHOOL` smallint(5) unsigned zerofill DEFAULT NULL,
+  `APPRAISE_CAR_SCHOOL` double(5,0) unsigned zerofill DEFAULT NULL,
   `CAR_SCHOOL_DESG` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `UPDATE_DATE` datetime NOT NULL,
   PRIMARY KEY (`CAR_SCHOOL_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of cschool
+-- ----------------------------
+INSERT INTO `cschool` VALUES ('3', '39', '西安宇星驾校', '陕西省西安市高新区团结南路26号西南方向180米', '18802980623', null, null, '2023-04-23 06:34:02');
 
 -- ----------------------------
 -- Table structure for user
@@ -111,7 +139,16 @@ CREATE TABLE `user` (
   `PASSWORD` varchar(32) NOT NULL COMMENT '密码',
   `ROLE_FLAG` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色标识',
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('39', '新用户', '郑弘厚', '男', '1990', '14322311341', '130705199001171179', 'c4ca4238a0b923820dcc509a6f75849b', '4');
+INSERT INTO `user` VALUES ('40', '叶落', '宁天路', '男', '1995', '15342324311', '210727199504064373', 'c4ca4238a0b923820dcc509a6f75849b', '3');
+INSERT INTO `user` VALUES ('41', '羽然', '章哲熙', '女', '2017', '13282323421', '612425201703055247', 'c4ca4238a0b923820dcc509a6f75849b', '1');
+INSERT INTO `user` VALUES ('42', '俨然', '叶无恙', '男', '2001', '17534332563', '623433200106266518', 'c4ca4238a0b923820dcc509a6f75849b', '2');
+INSERT INTO `user` VALUES ('43', '妄议', null, null, null, '16253726223', null, 'c4ca4238a0b923820dcc509a6f75849b', '1');
 DROP TRIGGER IF EXISTS `delApply`;
 DELIMITER ;;
 CREATE TRIGGER `delApply` AFTER DELETE ON `apply` FOR EACH ROW BEGIN
@@ -121,16 +158,12 @@ CREATE TRIGGER `delApply` AFTER DELETE ON `apply` FOR EACH ROW BEGIN
 END
 ;;
 DELIMITER ;
-DROP TRIGGER IF EXISTS `updAppraise`;
+DROP TRIGGER IF EXISTS `updAppmnts`;
 DELIMITER ;;
-CREATE TRIGGER `updAppraise` AFTER UPDATE ON `appmnts` FOR EACH ROW BEGIN
+CREATE TRIGGER `updAppmnts` AFTER UPDATE ON `appmnts` FOR EACH ROW BEGIN
     UPDATE coach
     SET APPRAISE_COACH = (SELECT AVG(APPRAISE) FROM appmnts WHERE OBJECT_ID = NEW.OBJECT_ID)
     WHERE USER_ID = NEW.OBJECT_ID;
-
-    UPDATE cschool
-    SET APPRAISE_CAR_SCHOOL = (SELECT AVG(APPRAISE_COACH) FROM coach WHERE USER_ID = NEW.OBJECT_ID)
-    WHERE CAR_SCHOOL_ADMIN=NEW.OBJECT_ID;
 END
 ;;
 DELIMITER ;
@@ -138,6 +171,13 @@ DROP TRIGGER IF EXISTS `addCoach`;
 DELIMITER ;;
 CREATE TRIGGER `addCoach` AFTER INSERT ON `coach` FOR EACH ROW BEGIN
     UPDATE user SET ROLE_FLAG = 3 WHERE USER_ID = NEW.USER_ID;
+END
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `updCoach`;
+DELIMITER ;;
+CREATE TRIGGER `updCoach` AFTER UPDATE ON `coach` FOR EACH ROW BEGIN
+    UPDATE cschool SET APPRAISE_CAR_SCHOOL=(SELECT AVG(APPRAISE_COACH) FROM coach WHERE CAR_SCHOOL_ID= OLD.CAR_SCHOOL_ID) WHERE CAR_SCHOOL_ID= OLD.CAR_SCHOOL_ID;
 END
 ;;
 DELIMITER ;
