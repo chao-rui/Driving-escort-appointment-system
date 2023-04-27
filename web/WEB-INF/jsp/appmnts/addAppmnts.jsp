@@ -1,13 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="entity.User" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: wangrongchao
-  Date: 2023/4/17
-  Time: 9:16
+  Date: 2023/4/27
+  Time: 18:06
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%User user = (User) request.getSession().getAttribute("user");%>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Pragma" content="no-cache">
@@ -19,75 +18,64 @@
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/appmnts/appmntsManage.js" type="module"></script>
-    <title>预约管理</title>
 </head>
 <body>
-<div id="app" v-loading="loading">
+<div id="app">
     <el-card>
         <el-table
-                :data="appmntsList"
+                :data="coachList"
                 style="width: 100%">
-            <c:if test="${user.getRoleFlag()== 3}">
+            <el-table-column
+                    prop="workId"
+                    label="工号"
+                    width="180">
+            </el-table-column>
             <el-table-column
                     prop="user.userRname"
-                    label="用户"
-                    :formatter="userRNameFormatter">
+                    label="姓名"
+                    width="180">
             </el-table-column>
             <el-table-column
                     prop="user.phone"
                     label="联系方式">
             </el-table-column>
-            </c:if>
-            <c:if test="${user.getRoleFlag()== 2}">
             <el-table-column
-                    prop="object.userRname"
-                    label="教练">
-            </el-table-column>
-            <el-table-column
-                    prop="object.phone"
-                    label="教练">
-            </el-table-column>
-            </c:if>
-            <el-table-column
-                    prop="startDate"
-                    label="开始时间">
-            </el-table-column>
-            <el-table-column
-                    prop="endDate"
-                    label="结束时间">
-            </el-table-column>
-            <el-table-column
-                    prop="appraise"
+                    prop="appraiseCoach"
                     label="评价">
             </el-table-column>
-            <el-table-column
-                    prop="appointmentState"
-                    label="状态"
-                    :formatter="appmntsStateFormatter">
-            </el-table-column>
-        <c:if test="${user.getRoleFlag()== 2}">
             <el-table-column
                     label="操作"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="openAppmntsDlg(scope.row)" type="text" size="small">
-                        修改</el-button>
-                    <el-button @click="openAppraiseDlg(scope.row)" type="text" size="small">
-                        评价</el-button>
+                    <el-button @click="doAppmnts(scope.row)" type="text" size="small">预约</el-button>
                 </template>
             </el-table-column>
-        </c:if>
         </el-table>
     </el-card>
     <el-dialog
+            title="提示"
+            :visible.sync="carModelDig"
+            width="30%"
+            center>
+        <span>请选择车辆类型</span>
+        <el-radio-group v-model="carModel" style="margin-top: 10px;text-align: center;width: 100%">
+            <el-radio label="1" border style="width: 100px;height: 100px">手动挡</el-radio>
+            <el-radio label="2" border style="width: 100px;height: 100px">自动挡</el-radio>
+        </el-radio-group>
+        <span slot="footer" class="dialog-footer">
+            <el-checkbox v-model="checked" style="margin-right: 40px">设为默认</el-checkbox>
+            <el-button type="primary" @click="getCoachByModel">确 定</el-button>
+        </span>
+    </el-dialog>
+    <el-dialog
             title="预约"
-            :visible.sync="appmntsDlg"
-            width="30%">
-        <el-form :model="form" METHOD="post" ref="form" :rules="rules" label-width="80px">
+            :visible.sync="appmntsDig"
+            width="30%"
+            @closed="getCoachByModel">
+        <el-form :model="form" METHOD="post" label-width="80px" ref="form" :rules="rules">
 
             <el-form-item label="日期" prop="date">
                 <el-date-picker
-                        :disabled="isOutDate"
                         v-model="form.date"
                         type="date"
                         placeholder="选择日期"
@@ -98,14 +86,13 @@
 
             <el-form-item label="开始时间" prop="startDate">
                 <el-select v-model="form.startDate" clearable
-                           :disabled="isOutDate"
                            style="width: 220px" placeholder="开始时间"
                            @change="updTime(0)">
                     <template #prefix>
                         <i class="el-input__icon el-icon-time"></i>
                     </template>
                     <el-option
-                            v-for="item in freeRange"
+                            v-for="item in sFreeRange"
                             :key="item.index"
                             :label="item.time"
                             :value="item.time"
@@ -114,15 +101,15 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="结束时间">
-                <el-select v-model="form.endDate" clearable disabled
+            <el-form-item label="结束时间" prop="endDate">
+                <el-select v-model="form.endDate" clearable
                            style="width: 220px" placeholder="结束时间"
                            @change="updTime(1)">
                     <template #prefix>
                         <i class="el-input__icon el-icon-time"></i>
                     </template>
                     <el-option
-                            v-for="item in freeRange"
+                            v-for="item in eFreeRange"
                             :key="item.index"
                             :label="item.time"
                             :value="item.time"
@@ -131,42 +118,18 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="状态">
-            <el-select v-model="form.appmntsState" placeholder="请选择">
-                <el-option
-                        v-for="item in appmntsStateList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+            <el-form-item label="时长">
+                <el-input v-model="form.time" :disabled="true" style="width: 220px">
+                    <template slot="append">小时</template>
+                </el-input>
             </el-form-item>
 
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="updAppmnts">提交</el-button>
-            <el-button type="danger" @click="delAppmnts">撤销</el-button>
-            <el-button @click="appmntsDlg = false">取 消</el-button>
-        </span>
-    </el-dialog>
-    <el-dialog
-            title="评价"
-            :visible.sync="appraiseDlg"
-            width="30%">
-        <el-form :model="appraise" ref="appraise" :rules="rules">
-            <el-form-item prop="value">
-                <el-rate v-model="appraise.value" show-text></el-rate>
-            </el-form-item>
-            <el-form-item prop="context" label="评价内容">
-                <el-input type="textarea" maxlength="200" v-model="appraise.context"></el-input>
-            </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-        <el-button @click="appraiseDlg = false">取 消</el-button>
-        <el-button type="primary" @click="updAppraise">提交</el-button>
+        <el-button @click="appmntsDig = false">取 消</el-button>
+        <el-button type="primary" @click="addAppmnts">提交</el-button>
         </span>
     </el-dialog>
 </div>
 </body>
 </html>
-

@@ -21,7 +21,7 @@ public interface AppmntsDao {
                        @Param("endDate")Date endDate);
 
     //查询预约信息（按编号）
-    @Select("SELECT * FROM appmnts WHERE APPOINTMENT_ID=#{appmntsId};")
+    @Select("SELECT * FROM appmnts WHERE APPOINTMENT_ID=#{appmntsId} AND APPOINTMENT_STATE!=4;")
     @Results(id = "CUserInfoResultMap",value = {
             @Result(property = "appointmentId",column = "APPOINTMENT_ID",id = true),
             @Result(property = "user",
@@ -43,17 +43,17 @@ public interface AppmntsDao {
 
     //查询预约信息（按驾校）
     @Select("SELECT appmnts.* FROM appmnts LEFT JOIN coach ON OBJECT_ID=coach.USER_ID " +
-            "WHERE CAR_SCHOOL_ID=#{cSchoolId};")
+            "WHERE CAR_SCHOOL_ID=#{cSchoolId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     @ResultMap("CUserInfoResultMap")
     List<Appmnts> getAppmntsByCS(@Param("cSchoolId")String cSchoolId);
 
     //查询预约信息（按预约对象）
-    @Select("SELECT * FROM appmnts WHERE OBJECT_ID=#{objectId};")
+    @Select("SELECT * FROM appmnts WHERE OBJECT_ID=#{objectId} AND APPOINTMENT_STATE!=4;")
     @ResultMap("CUserInfoResultMap")
     List<Appmnts> getAppmntsByOId(@Param("objectId")String objectId);
 
     //查询预约信息（按预约者）
-    @Select("SELECT * FROM appmnts WHERE USER_ID=#{userId};")
+    @Select("SELECT * FROM appmnts WHERE USER_ID=#{userId} AND APPOINTMENT_STATE!=4;")
     @ResultMap("CUserInfoResultMap")
     List<Appmnts> getAppmntsByUId(@Param("userId")String userId);
 
@@ -67,6 +67,10 @@ public interface AppmntsDao {
                        @Param("startDate")Date startDate,
                        @Param("endDate")Date endDate,
                        @Param("appmntsState")String appmntsState);
+    @Update("UPDATE appmnts SET " +
+            "APPOINTMENT_STATE=4 " +
+            "WHERE APPOINTMENT_ID=#{appmntsId};")
+    Boolean delAppmnts(@Param("appmntsId")String appmntsId);
 
     //更新评价信息
     @Update("UPDATE appmnts SET  " +

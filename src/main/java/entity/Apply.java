@@ -17,5 +17,6 @@ public class Apply {
   @JsonFormat(pattern = "yyyy年MM月dd日",timezone = "GMT+8")
   private Date updateDate;
   private User user;
+  private CarSchool carSchool;
 
 }

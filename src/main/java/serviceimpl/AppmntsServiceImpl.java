@@ -2,7 +2,7 @@ package serviceimpl;
 
 import dao.AppmntsDao;
 import entity.Appmnts;
-import entity.freeTime;
+import entity.FreeTime;
 import org.springframework.stereotype.Service;
 import service.AppmntsService;
 
@@ -22,7 +22,11 @@ public class AppmntsServiceImpl implements AppmntsService {
 
     @Override
     public Boolean addAppmnts(String userId, String objectId, double time, Date startDate, Date endDate){
-        return appmntsDao.addAppmnts(userId,objectId,time,startDate,endDate);
+        if(startDate.toInstant().isAfter(endDate.toInstant())){
+            return false;
+        }else{
+            return appmntsDao.addAppmnts(userId,objectId,time,startDate,endDate);
+        }
     }
 
     @Override
@@ -51,22 +55,33 @@ public class AppmntsServiceImpl implements AppmntsService {
     }
 
     @Override
+    public Boolean delAppmnts(String appmntsId) {
+        return appmntsDao.delAppmnts(appmntsId);
+    }
+
+    @Override
     public Boolean updAppraise(String appmntsId,double appraise,String appContext){
         return appmntsDao.updAppraise(appmntsId,appraise,appContext);
     }
 
     @Override
-    public List<freeTime> getFreeRange(Date selectDate) {
+    public List<FreeTime> getFreeRange(Date selectDate) {
 
         LocalTime startTime = LocalTime.of(8, 0);
         LocalTime endTime = LocalTime.of(18, 0);
         List<Appmnts> appmntsList=appmntsDao.getFreeRange(selectDate);
-        List<freeTime> freeRange=new ArrayList<>();
+        List<FreeTime> freeRange=new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         // 创建全集时间点集合
         List<LocalTime> allTimes = new ArrayList<>();
-        for (LocalTime time = startTime; time.compareTo(endTime) <= 0; time = time.plusMinutes(1)) {
+        for (LocalTime time = startTime; !time.isAfter(endTime); time = time.plusMinutes(30)) {
             allTimes.add(time);
+            FreeTime freeTime=new FreeTime();
+            freeTime.setTime(time.format(formatter));
+            freeTime.setIndex(allTimes.size());
+            freeTime.setDisabled(true);
+            freeRange.add(freeTime);
         }
 
         // 从数据库中获取时间范围
@@ -82,46 +97,11 @@ public class AppmntsServiceImpl implements AppmntsService {
             allTimes.removeIf(time -> (time.isAfter(range[0]) || time.equals(range[0])) && (time.isBefore(range[1]) || time.equals(range[1])));
         }
 
-        // 将补集时间点转换为时间范围
-        List<String> complementRanges = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-//        LocalTime rangeStart = null;
-        for (int i = 0; i < allTimes.size(); i++) {
-            LocalTime time = allTimes.get(i);
-//            if (rangeStart == null) {
-//                rangeStart = time;
-//                // 修改开始时间
-//                if (rangeStart.getMinute() == 1) {
-//                    rangeStart = rangeStart.plusMinutes(29);
-//                }
-//            }
-//            if (i == allTimes.size() - 1 || allTimes.get(i + 1).isAfter(time.plusMinutes(1))) {
-//                // 修改结束时间
-//                LocalTime rangeEnd = time.plusMinutes(30 - time.getMinute());
-//                // 判断结束时间是否超过全集最大时间
-//                if (rangeEnd.isAfter(endTime)) {
-//                    rangeEnd = endTime;
-//                }
-//                // 判断开始时间和结束时间是否相等
-//                if (!rangeStart.equals(rangeEnd)) {
-//                    complementRanges.add(rangeStart.format(formatter) + "-" + rangeEnd.format(formatter));
-//                }
-//                rangeStart = null;
-//            }
-            if(time.getMinute()==0||time.getMinute()==30){
-                freeTime freeTime = new freeTime();
-                freeTime.setIndex(freeRange.size());
-                freeTime.setTime(time.format(formatter));
-                freeTime.setDisabled(false);
-                freeRange.add(freeTime);
-            }
 
-        }
+        freeRange.stream()
+                .filter(FreeTime -> allTimes.contains(LocalTime.parse(FreeTime.getTime())))
+                .forEach(FreeTime -> FreeTime.setDisabled(false));
 
-//        // 输出补集时间范围
-//        for (String range : complementRanges) {
-//            System.out.println(range);
-//        }
         return freeRange;
     }
 }

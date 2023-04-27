@@ -1,7 +1,7 @@
 package controller;
 
 import entity.Appmnts;
-import entity.freeTime;
+import entity.FreeTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,6 +62,12 @@ public class AppmntsController {
         return appmntsService.updAppmnts(appmntsId, startDate, endDate,appmntsState);
     }
 
+    @RequestMapping(value = "delAppmnts")
+    @ResponseBody
+    public Boolean delAppmnts(@RequestParam("appmntsId")String appmntsId){
+        return appmntsService.delAppmnts(appmntsId);
+    }
+
     @RequestMapping(value = "updAppraise")
     @ResponseBody
     public Boolean updAppraise(@RequestParam("appmntsId") String appmntsId,
@@ -72,7 +78,7 @@ public class AppmntsController {
 
     @RequestMapping(value = "getFreeRange")
     @ResponseBody
-    List<freeTime> getFreeRange(@RequestParam("selectDate")Date selectDate){
+    List<FreeTime> getFreeRange(@RequestParam("selectDate")Date selectDate){
         return appmntsService.getFreeRange(selectDate);
     }
 

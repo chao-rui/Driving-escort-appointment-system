@@ -5,6 +5,8 @@ import entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface StatsDao {
 
@@ -13,38 +15,45 @@ public interface StatsDao {
     String countCoachInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计驾校的车辆数
-    @Select("SELECT COUNT(*) FROM car WHERE CAR_SCHOOL_ID=#{cSchoolId};")
+    @Select("SELECT COUNT(*) FROM car WHERE CAR_SCHOOL_ID=#{cSchoolId} ;")
     String countCarInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计驾校中所有教练的预约次数
     @Select("SELECT COUNT(*) FROM appmnts " +
-            "LEFT JOIN coach ON OBJECT_ID=coach.USER_ID WHERE CAR_SCHOOL_ID=#{cSchoolId};")
+            "LEFT JOIN coach ON OBJECT_ID=coach.USER_ID " +
+            "WHERE CAR_SCHOOL_ID=#{cSchoolId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String countAppInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计驾校中所有教练的预约时长
     @Select("SELECT SUM(time) FROM appmnts " +
-            "LEFT JOIN coach ON OBJECT_ID=coach.USER_ID WHERE CAR_SCHOOL_ID=#{cSchoolId};")
+            "LEFT JOIN coach ON OBJECT_ID=coach.USER_ID " +
+            "WHERE CAR_SCHOOL_ID=#{cSchoolId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String sumAppInCS(@Param("cSchoolId")String cSchoolId);
 
     //统计教练的预约次数
-    @Select("SELECT COUNT(*) FROM appmnts WHERE OBJECT_ID=#{objectId};")
+    @Select("SELECT COUNT(*) FROM appmnts " +
+            "WHERE OBJECT_ID=#{objectId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String countAppInCo(@Param("objectId")String objectId);
 
     //统计教练的预约时长
-    @Select("SELECT SUM(time) FROM appmnts WHERE OBJECT_ID=#{objectId};")
+    @Select("SELECT SUM(time) FROM appmnts " +
+            "WHERE OBJECT_ID=#{objectId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String sumAppInCo(@Param("objectId")String objectId);
 
     //统计用户的预约次数
-    @Select("SELECT COUNT(*) FROM appmnts WHERE USER_ID=#{userId};")
+    @Select("SELECT COUNT(*) FROM appmnts " +
+            "WHERE USER_ID=#{userId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String countAppInU(@Param("userId")String userId);
 
     //统计用户的预约时长
-    @Select("SELECT SUM(time) FROM appmnts WHERE USER_ID=#{userId};")
+    @Select("SELECT SUM(time) FROM appmnts " +
+            "WHERE USER_ID=#{userId} AND (APPOINTMENT_STATE = 2 OR APPOINTMENT_STATE = 3);")
     String sumAppInU(@Param("userId")String userId);
 
     //教练的最近一条预约记录
     @Select("SELECT * FROM appmnts WHERE OBJECT_ID=#{objectId} " +
-            "AND END_DATE=(SELECT MAX(END_DATE) FROM appmnts WHERE OBJECT_ID=#{objectId});")
+            "AND END_DATE=(SELECT MIN(END_DATE) FROM appmnts " +
+            "WHERE OBJECT_ID=#{objectId} AND END_DATE>#{now} AND APPOINTMENT_STATE != 4);")
     @Results(id = "CUserInfoResultMap",value = {
             @Result(property = "appointmentId",column = "APPOINTMENT_ID",id = true),
             @Result(property = "user",
@@ -62,11 +71,11 @@ public interface StatsDao {
             @Result(property = "appraise",column = "APPRAISE"),
             @Result(property = "appraiseContext",column = "APPRAISE_CONTEXT"),
     })
-    Appmnts RecAppInCo(@Param("objectId")String objectId);
+    Appmnts RecAppInCo(@Param("objectId")String objectId, @Param("now")Date now);
 
     //用户的最近一条预约记录
     @Select("SELECT * FROM appmnts WHERE USER_ID=#{userId} " +
-            "AND END_DATE=(SELECT MAX(END_DATE) FROM appmnts WHERE USER_ID=#{userId});")
+            "AND END_DATE=(SELECT MAX(END_DATE) FROM appmnts WHERE USER_ID=#{userId} AND END_DATE>#{now} AND APPOINTMENT_STATE != 4);")
     @ResultMap("CUserInfoResultMap")
-    Appmnts RecAppInU(@Param("userId")String userId);
+    Appmnts RecAppInU(@Param("userId")String userId, @Param("now")Date now);
 }

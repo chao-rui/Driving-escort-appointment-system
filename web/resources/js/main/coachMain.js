@@ -97,7 +97,11 @@ new Vue({
                     objectId:sessionStorage.getItem("userId")
                 },
                 success:function (data) {
-                    that.appmntsList=data;
+                    for(let i=0;i<data.length;i++){
+                        if(data[i].appointmentState==="3"){
+                            that.appmntsList.add(data[i]);
+                        }
+                    }
                 },
                 error:function (e) {
                     top.location.href="error";

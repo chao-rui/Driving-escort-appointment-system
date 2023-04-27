@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Apply;
+import entity.CarSchool;
 import entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,18 @@ public interface ApplyDao {
 
     //查询(按用户)
     @Select("SELECT * FROM apply WHERE USER_ID=#{userId};")
-    Apply getApplyByUId(@Param("userId")String userId);
+    @Results(id="applyRMapU",value = {
+            @Result(property = "applyId",column = "APPLY_ID",id = true),
+            @Result(property = "userId",column = "USER_ID"),
+            @Result(property = "workId",column = "WORK_ID"),
+            @Result(property = "carSchool",
+                    column = "CAR_SCHOOL_ID",
+                    javaType = CarSchool.class,
+                    one = @One(select = "dao.CarSchoolDao.getCSchoolById")),
+            @Result(property = "applyState",column = "APPLY_STATE"),
+            @Result(property = "updateDate",column = "UPDATE_DATE")
+    })
+    List<Apply> getApplyByUId(@Param("userId")String userId);
 
     //查询（按编号）
     @Select("SELECT * FROM apply WHERE APPLY_ID=#{applyId};")

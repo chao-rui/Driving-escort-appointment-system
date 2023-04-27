@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import service.StatsService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @Service("StatsService")
 public class StatsServiceImpl implements StatsService {
@@ -55,11 +56,13 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public Appmnts RecAppInCo(String objectId) {
-        return statsDao.RecAppInCo(objectId);
+        Date now=new Date();
+        return statsDao.RecAppInCo(objectId,now);
     }
 
     @Override
     public Appmnts RecAppInU(String userId) {
-        return statsDao.RecAppInU(userId);
+        Date now=new Date();
+        return statsDao.RecAppInU(userId,now);
     }
 }

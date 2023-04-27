@@ -11,7 +11,7 @@ public interface ApplyService {
     public Boolean addApply(String userId, String workId, String cSchoolId, Date updDate);
 
     //查询(按用户)
-    public Apply getApplyByUId(String userId);
+    public List<Apply> getApplyByUId(String userId);
 
     //查询（按编号）
     Apply getApplyByAId(String applyId);

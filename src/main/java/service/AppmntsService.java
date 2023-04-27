@@ -1,7 +1,7 @@
 package service;
 
 import entity.Appmnts;
-import entity.freeTime;
+import entity.FreeTime;
 
 import java.util.Date;
 import java.util.List;
@@ -26,9 +26,12 @@ public interface AppmntsService {
     //更新预约信息
     public Boolean updAppmnts(String appmntsId,Date startDate,Date endDate,String appmntsState);
 
+    //删除预约消息
+    public Boolean delAppmnts(String appmntsId);
+
     //更新评价
     public Boolean updAppraise(String appmntsId,double appraise,String appContext);
 
     //获取当日教练空闲时间
-    List<freeTime> getFreeRange(Date selectDate);
+    List<FreeTime> getFreeRange(Date selectDate);
 }

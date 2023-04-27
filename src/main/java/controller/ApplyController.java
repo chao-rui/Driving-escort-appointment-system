@@ -33,7 +33,7 @@ public class ApplyController {
     //查询(按用户)
     @RequestMapping(value = "getApplyByUId")
     @ResponseBody
-    public Apply getApplyByUId(@RequestParam("userId")String userId){
+    public List<Apply> getApplyByUId(@RequestParam("userId")String userId){
         return applyService.getApplyByUId(userId);
 
     }

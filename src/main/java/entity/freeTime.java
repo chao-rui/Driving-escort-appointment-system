@@ -3,7 +3,7 @@ package entity;
 import lombok.Data;
 
 @Data
-public class freeTime {
+public class FreeTime {
 
     private int index;
 

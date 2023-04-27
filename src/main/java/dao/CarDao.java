@@ -60,4 +60,8 @@ public interface CarDao {
                    @Param("carFlag")String carFlag,
                    @Param("updDate")Date updDate);
 
+    //保持所属唯一性
+    @Update("UPDATE car SET USER_ID=NULL WHERE USER_ID=#{userId}")
+    Boolean updCarU(@Param("userId")String userId);
+
 }

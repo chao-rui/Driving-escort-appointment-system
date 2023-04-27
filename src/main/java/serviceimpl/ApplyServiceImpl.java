@@ -22,7 +22,7 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
-    public Apply getApplyByUId(String userId) {
+    public List<Apply> getApplyByUId(String userId) {
         return applyDao.getApplyByUId(userId);
     }
 
