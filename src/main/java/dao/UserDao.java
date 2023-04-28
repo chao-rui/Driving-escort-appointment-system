@@ -31,6 +31,9 @@ public interface UserDao {
     @Select("SELECT * FROM user WHERE USER_ID=#{userId}")
     User getUserInfo(@Param("userId")String userId);
 
+    @Select("SELECT COUNT(*) FROM user WHERE USER_ID=#{userId}")
+    String isExist(@Param("userId")String userId);
+
     //实名认证
     @Update("UPDATE user SET  " +
             "USER_RNAME=#{userRName}, " +
@@ -46,6 +49,7 @@ public interface UserDao {
             "<if test=\"userName!=''\">"+
             " USER_NAME=#{userName}," +
             "     PHONE=#{phone},"+
+            "     EMAIL=#{email},"+
             "    GENDER=#{gender}," +
             "BIRTH_YEAR=#{birthYear} " +
             "</if>"+
@@ -58,6 +62,7 @@ public interface UserDao {
     Boolean updUserInfo(@Param("userName")String userName,
                         @Param("gender")String gender,
                         @Param("phone")String phone,
+                        @Param("email")String email,
                         @Param("birthYear")String birthYear,
                         @Param("userId")String userId);
 
@@ -73,6 +78,11 @@ public interface UserDao {
             "WHERE USER_ID=#{userId}")
     Boolean updRole(@Param("userId")String userId,
                     @Param("roleFlag")String roleFlag);
+
+    //重置密码
+    @Update("UPDATE user SET PASSWORD=#{password} WHERE USER_ID=#{userId}")
+    Boolean clsPwd(@Param("password")String password,
+                   @Param("userId")String userId);
 
     //注销
     @Delete("DELETE FROM user WHERE userId=#{userId}")

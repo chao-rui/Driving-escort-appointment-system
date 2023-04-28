@@ -16,7 +16,7 @@ public interface CoachService {
     public List<Coach> getCoachByCSId(String cSchoolId);
 
     //查询（按车辆类型）
-    public List<Coach> getCoachByModel(String Model);
+    public List<Coach> getCoachByModel(String Model,String cSchoolId);
 
     //注销
     public Boolean delCoach(String userId);

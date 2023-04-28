@@ -76,8 +76,8 @@ new Vue({
                 },
                 success:function (data){
                     if(data) {
-                        that.formCoach.workId = data.workId;
-                        that.formCoach.CSchoolId = data.carSchoolId.toString();
+                        that.formCoach.workId = data[0].workId;
+                        that.formCoach.CSchoolId = data[0].carSchool.carSchoolId;
                         that.tabName = "first";
                         that.isApply = true;
                         that.applyState='审核中'

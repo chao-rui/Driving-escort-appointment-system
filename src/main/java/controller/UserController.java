@@ -27,8 +27,7 @@ public class UserController{
     public Boolean register(@RequestParam("userName")String userName,
                             @RequestParam("password")String password,
                             @RequestParam("phone")String phone){
-        String passwordMD5=DigestUtils.md5DigestAsHex(password.getBytes());
-        return userService.register(userName,passwordMD5,phone);
+        return userService.register(userName,password,phone);
     }
 
     @RequestMapping(value = "getNewId")
@@ -56,9 +55,10 @@ public class UserController{
     public Boolean updUserInfo(@RequestParam("userName")String userName,
                                @RequestParam("gender")String gender,
                                @RequestParam("phone")String phone,
+                               @RequestParam("email")String email,
                                @RequestParam("birthYear")String birthYear,
                                @RequestParam("userId")String userId){
-        return userService.updUserInfo(userName,gender,phone,birthYear,userId);
+        return userService.updUserInfo(userName,gender,phone,email,birthYear,userId);
     }
 
     @RequestMapping(value = "updPassword")
@@ -74,5 +74,19 @@ public class UserController{
     public Boolean updRole(@RequestParam("userId")String userId,
                            @RequestParam("roleFlag")String roleFlag){
         return userService.updRole(userId,roleFlag);
+    }
+
+    @RequestMapping(value = "sendEmail")
+    @ResponseBody
+    public Boolean sendEmail(@RequestParam("userId")String userId){
+        return userService.sendEmail(userId);
+    }
+
+    @RequestMapping(value = "clsPwd")
+    @ResponseBody
+    public Boolean clsPwd(@RequestParam("code")String code,
+                          @RequestParam("password")String password,
+                          @RequestParam("userId")String userId){
+        return userService.clsPwd(code,password,userId);
     }
 }

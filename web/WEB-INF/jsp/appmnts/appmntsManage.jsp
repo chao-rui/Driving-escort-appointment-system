@@ -45,25 +45,33 @@
             </el-table-column>
             <el-table-column
                     prop="object.phone"
-                    label="教练">
+                    label="联系方式">
             </el-table-column>
             </c:if>
             <el-table-column
                     prop="startDate"
+                    sortable
                     label="开始时间">
             </el-table-column>
             <el-table-column
                     prop="endDate"
+                    sortable
                     label="结束时间">
             </el-table-column>
             <el-table-column
                     prop="appraise"
+                    sortable
                     label="评价">
             </el-table-column>
             <el-table-column
                     prop="appointmentState"
                     label="状态"
-                    :formatter="appmntsStateFormatter">
+                    :formatter="appmntsStateFormatter"
+                    :filters="[{text: '未开始',value: '0'},
+                               {text: '预约中',value: '1',},
+                               {text: '已结束',value: '2',},
+                               {text: '已评价',value: '3',}]"
+                    :filter-method="StateFilter">
             </el-table-column>
         <c:if test="${user.getRoleFlag()== 2}">
             <el-table-column

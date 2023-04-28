@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% String cSchool = (String) request.getAttribute("value"); %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -17,13 +18,84 @@
     <script src="${pageContext.request.contextPath}/resources/js/plugins/jquery-3.6.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/vue.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/plugins/element-ui.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/appmnts/appmntsManage.js" type="module"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/appmnts/addAppmnts.js" type="module"></script>
 </head>
+<script>
+    const cSchoolId="${value}"
+</script>
 <body>
-<div id="app">
+<div id="app" v-loading="loading">
+    <el-row style="margin-bottom: 10px;height: 360px">
+        <el-col :span="16">
+            <el-card style="margin-right: 10px;height: 360px">
+                <el-form :model="cSchool" disabled>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="驾校名称" prop="carSchoolName" style="width: 90%">
+                                <el-input v-model="cSchool.carSchoolName" maxlength="20"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="联系方式" prop="carSchoolPhone">
+                                <el-input v-model="cSchool.carSchoolPhone" maxlength="11"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-form-item label="驾校地址" prop="carSchoolAdders">
+                        <el-input v-model="cSchool.carSchoolAdders" maxlength="20"></el-input>
+                    </el-form-item>
+
+
+                    <el-form-item label="驾校简介" prop="carSchoolDesc">
+                        <el-input type="textarea" show-word-limit v-model="cSchool.carSchoolDesc"
+                                  maxlength="200"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-card>
+        </el-col>
+        <el-col :span="8">
+            <el-card style="height: 360px">
+                <el-row style="text-align: center">
+                    <el-rate v-model="cSchool.appraiseCarSchool" disabled text-color="#ff9900"
+                             score-template="{value}"></el-rate>
+                </el-row>
+                <el-row style="text-align: center">
+                    <strong style="font-size: xxx-large;color: gold">{{cSchool.appraiseCarSchool}}</strong>
+                </el-row>
+                <el-row style="text-align: center;margin-bottom: 5px">
+                    <strong style="font-size: small;color: red">{{cSchool.appraiseContext}}</strong>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="countCoach" title="员工数量" suffix="人"></el-statistic>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="countCar" title="车辆数量" suffix="辆"></el-statistic>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="countApp" title="预约次数" suffix="次"></el-statistic>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div>
+                            <el-statistic :value="sumApp" title="预约时长" suffix="小时"></el-statistic>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-card>
+        </el-col>
+    </el-row>
     <el-card>
         <el-table
                 :data="coachList"
+                @expand-change="getAppraise"
                 style="width: 100%">
             <el-table-column
                     prop="workId"
@@ -48,6 +120,21 @@
                     width="100">
                 <template slot-scope="scope">
                     <el-button @click="doAppmnts(scope.row)" type="text" size="small">预约</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column type="expand">
+                <template slot-scope="props" style="background-color: #ecf8ff">
+                    <el-row :gutter="20" v-for="(appmnts,index) in appmntsList" :key="index">
+                        <el-col :span="12">
+                            <div>
+                                来自用户
+                                <strong style="color: red">{{appmnts.user.userName}}</strong>的
+                                <strong style="color: red">{{appmnts.appraise}}</strong>星评价：
+                                <strong>{{appmnts.appraiseContext}}</strong>
+                            </div>
+                        </el-col>
+                        <el-col :span="6" :offset="6"><div>{{appmnts.endDate}}</div></el-col>
+                    </el-row>
                 </template>
             </el-table-column>
         </el-table>

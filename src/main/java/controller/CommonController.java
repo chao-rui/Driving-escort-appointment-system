@@ -50,8 +50,13 @@ public class CommonController {
     }
 
     @RequestMapping(value = "show")
-    public ModelAndView showContext(@RequestParam("url")String url){
-        return new ModelAndView(url);
+    public ModelAndView showContext(@RequestParam("url")String url,
+                                    @RequestParam(value = "value",required = false)String value){
+        ModelAndView modelAndView=new ModelAndView(url);
+        if(value!=null&& !value.equals("")){
+            modelAndView.addObject("value",value);
+        }
+        return modelAndView;
     }
 
     @RequestMapping(value = "index")
@@ -66,6 +71,11 @@ public class CommonController {
     @RequestMapping(value = "error")
     public ModelAndView errPageLoad(){
         return new ModelAndView("common/error");
+    }
+
+    @RequestMapping(value = "forgetPwd")
+    public ModelAndView fWDPageLoad(){
+        return new ModelAndView("common/forgetPwd");
     }
 
 }

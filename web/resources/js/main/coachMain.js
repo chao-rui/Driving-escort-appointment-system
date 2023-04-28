@@ -99,7 +99,7 @@ new Vue({
                 success:function (data) {
                     for(let i=0;i<data.length;i++){
                         if(data[i].appointmentState==="3"){
-                            that.appmntsList.add(data[i]);
+                            that.appmntsList.push(data[i]);
                         }
                     }
                 },

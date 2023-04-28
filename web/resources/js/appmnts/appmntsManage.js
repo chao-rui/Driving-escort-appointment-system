@@ -29,7 +29,7 @@ new Vue({
             maxTime: ''
         },
         appraise: {
-            value: '5',
+            value: 5,
             context: '',
         },
         appmntsStateList: [{
@@ -274,7 +274,7 @@ new Vue({
         },
         updAppraise() {
             let that = this;
-            this.$refs.appraise(valid => {
+            this.$refs.appraise.validate(valid => {
                 if (valid) {
                     this.loading = true
                     $.ajax({
@@ -355,6 +355,9 @@ new Vue({
                 }
             });
             this.loading = false;
+        },
+        StateFilter(value, row) {
+            return row.appointmentState === value;
         }
     }
 });

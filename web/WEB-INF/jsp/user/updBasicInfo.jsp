@@ -46,7 +46,11 @@
                 <el-input v-model="form.phone" type="tel" pattern="[0-9]{11}" maxlength="11"></el-input>
             </el-form-item>
 
-            <el-button type="primary" @click="save" :disabled="readOnly">更新</el-button>
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="form.email"  type="email" maxlength="50"></el-input>
+            </el-form-item>
+
+            <el-button type="primary" @click="save">更新</el-button>
 
         </el-form>
     </el-card>

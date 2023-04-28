@@ -4,6 +4,11 @@ new Vue({
         this.loading = true;
         await this.getcarModel();
         this.getCoachByModel();
+        this.getCSchoolById();
+        this.countCoach= +this.getCountSome('countCoach');
+        this.countCar= +this.getCountSome('countCar');
+        this.countApp= +this.getCountSome('countApp');
+        this.sumApp= +this.getCountSome('sumApp');
         this.loading = false;
     },
     data: {
@@ -15,10 +20,14 @@ new Vue({
         loading:false,
         countApp:'0',
         sumApp:'0',
+        countCoach:'',
+        countCar:'',
         coachList:[],
         sFreeRange:[],
         eFreeRange:[],
         originalFRange:[],
+        appmntsList:[],
+        cSchool:{},
         form:{
             userId:'',
             objectId:'',
@@ -35,8 +44,8 @@ new Vue({
             startDate:'-',
             appointmentState:'-',
         },
-        pickerOptions:{
-            disabledDate(time){
+        pickerOptions: {
+            disabledDate(time) {
                 const now = new Date()
                 const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
                 const dayOfWeek = today.getDay()
@@ -61,6 +70,22 @@ new Vue({
                 this.carModelDig=true;
             }
         },
+        getCSchoolById(){
+            let that=this;
+            $.ajax({
+                url:'CarSchool/getCSchoolById',
+                data:{
+                    "cSchoolId":cSchoolId
+                },
+                success:function (data) {
+                    that.cSchool=data;
+                },
+                error:function (e){
+                    console.log(e);
+                    window.location.href="error";
+                }
+            });
+        },
         getCoachByModel(){
             this.carModelDig=false;
             if(this.checked){
@@ -70,7 +95,8 @@ new Vue({
             $.ajax({
                 url:"Coach/getCoachByModel",
                 data:{
-                    carModel:that.carModel
+                    "carModel":that.carModel,
+                    "cSchoolId": cSchoolId
                 },
                 success:function (data) {
                     that.coachList=data;
@@ -216,6 +242,45 @@ new Vue({
                 });
             }
             this.loading=false;
+        },
+        getCountSome(object){
+            let result='';
+            $.ajax({
+                url:'Stats/'+object+'InCS',
+                async:false,
+                data:{
+                    cSchoolId:cSchoolId,
+                },
+                success:function (data){
+                    result=data;
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
+            return result;
+        },
+        getAppraise(row){
+            let that=this;
+            $.ajax({
+                url:'Appmnts/getAppmntsByOId',
+                data:{
+                    objectId:row.userId,
+                },
+                success:function (data){
+                    that.appmntsList=[];
+                    for(let i=0;i<data.length;i++){
+                        if(data[i].appointmentState==="3"||data[i].appointmentState==="4"){
+                            that.appmntsList.push(data[i]);
+                        }
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    top.location.href="error";
+                }
+            });
         }
     }
 })

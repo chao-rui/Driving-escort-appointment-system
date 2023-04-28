@@ -42,7 +42,8 @@
 
                     <el-table-column
                             prop="applyState"
-                            label="状态">
+                            label="状态"
+                            :formatter="applyStateFormatter">
                     </el-table-column>
                 </el-table>
             </el-card>
@@ -72,6 +73,34 @@
             </el-card>
         </el-col>
     </el-row>
+    <el-card style="margin-right: 20px">
+    <el-table
+            :data="carSchoolList">
+        <el-table-column
+                prop="carSchoolName"
+                label="驾校">
+        </el-table-column>
+        <el-table-column
+                prop="carSchoolAdders"
+                width="500px"
+                label="地址">
+        </el-table-column>
+        <el-table-column
+                prop="carSchoolPhone"
+                label="联系方式">
+        </el-table-column>
+        <el-table-column
+                prop="appraiseCarSchool"
+                label="评价">
+        </el-table-column>
+        <el-table-column
+                label="操作">
+            <template slot-scope="scope">
+                <el-button @click="toAppmnts(scope.row)" type="primary">查看</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    </el-card>
 </div>
 </body>
 </html>

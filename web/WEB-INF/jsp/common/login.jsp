@@ -36,10 +36,15 @@
                 <el-form-item label="密码" prop="password">
                     <el-input name="password" v-model="form.password" show-password maxlength="20"></el-input>
                 </el-form-item>
-                <el-button type="primary" @click="login">登录</el-button>
-                <el-button type="primary" @click="register">注册</el-button>
             </div>
         </el-form>
+        <el-row>
+            <el-col :span="4" :offset="7"><el-button type="primary" @click="login">登录</el-button></el-col>
+            <el-col :span="4" :offset="2"><el-button type="primary" @click="register">注册</el-button></el-col>
+            <el-col :span="4" :offset="3">
+                <el-link type="danger" href="forgetPwd" style="margin-top: 25px">忘记密码</el-link>
+            </el-col>
+        </el-row>
     </el-card>
 </div>
 </body>

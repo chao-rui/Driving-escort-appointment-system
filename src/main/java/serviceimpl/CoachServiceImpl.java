@@ -30,8 +30,8 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public List<Coach> getCoachByModel(String Model){
-        return coachDao.getCoachByModel(Model);
+    public List<Coach> getCoachByModel(String Model,String cSchoolId){
+        return coachDao.getCoachByModel(Model,cSchoolId);
     }
 
     @Override

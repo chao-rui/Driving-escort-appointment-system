@@ -10,6 +10,8 @@ new Vue({
                 pwdCheck: ''
             },
             loading: false,
+            userIdDlg:false,
+            userId:'',
             rules: {
                 userName: [
                     {required: true, message: '请输入用户名', trigger: 'blur'},
@@ -38,14 +40,9 @@ new Vue({
                 url: "/user/getNewId",
                 type: "POST",
                 success: function (data) {
+                    that.userId=data;
                     that.loading = false;
-                    that.$alert('请牢记你的账号:</br><strong style="font-size:40px;color: red">' + data + '</strong>',
-                        '您的账号', {
-                            dangerouslyUseHTMLString: true,
-                            callback: action => {
-                                window.location.href = '/';
-                            }
-                        });
+                    that.userIdDlg=true;
                 },
                 errors: function (e) {
                     console.log(e);
@@ -87,6 +84,9 @@ new Vue({
             } else {
                 callback();
             }
+        },
+        toLogin(){
+            window.location.href="/";
         }
     }
 })

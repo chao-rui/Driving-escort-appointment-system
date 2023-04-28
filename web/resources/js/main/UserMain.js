@@ -6,6 +6,7 @@ new Vue({
         this.sumApp= +this.getCountSome('sumApp');
         this.applyList=this.getApplyByUId();
         this.RecAppInU();
+        this.getCSchoolAll();
         this.loading = false;
     },
     data: {
@@ -15,6 +16,7 @@ new Vue({
         countApp:'0',
         sumApp:'0',
         applyList:[],
+        carSchoolList:[],
         recApp:{
             object:{
                 userRname:'-',
@@ -83,6 +85,36 @@ new Vue({
                     window.location.href="error";
                 }
             });
+        },
+        getCSchoolAll() {
+            let that=this;
+            $.ajax({
+                url: "CarSchool/getCSchoolAll",
+                success: function (data) {
+                    that.carSchoolList=data;
+                },
+                error: function (e) {
+                    console.log(e);
+                    window.location.href="error"
+                }
+            });
+        },
+        applyStateFormatter(row, column, cellValue) {
+            let Flag = '';
+            switch (cellValue) {
+                case "0":
+                    Flag = "待审核";
+                    break;
+                case "1":
+                    Flag = "未通过";
+                    break;
+                default:
+                    break;
+            }
+            return Flag;
+        },
+        toAppmnts(row){
+            window.location.href="show?url=appmnts/addAppmnts&value="+row.carSchoolId;
         }
     }
 })

@@ -36,9 +36,10 @@ public interface CoachDao {
 
     //教练信息查询（按车辆类型）
     @Select("SELECT * FROM coach JOIN car ON coach.USER_ID = car.USER_ID " +
-            "WHERE car.CAR_MODEL = #{Model} AND car.CAR_FLAG=1;")
+            "WHERE car.CAR_MODEL = #{Model} AND car.CAR_FLAG=1 AND car.CAR_SCHOOL_ID=#{cSchoolId};")
     @ResultMap("CUserInfoResultMap")
-    List<Coach> getCoachByModel(@Param("Model")String Model);
+    List<Coach> getCoachByModel(@Param("Model")String Model,
+                                @Param("cSchoolId")String cSchoolId);
 
 
     //注销

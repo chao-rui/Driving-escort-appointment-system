@@ -49,6 +49,12 @@
             </div>
         </el-form>
     </el-card>
+    <el-dialog title="提醒" :visible.sync="userIdDlg" width="30%">
+        <p>请牢记您的账号：</p>
+        <p><strong style="font-size: 40px;color: red">{{userId}}</strong></p>
+        <p style="color: red">请第一时间登录账号，并绑定邮箱</p>
+        <el-button type="primary" @click="toLogin">确 定</el-button>
+    </el-dialog>
 </div>
 </body>
 </html>

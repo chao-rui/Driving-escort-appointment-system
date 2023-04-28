@@ -12,6 +12,7 @@ new Vue({
             userName: '',
             gender: '',
             phone: '',
+            email:'',
             birthYear: ''
         },
         loading: false,
@@ -24,6 +25,10 @@ new Vue({
             phone: [
                 {required: true, message: '请输入手机号码', trigger: 'blur'},
                 {pattern: /^1\d{10}$/, message: '手机号码必须是11位数字', trigger: 'blur'}
+            ],
+            email: [
+                {required: true, message: '请输入邮箱', trigger: 'blur'},
+                {pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/, message: '邮箱格式错误', trigger: 'blur'}
             ],
             birthYear: [
                 {required: true, message: '请输入出生年', trigger: 'blur'},
@@ -45,6 +50,7 @@ new Vue({
                     that.form.birthYear=data.birthYear+"";
                     that.form.gender=data.gender;
                     that.form.phone=data.phone;
+                    that.form.email=data.email;
                 }
             });
         },
@@ -59,6 +65,7 @@ new Vue({
                             userName: this.form.userName,
                             gender: this.form.gender,
                             phone: this.form.phone,
+                            email:this.form.email,
                             birthYear: this.form.birthYear,
                             userId: sessionStorage.getItem("userId")
                         },
