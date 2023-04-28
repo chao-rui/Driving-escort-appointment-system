@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80032
 File Encoding         : 65001
 
-Date: 2023-04-27 18:50:22
+Date: 2023-04-28 18:13:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,13 +49,14 @@ CREATE TABLE `appmnts` (
   `APPRAISE` double DEFAULT NULL,
   `APPRAISE_CONTEXT` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`APPOINTMENT_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of appmnts
 -- ----------------------------
 INSERT INTO `appmnts` VALUES ('15', '42', '40', '2.5', '2023-04-28 08:30:00', '2023-04-28 11:00:00', '4', null, null);
-INSERT INTO `appmnts` VALUES ('17', '42', '40', '1', '2023-04-28 13:00:00', '2023-04-28 14:00:00', '0', null, null);
+INSERT INTO `appmnts` VALUES ('17', '42', '40', '1', '2023-04-28 13:00:00', '2023-04-28 14:00:00', '3', '5', '很不错的一个教练，技术很好');
+INSERT INTO `appmnts` VALUES ('19', '42', '40', '4', '2023-04-29 08:00:00', '2023-04-29 12:00:00', '3', '5', '态度很好，也很有耐心');
 
 -- ----------------------------
 -- Table structure for car
@@ -101,7 +102,7 @@ CREATE TABLE `coach` (
 -- ----------------------------
 -- Records of coach
 -- ----------------------------
-INSERT INTO `coach` VALUES ('40', '2023040001', '3', null);
+INSERT INTO `coach` VALUES ('40', '2023040001', '3', '5');
 
 -- ----------------------------
 -- Table structure for cschool
@@ -122,7 +123,7 @@ CREATE TABLE `cschool` (
 -- ----------------------------
 -- Records of cschool
 -- ----------------------------
-INSERT INTO `cschool` VALUES ('3', '39', '西安宇星驾校', '陕西省西安市高新区团结南路26号西南方向180米', '18802980623', null, null, '2023-04-23 06:34:02');
+INSERT INTO `cschool` VALUES ('3', '39', '西安宇星驾校', '陕西省西安市高新区团结南路26号西南方向180米', '18802980623', '00005', null, '2023-04-23 06:34:02');
 
 -- ----------------------------
 -- Table structure for user
@@ -135,20 +136,23 @@ CREATE TABLE `user` (
   `GENDER` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '性别',
   `BIRTH_YEAR` smallint DEFAULT NULL COMMENT '出生年',
   `PHONE` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '电话号码',
+  `EMAIL` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `ID_NUMBER` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '身份证号',
   `PASSWORD` varchar(32) NOT NULL COMMENT '密码',
   `ROLE_FLAG` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色标识',
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('39', '新用户', '郑弘厚', '男', '1990', '14322311341', '130705199001171179', 'c4ca4238a0b923820dcc509a6f75849b', '4');
-INSERT INTO `user` VALUES ('40', '叶落', '宁天路', '男', '1995', '15342324311', '210727199504064373', 'c4ca4238a0b923820dcc509a6f75849b', '3');
-INSERT INTO `user` VALUES ('41', '羽然', '章哲熙', '女', '2017', '13282323421', '612425201703055247', 'c4ca4238a0b923820dcc509a6f75849b', '1');
-INSERT INTO `user` VALUES ('42', '俨然', '叶无恙', '男', '2001', '17534332563', '623433200106266518', 'c4ca4238a0b923820dcc509a6f75849b', '2');
-INSERT INTO `user` VALUES ('43', '妄议', null, null, null, '16253726223', null, 'c4ca4238a0b923820dcc509a6f75849b', '1');
+INSERT INTO `user` VALUES ('39', '新用户', '郑弘厚', '男', '1990', '14322311341', null, '130705199001171179', 'c4ca4238a0b923820dcc509a6f75849b', '4');
+INSERT INTO `user` VALUES ('40', '叶落', '宁天路', '男', '1995', '15342324311', null, '210727199504064373', 'c4ca4238a0b923820dcc509a6f75849b', '3');
+INSERT INTO `user` VALUES ('41', '羽然', '章哲熙', '女', '2017', '13282323421', null, '612425201703055247', 'c4ca4238a0b923820dcc509a6f75849b', '1');
+INSERT INTO `user` VALUES ('42', '俨然', '叶无恙', '男', '2001', '17534332563', 'wang.rchao@outlook.com', '623433200106266518', 'c4ca4238a0b923820dcc509a6f75849b', '2');
+INSERT INTO `user` VALUES ('43', '妄议', null, null, null, '16253726223', null, null, 'c4ca4238a0b923820dcc509a6f75849b', '1');
+INSERT INTO `user` VALUES ('45', '南墙', null, null, null, '16724822435', null, null, 'c4ca4238a0b923820dcc509a6f75849b', '1');
+INSERT INTO `user` VALUES ('46', '吴山', null, null, null, '17380503915', null, null, 'c4ca4238a0b923820dcc509a6f75849b', '1');
 DROP TRIGGER IF EXISTS `delApply`;
 DELIMITER ;;
 CREATE TRIGGER `delApply` AFTER DELETE ON `apply` FOR EACH ROW BEGIN
