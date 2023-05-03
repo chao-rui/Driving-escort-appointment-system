@@ -17,13 +17,13 @@ public class EmailServiceImpl implements EmailService {
         // 配置邮件服务器
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.qq.com");
-        props.put("mail.smtp.port", "25");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
         // 认证信息
-        String username = "2845144562@qq.com";
-        String password = "usplqzxfbayxdgii";
+        String username = "wrchao0124@qq.com";
+        String password = "tsmaqgoojrzxdhff";
 
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
@@ -40,7 +40,8 @@ public class EmailServiceImpl implements EmailService {
                 "<body>\n" +
                 "    <h1>重置密码</h1>\n" +
                 "    <p>亲爱的用户，您好！</p>\n" +
-                "    <p>您正在进行重置密码操作。您的验证码为：<strong>"+code+"</strong></p>\n" +
+                "    <p>您正在进行重置密码操作。您的验证码为：</p>\n" +
+                "    <p style=\"font-size: larger; color: red; font-weight: bolder\">"+code+"</p>\n" +
                 "    <p>请在 10 分钟内使用此验证码完成重置密码操作。</p>\n" +
                 "    <p>如果您没有进行重置密码操作，请忽略此邮件。</p>\n" +
                 "    <p>感谢您对我们的支持！</p>\n" +

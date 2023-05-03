@@ -23,8 +23,8 @@
 </head>
 <body>
 <div id="app">
-    <el-card class="box-card" v-loading="loading" style="height: 360px">
-        <el-steps :active="1" align-center>
+    <el-card class="box-card" v-loading="loading">
+        <el-steps :active="active" finish-status="success" align-center>
             <el-step title="输入账号" description="请先输入账号"></el-step>
             <el-step title="填写验证码" description="请检查邮件，并填写验证码和新密码"></el-step>
             <el-step title="成功" description="重置成功啦，快去登录吧"></el-step>

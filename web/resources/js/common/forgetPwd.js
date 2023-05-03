@@ -4,13 +4,14 @@ new Vue({
         var that = this;
         return {
             loading:false,
+            active:0,
             setup1:true,
             setup2:false,
             setup3:false,
             form: {
                 userId: '',
                 code:'',
-                password: '',
+                newPwd: '',
                 pwdCheck:''
             },
             rules: {
@@ -18,7 +19,7 @@ new Vue({
                     {required: true, message: '请输入账号', trigger: 'blur'},
                     {max: 10, message: '账号长度不能超过10位', trigger: 'blur'}
                 ],
-                password: [
+                newPwd: [
                     {required: true, message: '请输入密码', trigger: 'blur'},
                     {max: 20, message: '密码长度不能超过20位', trigger: 'blur'},
                     {pattern: /^[a-zA-Z0-9]+$/, message: '密码只能包含字母和数字', trigger: 'blur'}
@@ -48,6 +49,7 @@ new Vue({
                             if (data) {
                                 that.setup1=false;
                                 that.setup2=true;
+                                that.active++;
                             } else {
                                 alert("该账号不存在！")
                             }
@@ -75,12 +77,13 @@ new Vue({
                         data: {
                             "code":this.form.code,
                             "userId":this.form.userId,
-                            "password":this.form.password
+                            "password":this.form.newPwd
                         },
                         success: function (data) {
                             if (data) {
                                 that.setup2=false;
                                 that.setup3=true;
+                                that.active++;
                             } else {
                                 alert("验证码错误！")
                             }
