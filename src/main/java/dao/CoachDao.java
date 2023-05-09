@@ -17,6 +17,12 @@ public interface CoachDao {
                      @Param("workId")String workId,
                      @Param("carSchoolId")String CarSchoolId);
 
+    //更新教练简介和价格
+    @Update("UPDATE coach SET CONTEXT = #{context},PRICE=#{price} WHERE USER_ID=#{userId};")
+    Boolean updCoach(@Param("userId")String userId,
+                     @Param("price")String price,
+                     @Param("context")String context);
+
     //教练信息查询（按编号）
     @Select("SELECT * FROM coach WHERE USER_ID=#{UserId}")
     @Results(id="CUserInfoResultMap",value = {

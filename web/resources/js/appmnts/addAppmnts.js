@@ -3,12 +3,12 @@ new Vue({
     mounted:async function () {
         this.loading = true;
         await this.getcarModel();
-        this.getCoachByModel();
         this.getCSchoolById();
         this.countCoach= +this.getCountSome('countCoach');
         this.countCar= +this.getCountSome('countCar');
         this.countApp= +this.getCountSome('countApp');
         this.sumApp= +this.getCountSome('sumApp');
+        this.getCSPhotos(cSchoolId);
         this.loading = false;
     },
     data: {
@@ -28,13 +28,17 @@ new Vue({
         originalFRange:[],
         appmntsList:[],
         cSchool:{},
+        photos:[],
+        coachPhoto:{},
+        total:'0.00',
         form:{
             userId:'',
             objectId:'',
             startDate:'',
             endDate:'',
             time:'',
-            date:''
+            date:'',
+            price:''
         },
         recApp:{
             object:{
@@ -66,6 +70,7 @@ new Vue({
         getcarModel(){
             if(localStorage.getItem("carModel")){
                 this.carModel=localStorage.getItem("carModel");
+                this.getCoachByModel();
             }else{
                 this.carModelDig=true;
             }
@@ -108,6 +113,7 @@ new Vue({
             if(roleFlag==="2") {
                 this.appmntsDig = true;
                 this.form.objectId = row.userId;
+                this.form.price=row.price;
             }else{
                 this.$alert("<strong>未成年用户无法预约<strong>!</br>" +
                     "若您已成年，请先在<span style='color: red'>用户信息管理</span>" +
@@ -129,8 +135,10 @@ new Vue({
                 let startDate=this.dateStrToDate(this.form.startDate);
                 let endDate=this.dateStrToDate(this.form.endDate);
                 this.form.time=((endDate - startDate)/3600000).toFixed(2);
+                this.total=(this.form.price*this.form.time).toFixed(2);
             }else{
                 this.form.time="0.00";
+                this.total="0.00";
             }
             if(value){
                 this.sFreeRange=JSON.parse(JSON.stringify(this.originalFRange));
@@ -261,8 +269,9 @@ new Vue({
             });
             return result;
         },
-        getAppraise(row){
+        getCoachInfo(row){
             let that=this;
+            this.getCoachPhoto(row.userId);
             $.ajax({
                 url:'Appmnts/getAppmntsByOId',
                 data:{
@@ -271,7 +280,7 @@ new Vue({
                 success:function (data){
                     that.appmntsList=[];
                     for(let i=0;i<data.length;i++){
-                        if(data[i].appointmentState==="3"||data[i].appointmentState==="4"){
+                        if(data[i].appointmentState==="3"){
                             that.appmntsList.push(data[i]);
                         }
                     }
@@ -281,6 +290,58 @@ new Vue({
                     top.location.href="error";
                 }
             });
+        },
+        getCSPhotos(carSchoolId){
+            let that=this;
+            $.ajax({
+                url:'Photo/getPhotos',
+                data:{
+                    photoType:"carSchool",
+                    photoObject:carSchoolId,
+                },
+                success:function (data) {
+                    that.photos=[];
+                    const host = window.location.host;
+                    const protocol = window.location.protocol;
+                    let basePath = protocol + "//" + host;
+                    if(data){
+                        for (let i = 0; i < data.length; i++) {
+                            let file={};
+                            file.name=data[i].photoObject;
+                            file.url=basePath+data[i].photoAdd;
+                            that.photos.push(file);
+                        }
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
+        },
+        getCoachPhoto(userId){
+            let that=this;
+            $.ajax({
+                url:'Photo/getPhoto',
+                data:{
+                    photoType:"user",
+                    photoObject:userId,
+                },
+                success:function (data) {
+                    that.coachPhoto={};
+                    const host = window.location.host;
+                    const protocol = window.location.protocol;
+                    let basePath = protocol + "//" + host;
+                    if(data){
+                        that.coachPhoto.name=data.photoObject;
+                        that.coachPhoto.url=basePath+data.photoAdd;
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
         }
     }
 })

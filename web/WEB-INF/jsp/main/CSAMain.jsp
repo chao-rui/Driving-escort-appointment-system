@@ -23,7 +23,7 @@
 <body>
 <div id="app">
     <el-row style="margin-bottom: 20px">
-        <el-col :span="12">
+        <el-col :span="14">
             <el-card style="margin-right: 20px;height: 350px">
                 <el-table
                         :data="applyList"
@@ -38,10 +38,12 @@
                     </el-table-column>
                     <el-table-column
                             prop="updateDate"
-                            label="申请时间">
+                            label="申请时间"
+                            width="150">
                     </el-table-column>
                     <el-table-column
-                            label="操作">
+                            label="操作"
+                            width="200">
                         <template slot-scope="scope">
                             <el-button @click="updApply(scope.row,1)" type="success">通过</el-button>
                             <el-button @click="updApply(scope.row,0)" type="danger">拒绝</el-button>
@@ -50,7 +52,7 @@
                 </el-table>
             </el-card>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10">
             <el-card>
             <el-row style="text-align: center">
                 <el-rate v-model="appraiseCarSchool"

@@ -9,6 +9,9 @@ public interface CoachService {
     //新增
     public Boolean addCoach(String userId,String workId,String carSchoolId);
 
+    //更新
+    public Boolean updCoach(String userId,String price,String context);
+
     //查询（按编号）
     public Coach getCoachByUserId(String userId);
 

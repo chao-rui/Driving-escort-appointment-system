@@ -25,6 +25,7 @@
     <el-row style="margin-bottom: 20px">
         <el-col :span="12">
             <el-card style=" height: 360px;margin-right: 20px">
+                <strong>申请进度</strong>
                 <el-table
                         :data="applyList">
                     <el-table-column
@@ -37,13 +38,21 @@
                     </el-table-column>
                     <el-table-column
                             prop="updateDate"
-                            label="申请时间">
+                            label="申请时间"
+                            width="150">
                     </el-table-column>
 
                     <el-table-column
                             prop="applyState"
                             label="状态"
                             :formatter="applyStateFormatter">
+                    </el-table-column>
+
+                    <el-table-column
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="delApply(scope.row)" type="danger">撤销</el-button>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-card>
@@ -68,38 +77,41 @@
                     <el-descriptions-item label="教练">{{recApp.object.userRname}}</el-descriptions-item>
                     <el-descriptions-item label="联系电话">{{recApp.object.phone}}</el-descriptions-item>
                     <el-descriptions-item label="开始时间">{{recApp.startDate}}</el-descriptions-item>
-                    <el-descriptions-item label="状态"><el-tag size="small">{{recApp.appointmentState}}</el-tag></el-descriptions-item>
+                    <el-descriptions-item label="状态">
+                        <el-tag size="small">{{recApp.appointmentState}}</el-tag>
+                    </el-descriptions-item>
                 </el-descriptions>
             </el-card>
         </el-col>
     </el-row>
     <el-card style="margin-right: 20px">
-    <el-table
-            :data="carSchoolList">
-        <el-table-column
-                prop="carSchoolName"
-                label="驾校">
-        </el-table-column>
-        <el-table-column
-                prop="carSchoolAdders"
-                width="500px"
-                label="地址">
-        </el-table-column>
-        <el-table-column
-                prop="carSchoolPhone"
-                label="联系方式">
-        </el-table-column>
-        <el-table-column
-                prop="appraiseCarSchool"
-                label="评价">
-        </el-table-column>
-        <el-table-column
-                label="操作">
-            <template slot-scope="scope">
-                <el-button @click="toAppmnts(scope.row)" type="primary">查看</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+        <strong>驾校一览</strong>
+        <el-table
+                :data="carSchoolList">
+            <el-table-column
+                    prop="carSchoolName"
+                    label="驾校">
+            </el-table-column>
+            <el-table-column
+                    prop="carSchoolAdders"
+                    width="500px"
+                    label="地址">
+            </el-table-column>
+            <el-table-column
+                    prop="carSchoolPhone"
+                    label="联系方式">
+            </el-table-column>
+            <el-table-column
+                    prop="appraiseCarSchool"
+                    label="评价">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template slot-scope="scope">
+                    <el-button @click="toAppmnts(scope.row)" type="primary">查看</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
     </el-card>
 </div>
 </body>

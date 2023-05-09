@@ -45,6 +45,39 @@
                     </el-form-item>
 
                     <el-button type="primary" @click="save">更新</el-button>
+                    <el-button type="primary" @click="cSPhotoDlg=true">上传图片</el-button>
+                    <el-dialog
+                            title="上传驾校图片"
+                            :visible.sync="cSPhotoDlg"
+                            width="50%">
+                        <el-upload
+                                ref="photo"
+                                action="Photo/addPhoto"
+                                multiple
+                                list-type="picture-card"
+                                :file-list="form.photos"
+                                :data="uploadData"
+                                :on-preview="handlePictureCardPreview"
+                                :auto-upload="false"
+                                :on-change="limited"
+                                :on-remove="remove"
+                                :class="{hide:limitedFlg}"
+                                :limit="3">
+                            <i class="el-icon-plus"
+                               style="height:100%;
+                                  display: flex;
+                                  justify-content: center;
+                                  align-items: center;"></i>
+                            <div slot="tip" class="el-upload__tip">最多可上传3个图片</div>
+                        </el-upload>
+                        <span slot="footer" class="dialog-footer">
+                            <el-button type="primary" @click="uploadPhoto">提交</el-button>
+                            <el-button @click="cSPhotoDlg = false">取 消</el-button>
+                        </span>
+                        <el-dialog :visible.sync="photoDlg" append-to-body>
+                            <img width="100%" :src="photoDlgUrl" alt="">
+                        </el-dialog>
+                    </el-dialog>
 
                 </el-form>
             </el-card>
@@ -52,7 +85,8 @@
         <el-col :span="8">
             <el-card style="height: 360px">
                 <el-row style="text-align: center">
-                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900" score-template="{value}"></el-rate>
+                    <el-rate v-model="form.appraiseCarSchool" disabled text-color="#ff9900"
+                             score-template="{value}"></el-rate>
                 </el-row>
                 <el-row style="text-align: center">
                     <strong style="font-size: xxx-large;color: gold">{{form.appraiseCarSchool}}</strong>
@@ -114,11 +148,32 @@
                     label="操作"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="delCoach(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button @click="toUpdCoach(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="toAppmnts(scope.row)" type="text" size="small">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
     </el-card>
+    <el-dialog title="教练管理"
+               :visible.sync="coachDlg"
+               width="50%">
+        <el-form :model="coachForm" ref="coachForm" :rules="coachRules">
+            <el-form-item label="单价" prop="price" label-width="80px">
+                <el-input v-model="coachForm.price" maxlength="4" type="number" step="0.1">
+                    <template slot="append">/小时</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="教练简介" prop="context" label-width="80px">
+                <el-input type="textarea" show-word-limit v-model="coachForm.context"
+                          maxlength="200"></el-input>
+            </el-form-item>
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="updCoach">提交</el-button>
+            <el-button @click="coachDlg = false">取 消</el-button>
+        </span>
+    </el-dialog>
 </div>
 </body>
 </html>

@@ -44,6 +44,32 @@
                             </el-select>
                         </el-form-item>
 
+                        <el-form-item label="照片" prop="photo" label-width="80px" style="text-align: start">
+                            <el-upload
+                                    ref="photo"
+                                    action="Photo/addPhoto"
+                                    multiple
+                                    list-type="picture-card"
+                                    :file-list="formCoach.photos"
+                                    :data="uploadData"
+                                    :on-preview="handlePictureCardPreview"
+                                    :auto-upload="false"
+                                    :on-change="limited"
+                                    :on-remove="remove"
+                                    :class="{hide:limitedFlg}"
+                                    :limit="1">
+                                <i class="el-icon-plus"
+                                   style="height:100%;
+                                  display: flex;
+                                  justify-content: center;
+                                  align-items: center;"></i>
+                                <div slot="tip" class="el-upload__tip">请上传个人证件照</div>
+                            </el-upload>
+                            <el-dialog :visible.sync="photoDlg" append-to-body>
+                                <img width="100%" :src="photoDlgUrl" alt="">
+                            </el-dialog>
+                        </el-form-item>
+
                         <el-button type="primary" @click="saveCoach">{{applyState}}</el-button>
 
                     </div>

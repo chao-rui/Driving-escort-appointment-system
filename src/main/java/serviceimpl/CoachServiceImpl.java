@@ -20,6 +20,11 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
+    public Boolean updCoach(String userId, String price, String context) {
+        return coachDao.updCoach(userId,price,context);
+    }
+
+    @Override
     public Coach getCoachByUserId(String userId){
         return coachDao.getCoachByUserId(userId);
     }

@@ -145,7 +145,8 @@
                         v-for="item in appmntsStateList"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                        :disabled="item.disabled">
                 </el-option>
             </el-select>
             </el-form-item>
@@ -153,7 +154,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="updAppmnts">提交</el-button>
-            <el-button type="danger" @click="delAppmnts">撤销</el-button>
+            <el-button type="danger" @click="delAppmnts" :disabled="isOutDate">撤销</el-button>
             <el-button @click="appmntsDlg = false">取 消</el-button>
         </span>
     </el-dialog>

@@ -25,6 +25,14 @@ public class CoachController {
         return coachService.addCoach(userId,workId,carSchoolId);
     }
 
+    @RequestMapping(value = "updCoach")
+    @ResponseBody
+    public Boolean updCoach(@RequestParam("userId")String userId,
+                            @RequestParam("price")String price,
+                            @RequestParam("context")String context){
+        return coachService.updCoach(userId,price,context);
+    }
+
     @RequestMapping(value = "getCoachByUserId")
     @ResponseBody
     public Coach getCoachByUserId(@RequestParam("userId")String userId){

@@ -8,6 +8,7 @@ new Vue({
         this.countCar= +this.getCountSome('countCar');
         this.countApp= +this.getCountSome('countApp');
         this.sumApp= +this.getCountSome('sumApp');
+        this.getCSPhotos(this.form.carSchoolId);
         this.loading = false;
     },
     data:{
@@ -16,6 +17,11 @@ new Vue({
         countCar:'',
         countApp:'',
         sumApp:'',
+        photoDlgUrl:'',
+        photoDlg:false,
+        limitedFlg:false,
+        cSPhotoDlg:false,
+        coachDlg:false,
         form:{
             carSchoolId:'',
             carSchoolName:'',
@@ -23,7 +29,17 @@ new Vue({
             carSchoolPhone:'',
             carSchoolDesc:'',
             appraiseCarSchool:0,
-            appraiseContext:''
+            appraiseContext:'',
+            photos:[]
+        },
+        coachForm:{
+            userId:'',
+            price:'',
+            context:''
+        },
+        uploadData:{
+            photoType:"carSchool",
+            photoObject:'',
         },
         rules:{
             cSchoolName: [
@@ -42,6 +58,15 @@ new Vue({
                 {required: true, message: '请输入驾校简介', trigger: 'blur'},
                 {max: 10, message: '用户名长度不能超过200字', trigger: 'blur'}
             ],
+        },
+        coachRules:{
+            price: [
+                {required: true, message: '请输入单价，单位小时', trigger: 'blur'},
+            ],
+            context: [
+                {required: true, message: '请输入教练简介', trigger: 'blur'},
+                {max: 200, message: '教练简介长度不能超过200位', trigger: 'blur'}
+            ]
         },
         coachList:[]
     },
@@ -138,6 +163,124 @@ new Vue({
                 }
             });
             return result;
+        },
+        toAppmnts(row) {
+            window.location.href="show?url=coach/coachInfo&value="+row.userId;
+        },
+        handlePictureCardPreview(file) {
+            this.photoDlgUrl = file.url;
+            this.photoDlg = true;
+        },
+        limited(file,fileList){
+            if(fileList.length>=3){
+                this.limitedFlg=true;
+            }
+            this.form.photos=fileList;
+        },
+        uploadPhoto(){
+            this.uploadData.photoObject=this.form.carSchoolId;
+            this.$refs.photo.submit();
+            this.cSPhotoDlg=false;
+        },
+        getCSPhotos(carSchoolId){
+            let that=this;
+            $.ajax({
+                url:'Photo/getPhotos',
+                data:{
+                    photoType:"carSchool",
+                    photoObject:carSchoolId,
+                },
+                success:function (data) {
+                    that.form.photos=[];
+                    const host = window.location.host;
+                    const protocol = window.location.protocol;
+                    let basePath = protocol + "//" + host;
+                    if(data){
+                        for (let i = 0; i < data.length; i++) {
+                            let file={};
+                            file.name=data[i].photoObject;
+                            file.url=basePath+data[i].photoAdd;
+                            that.form.photos.push(file);
+                        }
+                        if(data.length>=3){
+                            that.limitedFlg=true;
+                        }else{
+                            that.limitedFlg=false;
+                        }
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
+        },
+        remove(file,fileList){
+            this.limited(file,fileList);
+            $.ajax({
+                url:'Photo/delPhoto',
+                data:{
+                    photoType:"carSchool",
+                    photoObject:file.name,
+                },
+                success:function (data) {
+
+                },
+                errors:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
+        },
+        toUpdCoach(row){
+            this.coachForm.userId=row.userId;
+            this.coachForm.price=row.price;
+            this.coachForm.context=row.context;
+            this.coachDlg=true;
+        },
+        updCoach() {
+            let that = this;
+            this.$refs.coachForm.validate(valid => {
+                if (valid) {
+                    $.ajax({
+                        url: "Coach/updCoach",
+                        data: this.coachForm,
+                        success: function (data) {
+                            if (data) {
+                                that.$notify({
+                                    title: '成功',
+                                    message: '更新成功',
+                                    type: 'success',
+                                    duration: 1500,
+                                    onClose() {
+                                        location.reload();
+                                    }
+                                });
+                                that.coachDlg = false;
+                            } else {
+                                that.$notify({
+                                    title: '失败',
+                                    message: '更新失败',
+                                    type: 'error'
+                                });
+                            }
+                        },
+                        error: function (e) {
+                            that.$notify({
+                                title: '失败',
+                                message: '更新失败,错误信息' + e,
+                                type: 'error',
+                                duration: 1500,
+                                onClose() {
+                                    top.location.href = "error";
+                                }
+                            });
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            });
         }
     }
 });

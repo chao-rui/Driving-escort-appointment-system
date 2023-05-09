@@ -14,3 +14,6 @@ body{
     text-align: center;
     margin: 20%;
 }
+.hide .el-upload--picture-card {
+    display: none;
+}

@@ -127,7 +127,12 @@ new Vue({
                     cSchoolId:that.CSchoolId
                 },
                 success:function (data) {
-                    that.appmntsList=data;
+                    that.appmntsList=[];
+                    for(let i=0;i<data.length;i++){
+                        if(data[i].appointmentState==="3"){
+                            that.appmntsList.push(data[i]);
+                        }
+                    }
                 },
                 error:function (e) {
                     top.location.href="error";

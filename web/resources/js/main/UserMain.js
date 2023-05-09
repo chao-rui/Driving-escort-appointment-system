@@ -115,6 +115,49 @@ new Vue({
         },
         toAppmnts(row){
             window.location.href="show?url=appmnts/addAppmnts&value="+row.carSchoolId;
-        }
+        },
+        delApply(row){
+            let that=this;
+            this.$confirm('确认撤销该预约?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then( () => {
+                $.ajax({
+                    url:"Apply/delApply",
+                    data:{
+                        applyId:row.applyId,
+                    },
+                    success:function (data){
+                        if (data) {
+                            that.$notify({
+                                title: '成功',
+                                message: '撤销成功',
+                                type: 'success',
+                                duration:1500,
+                                onClose(){
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            that.$notify({
+                                title: '警告',
+                                message: '撤销失败,请重试',
+                                type: 'warning'
+                            });
+                        }
+                    },
+                    error:function (e) {
+                        that.$notify({
+                            title: '失败',
+                            message: '撤销失败,错误信息' + e,
+                            type: 'error'
+                        });
+                    }
+                });
+            }).catch(() => {
+
+            });
+        },
     }
 })

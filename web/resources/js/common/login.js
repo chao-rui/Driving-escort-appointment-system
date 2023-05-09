@@ -25,6 +25,7 @@ new Vue({
         login(){
             let that=this;
             this.loading=true;
+            $.ajax({url: "updAppState"});
             this.$refs.form.validate(valid => {
                 if (valid) {
                     $.ajax({

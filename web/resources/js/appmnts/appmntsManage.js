@@ -34,16 +34,20 @@ new Vue({
         },
         appmntsStateList: [{
             value: '0',
-            label: '未开始'
+            label: '未开始',
+            disabled:false
         }, {
             value: '1',
-            label: '预约中'
+            label: '预约中',
+            disabled:false
         }, {
             value: '2',
-            label: '已结束'
+            label: '已结束',
+            disabled:false
         }, {
             value: '3',
-            label: '已评价'
+            label: '已评价',
+            disabled:false
         }],
         pickerOptions: {
             disabledDate(time) {
@@ -102,6 +106,8 @@ new Vue({
             this.form.objectId = row.object.userId;
             this.form.appmntsId = row.appointmentId;
             this.isOutDate = new Date() > new Date(row.startDate);
+            this.appmntsStateList[0].disabled=this.isOutDate;
+            this.appmntsStateList[1].disabled=this.isOutDate;
             let [date, timeS] = row.startDate.split(' ');
             let [, timeE] = row.endDate.split(' ');
             this.form.startDate = timeS;

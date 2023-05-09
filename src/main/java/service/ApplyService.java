@@ -21,4 +21,7 @@ public interface ApplyService {
 
     //更新
     Boolean updApply(String applyId,String applyState,Date updDate);
+
+    //删除
+    Boolean delApply(String applyId);
 }

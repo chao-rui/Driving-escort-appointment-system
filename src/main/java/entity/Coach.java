@@ -9,5 +9,10 @@ public class Coach {
   private String workId;
   private String carSchoolId;
   private int appraiseCoach;
+
+  private String context;
+
+  private double price;
+
   private User user;
 }

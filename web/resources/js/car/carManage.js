@@ -10,9 +10,12 @@ new Vue({
         let that = this;
         return {
             CSchoolId: '',
-            dialogVisible: false,
+            photoDlgUrl:'',
+            photoDlg:false,
+            carDlg: false,
             loading: false,
             isUpd:false,
+            limitedFlg:false,
             carList: [],
             form: {
                 carId:'',
@@ -21,6 +24,7 @@ new Vue({
                 carModel: '',
                 userId: '',
                 carFlag: '',
+                photos:[],
             },
             rules: {
                 carNumber: [
@@ -40,6 +44,9 @@ new Vue({
                 carFlag: [
                     {required: true, message: '请选择车辆状态', trigger: 'blur'},
                 ],
+                photos: [
+                    {required: true, message: '请选择图片', trigger: 'blur'},
+                ],
             },
             carModelList: [{carModel: "1", label: "手动挡"},
                            {carModel: "2", label: "自动挡"}],
@@ -48,7 +55,11 @@ new Vue({
                           {carFlag: "2", label: "预约中", disabled: true},
                           {carFlag: "3", label: "维修中", disabled: false},
                           {carFlag: "4", label: "报废", disabled: true}],
-            coachList: []
+            coachList: [],
+            uploadData:{
+                photoType:"car",
+                photoObject:'',
+            }
         }
     },
     methods:{
@@ -101,7 +112,7 @@ new Vue({
             });
         },
         addCar(){
-            this.dialogVisible=true;
+            this.carDlg=true;
             this.getCoachByCSId();
         },
         save(){
@@ -130,7 +141,7 @@ new Vue({
                                         onClose(){
                                             location.reload();
                                         }});
-                                    that.dialogVisible=false;
+                                    that.carDlg=false;
                                 }else{
                                     that.$notify({
                                         title: '失败',
@@ -150,6 +161,7 @@ new Vue({
                                 });
                             }
                         });
+                        that.uploadPhoto();
                         that.loading= false;
                     } else {
                         return false;
@@ -181,7 +193,7 @@ new Vue({
                                         onClose(){
                                             location.reload();
                                         }});
-                                    that.dialogVisible=false;
+                                    that.carDlg=false;
                                 }else{
                                     that.$notify({
                                         title: '失败',
@@ -201,6 +213,7 @@ new Vue({
                                 });
                             }
                         });
+                        that.uploadPhoto();
                         that.loading= false;
                     } else {
                         return false;
@@ -209,8 +222,9 @@ new Vue({
             }
         },
         updCar(row){
-            this.dialogVisible=true;
+            this.carDlg=true;
             this.getCoachByCSId();
+            this.getCarPhoto(row.carId);
             this.form.carId=row.carId;
             this.form.carModel=row.carModel;
             this.form.carBrands=row.carBrands;
@@ -244,6 +258,70 @@ new Vue({
             } else {
                 callback();
             }
+        },
+        handlePictureCardPreview(file) {
+                this.photoDlgUrl = file.url;
+                this.photoDlg = true;
+        },
+        limited(file,fileList){
+            if(fileList.length>=3){
+                this.limitedFlg=true;
+            }
+            this.form.photos=fileList;
+        },
+        uploadPhoto(){
+            this.uploadData.photoObject=this.form.carId;
+            this.$refs.photo.submit();
+        },
+        getCarPhoto(carId){
+            let that=this;
+            $.ajax({
+                url:'Photo/getPhotos',
+                data:{
+                    photoType:"car",
+                    photoObject:carId,
+                },
+                success:function (data) {
+                    that.form.photos=[];
+                    const host = window.location.host;
+                    const protocol = window.location.protocol;
+                    let basePath = protocol + "//" + host;
+                    if(data){
+                        for (let i = 0; i < data.length; i++) {
+                            let file={};
+                            file.name=data[i].photoObject;
+                            file.url=basePath+data[i].photoAdd;
+                            that.form.photos.push(file);
+                        }
+                        if(data.length>=3){
+                            that.limitedFlg=true;
+                        }else{
+                            that.limitedFlg=false;
+                        }
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
+        },
+        remove(file,fileList){
+            this.limited(file,fileList);
+            $.ajax({
+                url:'Photo/delPhoto',
+                data:{
+                    photoType:"car",
+                    photoObject:file.name,
+                },
+                success:function (data) {
+
+                },
+                errors:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
         }
     }
 });

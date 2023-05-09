@@ -44,4 +44,9 @@ public class ApplyServiceImpl implements ApplyService {
             return applyDao.delApply(applyId);
         }
     }
+
+    @Override
+    public Boolean delApply(String applyId) {
+        return applyDao.delApply(applyId);
+    }
 }

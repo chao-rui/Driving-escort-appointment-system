@@ -30,7 +30,7 @@ new Vue({
             $.ajax({
                 url: "Coach/getCoachByUserId",
                 data: {
-                    userId: sessionStorage.getItem("userId")
+                    userId: CoachId
                 },
                 success: function (data) {
                     that.appraiseCoach= data.appraiseCoach;
@@ -54,7 +54,7 @@ new Vue({
                 url:'Stats/'+object+'InCo',
                 async:false,
                 data:{
-                    objectId:sessionStorage.getItem("userId"),
+                    objectId:CoachId
                 },
                 success:function (data){
                     result=data;
@@ -72,7 +72,7 @@ new Vue({
                 url: 'Stats/RecAppInCo',
                 async: false,
                 data: {
-                    objectId: sessionStorage.getItem("userId")
+                    objectId: CoachId
                 },
                 success: function (data) {
                     that.recApp = data;
@@ -94,7 +94,7 @@ new Vue({
             $.ajax({
                 url:'Appmnts/getAppmntsByOId',
                 data:{
-                    objectId:sessionStorage.getItem("userId")
+                    objectId:CoachId
                 },
                 success:function (data) {
                     for(let i=0;i<data.length;i++){

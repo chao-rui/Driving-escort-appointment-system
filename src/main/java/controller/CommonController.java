@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import service.CommonService;
 import service.UserService;
 
 import javax.annotation.Resource;
@@ -22,10 +23,15 @@ public class CommonController {
     @Resource
     UserService userService;
 
+    @Resource
+    CommonService commonService;
+
+
     @RequestMapping(value = "")
     public ModelAndView logPageLoad(){
         return new ModelAndView("common/login");
     }
+
 
     @RequestMapping(value = "login")
     @ResponseBody
@@ -78,4 +84,9 @@ public class CommonController {
         return new ModelAndView("common/forgetPwd");
     }
 
+    @RequestMapping(value = "updAppState")
+    @ResponseBody
+    public Boolean updAppState(){
+        return commonService.updAppState();
+    }
 }

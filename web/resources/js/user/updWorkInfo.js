@@ -3,14 +3,23 @@ new Vue({
     mounted:function (){
         this.getCSchoolAll();
         this.getApplyByUId();
+        this.getUserPhoto();
     },
     data:{
         CSchoolInfo:[],
         tabName:"first",
         isApply:false,
+        photoDlgUrl:'',
+        photoDlg:false,
+        limitedFlg:false,
+        uploadData:{
+            photoType:"user",
+            photoObject:'',
+        },
         formCoach: {
             workId: '',
             CSchoolId: '',
+            photos: []
         },
         formCSA:{
             CSchoolName:'',
@@ -31,6 +40,9 @@ new Vue({
             ],
             CSchoolId: [
                 {required: true, message: '请选择所属驾校', trigger: 'blur'},
+            ],
+            photo: [
+                {required: true, message: '请选择个人证件照', trigger: 'blur'},
             ],
         },
         rulesCSA:{
@@ -75,7 +87,7 @@ new Vue({
                     userId:sessionStorage.getItem("userId")
                 },
                 success:function (data){
-                    if(data) {
+                    if(data.length!==0) {
                         that.formCoach.workId = data[0].workId;
                         that.formCoach.CSchoolId = data[0].carSchool.carSchoolId;
                         that.tabName = "first";
@@ -94,6 +106,7 @@ new Vue({
             this.$refs.formCoach.validate(valid => {
                 if (valid) {
                     that.loading=true;
+                    this.uploadPhoto();
                     $.ajax({
                         url: "Apply/addApply",
                         data: {
@@ -176,6 +189,68 @@ new Vue({
                     return false;
                 }
             });
+        },
+        handlePictureCardPreview(file) {
+            this.photoDlgUrl = file.url;
+            this.photoDlg = true;
+        },
+        limited(file,fileList){
+            if(fileList.length>=1){
+                this.limitedFlg=true;
+            }
+            this.formCoach.photos=fileList;
+        },
+        uploadPhoto(){
+            this.uploadData.photoObject=sessionStorage.getItem("userId");
+            this.$refs.photo.submit();
+        },
+        getUserPhoto(){
+            let that=this;
+            $.ajax({
+                url:'Photo/getPhoto',
+                data:{
+                    photoType:"user",
+                    photoObject:sessionStorage.getItem("userId"),
+                },
+                success:function (data) {
+                    that.formCoach.photos=[];
+                    const host = window.location.host;
+                    const protocol = window.location.protocol;
+                    let basePath = protocol + "//" + host;
+                    if(data){
+                        let file={};
+                        file.name=data.photoObject;
+                        file.url=basePath+data.photoAdd;
+                        that.formCoach.photos.push(file);
+                    }
+                    if(that.formCoach.photos.length>=1){
+                        that.limitedFlg=true;
+                    }else{
+                        that.limitedFlg=false;
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
+        },
+        remove(file,fileList){
+            this.limited(file,fileList);
+            $.ajax({
+                url:'Photo/delPhoto',
+                data:{
+                    photoType:"user",
+                    photoObject:file.name,
+                },
+                success:function (data) {
+
+                },
+                errors:function (e) {
+                    console.log(e);
+                    window.location.href="error";
+                }
+            })
         }
     }
 })

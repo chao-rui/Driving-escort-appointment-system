@@ -64,4 +64,12 @@ public class ApplyController {
 
     }
 
+    //删除
+    @RequestMapping(value = "delApply")
+    @ResponseBody
+    public Boolean updApply(@RequestParam("applyId")String applyId){
+        return applyService.delApply(applyId);
+
+    }
+
 }

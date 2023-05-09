@@ -32,9 +32,11 @@ new Vue({
                     "userId":sessionStorage.getItem("userId")
                 },
                 success:function (data){
-                    that.form.userRName=data.userRname;
-                    that.form.idNumber=data.idNumber;
-                    that.readOnly=true;
+                    if(data.userRname!==""){
+                        that.form.userRName=data.userRname;
+                        that.form.idNumber=data.idNumber;
+                        that.readOnly=true;
+                    }
                 }
             });
         },

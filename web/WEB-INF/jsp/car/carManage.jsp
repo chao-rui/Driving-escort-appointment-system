@@ -65,8 +65,8 @@
     </el-card>
     <el-dialog
             title="车辆信息"
-            :visible.sync="dialogVisible"
-            width="30%">
+            :visible.sync="carDlg"
+            width="50%">
         <el-form :model="form" ref="form" id="form" METHOD="post" :rules="rules">
             <div>
 
@@ -74,47 +74,82 @@
                     <el-input v-model="form.carNumber" maxlength="7"></el-input>
                 </el-form-item>
 
-                <el-form-item label="品牌" prop="carBrands" label-width="80px">
-                    <el-input v-model="form.carBrands" maxlength="10"></el-input>
-                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="品牌" prop="carBrands" label-width="80px">
+                            <el-input v-model="form.carBrands" maxlength="10"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="类型" prop="carModel" label-width="80px">
+                            <el-select v-model="form.carModel" filterable placeholder="请选择" style="width: 100%">
+                                <el-option
+                                        v-for="item in carModelList"
+                                        :key="item.carModel"
+                                        :label="item.label"
+                                        :value="item.carModel">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="所属" prop="userId" label-width="80px">
+                            <el-select v-model="form.userId" filterable placeholder="请选择" style="width: 100%">
+                                <el-option
+                                        v-for="item in coachList"
+                                        :key="item.user.userId"
+                                        :label="item.user.userRname"
+                                        :value="item.user.userId">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="状态" prop="carFlag" label-width="80px" v-if="isUpd">
+                            <el-select v-model="form.carFlag" placeholder="请选择" style="width: 100%">
+                                <el-option
+                                        v-for="item in carFlagList"
+                                        :key="item.carFlag"
+                                        :label="item.label"
+                                        :value="item.carFlag"
+                                        :disabled="item.disabled">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
 
-                <el-form-item label="类型" prop="carModel" label-width="80px">
-                    <el-select v-model="form.carModel" filterable placeholder="请选择" style="width: 100%">
-                        <el-option
-                                v-for="item in carModelList"
-                                :key="item.carModel"
-                                :label="item.label"
-                                :value="item.carModel">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="所属" prop="userId" label-width="80px">
-                    <el-select v-model="form.userId" filterable placeholder="请选择" style="width: 100%">
-                        <el-option
-                                v-for="item in coachList"
-                                :key="item.user.userId"
-                                :label="item.user.userRname"
-                                :value="item.user.userId">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="状态" prop="carFlag" label-width="80px" v-if="isUpd">
-                    <el-select v-model="form.carFlag" placeholder="请选择" style="width: 100%">
-                        <el-option
-                                v-for="item in carFlagList"
-                                :key="item.carFlag"
-                                :label="item.label"
-                                :value="item.carFlag"
-                                :disabled="item.disabled">
-                        </el-option>
-                    </el-select>
+                <el-form-item label="照片" prop="photos" label-width="80px">
+                    <el-upload
+                            ref="photo"
+                            action="Photo/addPhoto"
+                            multiple
+                            list-type="picture-card"
+                            :file-list="form.photos"
+                            :data="uploadData"
+                            :on-preview="handlePictureCardPreview"
+                            :auto-upload="false"
+                            :on-change="limited"
+                            :on-remove="remove"
+                            :class="{hide:limitedFlg}"
+                            :limit="3">
+                        <i class="el-icon-plus"
+                           style="height:100%;
+                                  display: flex;
+                                  justify-content: center;
+                                  align-items: center;"></i>
+                        <div slot="tip" class="el-upload__tip">最多可上传3个图片</div>
+                    </el-upload>
+                    <el-dialog :visible.sync="photoDlg" append-to-body>
+                        <img width="100%" :src="photoDlgUrl" alt="">
+                    </el-dialog>
                 </el-form-item>
 
                 <span slot="footer" class="dialog-footer">
                     <el-button type="primary" @click="save">提交</el-button>
-                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button @click="carDlg = false">取 消</el-button>
                 </span>
 
             </div>

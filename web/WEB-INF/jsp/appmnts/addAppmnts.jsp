@@ -25,6 +25,11 @@
 </script>
 <body>
 <div id="app" v-loading="loading">
+    <el-carousel :interval="4000" type="card" height="200px">
+        <el-carousel-item v-for="item in photos" :key="item.name">
+            <el-image :src="item.url" ></el-image>
+        </el-carousel-item>
+    </el-carousel>
     <el-row style="margin-bottom: 10px;height: 360px">
         <el-col :span="16">
             <el-card style="margin-right: 10px;height: 360px">
@@ -95,7 +100,7 @@
     <el-card>
         <el-table
                 :data="coachList"
-                @expand-change="getAppraise"
+                @expand-change="getCoachInfo"
                 style="width: 100%">
             <el-table-column
                     prop="workId"
@@ -111,6 +116,12 @@
                     prop="user.phone"
                     label="联系方式">
             </el-table-column>
+
+            <el-table-column
+                    prop="price"
+                    label="单价（每小时）">
+            </el-table-column>
+
             <el-table-column
                     prop="appraiseCoach"
                     label="评价">
@@ -124,6 +135,16 @@
             </el-table-column>
             <el-table-column type="expand">
                 <template slot-scope="props" style="background-color: #ecf8ff">
+                    <el-row>
+                        <el-col :span="3">
+                            <el-image :src="coachPhoto.url" style="width: 100px; height: 100px"></el-image>
+                        </el-col>
+                        <br :span="21">
+                            {{props.row.user.userRname}}, {{props.row.user.gender}},生于{{props.row.user.birthYear}}。</br>
+                            评价：{{props.row.context}}
+                        </el-col>
+                    </el-row>
+                    <el-divider></el-divider>
                     <el-row :gutter="20" v-for="(appmnts,index) in appmntsList" :key="index">
                         <el-col :span="12">
                             <div>
@@ -142,6 +163,7 @@
     <el-dialog
             title="提示"
             :visible.sync="carModelDig"
+            :before-close="getCoachByModel"
             width="30%"
             center>
         <span>请选择车辆类型</span>
@@ -209,6 +231,10 @@
                 <el-input v-model="form.time" :disabled="true" style="width: 220px">
                     <template slot="append">小时</template>
                 </el-input>
+            </el-form-item>
+
+            <el-form-item label="总价">
+                ￥<strong style="font-size: 40px;color: red">{{total}}</strong>
             </el-form-item>
 
         </el-form>

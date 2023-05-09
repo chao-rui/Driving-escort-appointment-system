@@ -52,8 +52,7 @@ public interface StatsDao {
 
     //教练的最近一条预约记录
     @Select("SELECT * FROM appmnts WHERE OBJECT_ID=#{objectId} " +
-            "AND END_DATE=(SELECT MIN(END_DATE) FROM appmnts " +
-            "WHERE OBJECT_ID=#{objectId} AND END_DATE>#{now} AND APPOINTMENT_STATE != 4);")
+            "ORDER BY ABS(TIMESTAMPDIFF(SECOND, END_DATE, NOW())) LIMIT 1;")
     @Results(id = "CUserInfoResultMap",value = {
             @Result(property = "appointmentId",column = "APPOINTMENT_ID",id = true),
             @Result(property = "user",
@@ -75,7 +74,7 @@ public interface StatsDao {
 
     //用户的最近一条预约记录
     @Select("SELECT * FROM appmnts WHERE USER_ID=#{userId} " +
-            "AND END_DATE=(SELECT MAX(END_DATE) FROM appmnts WHERE USER_ID=#{userId} AND END_DATE>#{now} AND APPOINTMENT_STATE != 4);")
+            "ORDER BY ABS(TIMESTAMPDIFF(SECOND, END_DATE, NOW())) LIMIT 1; ")
     @ResultMap("CUserInfoResultMap")
     Appmnts RecAppInU(@Param("userId")String userId, @Param("now")Date now);
 }

@@ -9,3 +9,6 @@
     text-align: center;
     margin: 20px;
 }
+.hide .el-upload--picture-card {
+    display: none;
+}
