@@ -122,9 +122,18 @@
         </el-col>
     </el-row>
     <el-card>
-        <h1>员工一览</h1>
+        <el-row>
+            <el-col :span="18"><h1>员工一览</h1></el-col>
+            <el-col :span="6">
+                <el-input v-model="search"
+                          placeholder="对姓名/工号/联系方式模糊查询"
+                          prefix-icon="el-icon-search"
+                          style="margin-top: 35px">
+                </el-input>
+            </el-col>
+        </el-row>
         <el-table
-                :data="coachList"
+                :data="doSearch"
                 style="width: 100%">
             <el-table-column
                     prop="workId"
@@ -153,6 +162,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="countCoach"
+                style="text-align: center">
+        </el-pagination>
     </el-card>
     <el-dialog title="教练管理"
                :visible.sync="coachDlg"

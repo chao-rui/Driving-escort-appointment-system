@@ -24,6 +24,9 @@
 </script>
 <body>
 <div id="app">
+    <el-page-header @back="goBack"
+                    :content="pageHeader">
+    </el-page-header>
     <el-row style="margin-bottom: 20px">
         <el-col :span="12">
             <el-card style="height: 210px; margin-right:20px">
@@ -94,6 +97,12 @@
                     label="评价内容">
             </el-table-column>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="appmntsTotal"
+                style="text-align: center">
+        </el-pagination>
     </el-card>
 </div>
 </body>

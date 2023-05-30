@@ -25,6 +25,9 @@
 </script>
 <body>
 <div id="app" v-loading="loading">
+    <el-page-header @back="goBack"
+                    :content="pageHeader">
+    </el-page-header>
     <el-carousel :interval="4000" type="card" height="200px">
         <el-carousel-item v-for="item in photos" :key="item.name">
             <el-image :src="item.url" ></el-image>

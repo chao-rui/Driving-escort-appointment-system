@@ -17,6 +17,7 @@ new Vue({
         isOutDate: false,
         freeRange: [],
         appmntsList: [],
+        appmntsTotal:0,
         form: {
             userId: '',
             objectId: '',
@@ -78,6 +79,7 @@ new Vue({
                 },
                 success: function (data) {
                     that.appmntsList = data;
+                    that.appmntsTotal=that.appmntsList.length;
                 },
                 error: function (e) {
                     console.log(e);
@@ -94,6 +96,7 @@ new Vue({
                 },
                 success: function (data) {
                     that.appmntsList = data;
+                    that.appmntsTotal=that.appmntsList.length;
                 },
                 error: function (e) {
                     console.log(e);

@@ -15,6 +15,7 @@ new Vue({
         appraiseCoach:0,
         appraiseContext:'',
         appmntsList:[],
+        appmntsTotal:0,
         recApp:{
             user:{
                 userName:'-',
@@ -102,6 +103,7 @@ new Vue({
                             that.appmntsList.push(data[i]);
                         }
                     }
+                    that.appmntsTotal=that.appmntsList.length;
                 },
                 error:function (e) {
                     top.location.href="error";

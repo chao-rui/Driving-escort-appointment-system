@@ -69,7 +69,6 @@ public class ApplyController {
     @ResponseBody
     public Boolean updApply(@RequestParam("applyId")String applyId){
         return applyService.delApply(applyId);
-
     }
 
 }

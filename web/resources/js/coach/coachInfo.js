@@ -12,9 +12,11 @@ new Vue({
     data:{
         countApp:'0',
         sumApp:'0',
+        pageHeader:'',
         appraiseCoach:0,
         appraiseContext:'',
         appmntsList:[],
+        appmntsTotal:0,
         recApp:{
             user:{
                 userName:'-',
@@ -34,6 +36,7 @@ new Vue({
                 },
                 success: function (data) {
                     that.appraiseCoach= data.appraiseCoach;
+                    that.pageHeader="员工 "+data.user.userRname+" 的主页";
                     if(that.appraiseCoach===0){
                         that.appraiseContext="刚刚起步，请开始加油吧"
                     }else if(that.appraiseCoach<3){
@@ -102,11 +105,15 @@ new Vue({
                             that.appmntsList.push(data[i]);
                         }
                     }
+                    that.appmntsTotal=that.appmntsList.length;
                 },
                 error:function (e) {
                     top.location.href="error";
                 }
             })
+        },
+        goBack(){
+            window.history.back();
         }
     }
 })

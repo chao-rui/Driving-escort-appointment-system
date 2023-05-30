@@ -12,3 +12,7 @@
 .hide .el-upload--picture-card {
     display: none;
 }
+.el-page-header{
+    color: #66b1ff;
+    margin: 10px;
+}

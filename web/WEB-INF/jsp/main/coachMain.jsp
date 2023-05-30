@@ -91,6 +91,12 @@
                     label="评价内容">
             </el-table-column>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="appmntsTotal"
+                style="text-align: center">
+        </el-pagination>
     </el-card>
 </div>
 </body>

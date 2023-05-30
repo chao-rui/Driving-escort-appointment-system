@@ -20,7 +20,8 @@ new Vue({
         sumApp:'',
         appraiseCarSchool:0,
         appraiseContext:'',
-        appmntsList:[]
+        appmntsList:[],
+        appmntsTotal:0
     },
     methods: {
         async getCSchoolByUid() {
@@ -133,6 +134,7 @@ new Vue({
                             that.appmntsList.push(data[i]);
                         }
                     }
+                    that.appmntsTotal=that.appmntsList.length;
                 },
                 error:function (e) {
                     top.location.href="error";

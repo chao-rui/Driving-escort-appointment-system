@@ -48,7 +48,7 @@ public interface CarDao {
             "  CAR_MODEL=#{carModel}," +
             "CAR_SCHOOL_ID=#{cSchoolId}," +
             "    USER_ID=#{userId}," +
-            "   CAR_FLAG=#{carFlag}," +
+            "   CAR_FLAG=1," +
             "UPDATE_DATE=#{updDate} " +
             "WHERE CAR_ID=#{carId};")
     Boolean updCar(@Param("carId")String carId,
@@ -61,7 +61,10 @@ public interface CarDao {
                    @Param("updDate")Date updDate);
 
     //保持所属唯一性
-    @Update("UPDATE car SET USER_ID=NULL WHERE USER_ID=#{userId}")
+    @Update("UPDATE car SET " +
+            "USER_ID=NULL, " +
+            "CAR_FLAG=0 " +
+            "WHERE USER_ID=#{userId}")
     Boolean updCarU(@Param("userId")String userId);
 
 }

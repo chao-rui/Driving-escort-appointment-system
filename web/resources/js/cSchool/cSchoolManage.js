@@ -13,7 +13,7 @@ new Vue({
     },
     data:{
         loading:false,
-        countCoach:'',
+        countCoach:0,
         countCar:'',
         countApp:'',
         sumApp:'',
@@ -22,6 +22,7 @@ new Vue({
         limitedFlg:false,
         cSPhotoDlg:false,
         coachDlg:false,
+        search:'',
         form:{
             carSchoolId:'',
             carSchoolName:'',
@@ -281,6 +282,24 @@ new Vue({
                     return false;
                 }
             });
+        }
+    },
+    computed:{
+        doSearch() {
+            const search = this.search;
+            if (search) {
+                return this.coachList.filter((dataNews) => {
+                    return Object.keys(dataNews).some((key) => {
+                        if(typeof dataNews[key]==="object"&&dataNews[key]){
+                            return Object.keys(dataNews[key]).some((oKey) => {
+                                return String(dataNews[key][oKey]).indexOf(search) > -1;
+                            })
+                        }
+                        return String(dataNews[key]).indexOf(search) > -1;
+                    });
+                });
+            }
+            return this.coachList;
         }
     }
 });

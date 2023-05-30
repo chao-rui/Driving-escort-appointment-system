@@ -26,9 +26,19 @@
 <div id="app" v-loading="loading">
     <el-card>
         <h1>车辆一览</h1>
-        <el-button type="primary" @click="addCar">新增车辆</el-button>
+        <el-row>
+            <el-col :span="18">
+                <el-button type="primary" @click="addCar">新增车辆</el-button>
+            </el-col>
+            <el-col :span="6">
+                <el-input v-model="search"
+                          prefix-icon="el-icon-search"
+                          placeholder="对车牌号/品牌模糊查询">
+                </el-input>
+            </el-col>
+        </el-row>
         <el-table
-                :data="carList"
+                :data="doSearch"
                 style="width: 100%">
             <el-table-column
                     prop="carNumber"
@@ -43,7 +53,10 @@
             <el-table-column
                     prop="carModel"
                     label="类型"
-                    :formatter="carModelFormatter">
+                    :formatter="carModelFormatter"
+                    :filters="[{text: '手动挡',value: '1'},
+                               {text: '自动挡',value: '2',}]"
+                    :filter-method="ModelFilter">
             </el-table-column>
             <el-table-column
                     prop="user.userRname"
@@ -52,7 +65,12 @@
             <el-table-column
                     prop="carFlag"
                     label="状态"
-                    :formatter="carFlagFormatter">
+                    :formatter="carFlagFormatter"
+                    :filters="[{value: '0', text: '未分配'},
+                               {value: '1', text: '正常'},
+                               {value: '2', text: '维修中'},
+                               {value: '3', text: '报废'}]"
+                    :filter-method="FlagFilter">
             </el-table-column>
             <el-table-column
                     label="操作"
@@ -62,6 +80,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="carTotal"
+                style="text-align: center">
+        </el-pagination>
     </el-card>
     <el-dialog
             title="车辆信息"

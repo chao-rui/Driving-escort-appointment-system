@@ -40,7 +40,7 @@ public interface ApplyDao {
     Apply getApplyByAId(@Param("applyId")String applyId);
 
     //查询（按驾校）
-    @Select("SELECT * FROM apply WHERE CAR_SCHOOL_ID=#{cSchoolId} AND APPLY_STATE=0;")
+    @Select("SELECT * FROM apply WHERE CAR_SCHOOL_ID=#{cSchoolId} AND APPLY_STATE=-1;")
     @Results(id="applyResultMap",value = {
             @Result(property = "applyId",column = "APPLY_ID",id = true),
             @Result(property = "user",

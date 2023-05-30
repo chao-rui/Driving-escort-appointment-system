@@ -39,7 +39,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public Boolean updApply(String applyId, String operate, Date updDate) {
         if(Objects.equals(operate, "0")) {
-            return applyDao.updApply(applyId, "1", updDate);
+            return applyDao.updApply(applyId, "0", updDate);
         }else{
             return applyDao.delApply(applyId);
         }

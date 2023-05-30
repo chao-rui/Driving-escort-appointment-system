@@ -25,6 +25,7 @@
     <el-row style="margin-bottom: 20px">
         <el-col :span="14">
             <el-card style="margin-right: 20px;height: 350px">
+                <strong>教练申请</strong>
                 <el-table
                         :data="applyList"
                         style="height: 210px">
@@ -91,6 +92,7 @@
         </el-col>
     </el-row>
     <el-card style="width: 100%">
+        <strong>用户评价</strong>
         <el-table
                 :data="appmntsList">
             <el-table-column
@@ -110,6 +112,11 @@
                     label="评价内容">
             </el-table-column>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                :total="appmntsTotal"
+                layout="total, prev, pager, next" style="text-align: center">
+        </el-pagination>
     </el-card>
 </div>
 </body>

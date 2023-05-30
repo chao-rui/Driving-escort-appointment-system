@@ -30,6 +30,7 @@ new Vue({
         cSchool:{},
         photos:[],
         coachPhoto:{},
+        pageHeader:'',
         total:'0.00',
         form:{
             userId:'',
@@ -84,6 +85,7 @@ new Vue({
                 },
                 success:function (data) {
                     that.cSchool=data;
+                    that.pageHeader=that.cSchool.carSchoolName+" 的主页";
                 },
                 error:function (e){
                     console.log(e);
@@ -342,6 +344,9 @@ new Vue({
                     window.location.href="error";
                 }
             })
+        },
+        goBack(){
+            window.history.back();
         }
     }
 })

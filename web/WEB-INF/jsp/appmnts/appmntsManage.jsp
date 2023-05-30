@@ -86,6 +86,12 @@
             </el-table-column>
         </c:if>
         </el-table>
+        <el-pagination
+                :page-size="10"
+                layout="total, prev, pager, next"
+                :total="appmntsTotal"
+                style="text-align: center">
+        </el-pagination>
     </el-card>
     <el-dialog
             title="预约"

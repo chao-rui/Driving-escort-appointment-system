@@ -17,6 +17,8 @@ new Vue({
             isUpd:false,
             limitedFlg:false,
             carList: [],
+            carTotal:0,
+            search:'',
             form: {
                 carId:'',
                 carNumber: '',
@@ -50,11 +52,10 @@ new Vue({
             },
             carModelList: [{carModel: "1", label: "手动挡"},
                            {carModel: "2", label: "自动挡"}],
-            carFlagList: [{carFlag: "0", label: "未分配", disabled: false},
+            carFlagList: [{carFlag: "0", label: "未分配", disabled: true},
                           {carFlag: "1", label: "正常", disabled: false},
-                          {carFlag: "2", label: "预约中", disabled: true},
-                          {carFlag: "3", label: "维修中", disabled: false},
-                          {carFlag: "4", label: "报废", disabled: true}],
+                          {carFlag: "2", label: "维修中", disabled: false},
+                          {carFlag: "3", label: "报废", disabled: false}],
             coachList: [],
             uploadData:{
                 photoType:"car",
@@ -88,6 +89,7 @@ new Vue({
                 },
                 success:function (data){
                     that.carList=data;
+                    that.carTotal=that.carList.length;
                 },
                 error:function (e){
                     console.log(e);
@@ -223,15 +225,17 @@ new Vue({
         },
         updCar(row){
             this.carDlg=true;
+            this.isUpd=true;
             this.getCoachByCSId();
             this.getCarPhoto(row.carId);
             this.form.carId=row.carId;
             this.form.carModel=row.carModel;
             this.form.carBrands=row.carBrands;
             this.form.carNumber=row.carNumber;
-            this.form.userId=row.user.userId;
+            if(row.user){
+                this.form.userId=row.user.userId;
+            }
             this.form.carFlag=row.carFlag;
-            this.isUpd=true;
         },
         carModelFormatter(row, column, cellValue) {
             if(cellValue==="1"){
@@ -322,6 +326,31 @@ new Vue({
                     window.location.href="error";
                 }
             })
+        },
+        ModelFilter(value, row) {
+            return row.carModel === value;
+        },
+        FlagFilter(value, row) {
+            return row.carFlag === value;
+        }
+    },
+    computed:{
+        doSearch() {
+            const search = this.search;
+            if (search) {
+                return this.carList.filter((dataNews) => {
+                    return Object.keys(dataNews).some((key) => {
+                        if(typeof dataNews[key]==="object"&&dataNews[key]){
+                            return Object.keys(dataNews[key]).some((oKey) => {
+                                console.log(dataNews[key][oKey])
+                                return String(dataNews[key][oKey]).indexOf(search) > -1;
+                            })
+                        }
+                        return String(dataNews[key]).indexOf(search) > -1;
+                    });
+                });
+            }
+            return this.carList;
         }
     }
 });

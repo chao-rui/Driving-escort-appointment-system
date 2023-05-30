@@ -102,10 +102,10 @@ new Vue({
         applyStateFormatter(row, column, cellValue) {
             let Flag = '';
             switch (cellValue) {
-                case "0":
+                case "-1":
                     Flag = "待审核";
                     break;
-                case "1":
+                case "0":
                     Flag = "未通过";
                     break;
                 default:
